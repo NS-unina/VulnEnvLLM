@@ -38,31 +38,37 @@ L'oggetto di OVAL è un elemento XML che rappresenta un oggetto informatico, com
 Il seguente OVAL rappresenta una vulnerabilità in Microsoft Windows 10 che consente a un utente malintenzionato di eseguire codice arbitrario con privilegi elevati:
 
 ```xml
-<oval_definitions>
-  <definition id="CVE-2023-12345" class="vulnerability">
-    <vuln_summary>
-      <vuln_id>CVE-2023-12345</vuln_id>
-      <vuln_title>Microsoft Windows 10 Elevation of Privilege Vulnerability</vuln_title>
-      <vuln_description>A vulnerability in Microsoft Windows 10 could allow an attacker to execute arbitrary code with elevated privileges.</vuln_description>
-    </vuln_summary>
-    <vuln_details>
-      <cve_id>CVE-2023-12345</cve_id>
-      <cwe_id>CWE-119</cwe_id>
-      <cvss_score>10.0</cvss_score>
-      <cvss_vector>AV:L/AC:L/PR:N/UI:R/S:C/C:H/I:H/A:H</cvss_vector>
-    </vuln_details>
-  </definition>
-</oval_definitions>
-<oval_tests>
-  <test id="CVE-2023-12345-test-1" definition_ref="CVE-2023-12345">
-    <object object_type="registry" object_id="HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run">
-      <test_condition>
-        <operator>exists</operator>
-        <value>malicious_registry_key</value>
-      </test_condition>
-    </object>
-  </test>
-</oval_tests>
+		<definition xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5" class="vulnerability" id="oval:org.cisecurity:def:3857" version="21">
+		  <metadata>
+		    <title>Scripting Engine Memory Corruption Vulnerability - CVE-2018-0778</title>
+		    <affected family="windows">
+		      <platform>Microsoft Windows 10</platform>
+		      <product>Microsoft Edge</product>
+		    </affected>
+		    <reference ref_id="CVE-2018-0778" ref_url="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-0778" source="CVE" />
+		    <description>Microsoft Edge in Windows 10 1709 allows an attacker to execute arbitrary code in the context of the current user, due to how the scripting engine handles objects in memory, aka "Scripting Engine Memory Corruption Vulnerability". This CVE ID is unique from CVE-2018-0758, CVE-2018-0762, CVE-2018-0768, CVE-2018-0769, CVE-2018-0770, CVE-2018-0772, CVE-2018-0773, CVE-2018-0774, CVE-2018-0775, CVE-2018-0776, CVE-2018-0777, and CVE-2018-0781.</description>
+		    <oval_repository>
+		      <dates>
+		        <submitted date="2018-01-13T00:00:00+08:00">
+		          <contributor organization="DTCC">Jeff Albert</contributor>
+		        </submitted>
+		        <status_change date="2018-01-12T21:49:32.600-04:00">DRAFT</status_change>
+		        <status_change date="2018-01-26T21:49:32.600-04:00">INTERIM</status_change>
+		        <status_change date="2018-02-09T14:00:00.000-05:00">ACCEPTED</status_change>
+		      </dates>
+		      <status>ACCEPTED</status>
+		      <min_schema_version>5.10</min_schema_version>
+		    </oval_repository>
+		  </metadata>
+		  <criteria comment="MS Edge + WinOS + file version" operator="AND">
+		    <extend_definition comment="Microsoft Edge is installed" definition_ref="oval:org.cisecurity:def:2" />
+		    <criteria comment="1709" operator="OR">
+		      <extend_definition comment="Microsoft Windows 10 Version 1709 (x86) is installed" definition_ref="oval:org.cisecurity:def:3479" />
+		      <extend_definition comment="Microsoft Windows 10 Version 1709 (x64) is installed" definition_ref="oval:org.cisecurity:def:3481" />
+		    </criteria>
+		    <criterion comment="Check if the version of Edgehtml.dll is less than 11.0.16299.192" test_ref="oval:org.cisecurity:tst:5136" />
+		  </criteria>
+		</definition>
 ```
 
 In questo esempio, la definizione di vulnerabilità rappresenta una vulnerabilità in Microsoft Windows 10 che consente a un utente malintenzionato di eseguire codice arbitrario con privilegi elevati. La vulnerabilità è identificata dall'ID CVE-2023-12345.
