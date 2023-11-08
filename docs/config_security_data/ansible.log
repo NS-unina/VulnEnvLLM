@@ -1,0 +1,339 @@
+2023-11-08 13:16:05,680 p=49956 u=tony n=ansible |  [ERROR]: User interrupted execution
+
+2023-11-08 13:16:29,094 p=50025 u=tony n=ansible | PLAY [Configure webserver with nginx] ******************************************
+2023-11-08 13:16:29,102 p=50025 u=tony n=ansible | TASK [Gathering Facts] *********************************************************
+2023-11-08 13:16:30,076 p=50025 u=tony n=ansible | ok: [inventory]
+2023-11-08 13:16:30,088 p=50025 u=tony n=ansible | TASK [nginxinc.nginx : Validate distribution and role variables] ***************
+2023-11-08 13:16:30,102 p=50025 u=tony n=ansible | included: /Users/tony/.ansible/roles/nginxinc.nginx/tasks/validate/validate.yml for inventory
+2023-11-08 13:16:30,106 p=50025 u=tony n=ansible | TASK [nginxinc.nginx : Check whether you are using a supported NGINX distribution] ***
+2023-11-08 13:16:30,167 p=50025 u=tony n=ansible | ok: [inventory] => {
+    "changed": false,
+    "msg": "Your distribution, Ubuntu 22.04 (aarch64), is supported by NGINX Open Source."
+}
+2023-11-08 13:16:30,170 p=50025 u=tony n=ansible | TASK [nginxinc.nginx : Check that 'nginx_setup' is an allowed value] ***********
+2023-11-08 13:16:30,184 p=50025 u=tony n=ansible | ok: [inventory] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+2023-11-08 13:16:30,187 p=50025 u=tony n=ansible | TASK [nginxinc.nginx : Check that 'nginx_branch' is an allowed value] **********
+2023-11-08 13:16:30,201 p=50025 u=tony n=ansible | ok: [inventory] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+2023-11-08 13:16:30,205 p=50025 u=tony n=ansible | TASK [nginxinc.nginx : Check that 'nginx_install_from' is an allowed value] ****
+2023-11-08 13:16:30,220 p=50025 u=tony n=ansible | ok: [inventory] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+2023-11-08 13:16:30,223 p=50025 u=tony n=ansible | TASK [nginxinc.nginx : Set up prerequisites] ***********************************
+2023-11-08 13:16:30,240 p=50025 u=tony n=ansible | included: /Users/tony/.ansible/roles/nginxinc.nginx/tasks/prerequisites/prerequisites.yml for inventory
+2023-11-08 13:16:30,244 p=50025 u=tony n=ansible | TASK [nginxinc.nginx : Install dependencies] ***********************************
+2023-11-08 13:16:30,281 p=50025 u=tony n=ansible | included: /Users/tony/.ansible/roles/nginxinc.nginx/tasks/prerequisites/install-dependencies.yml for inventory
+2023-11-08 13:16:30,284 p=50025 u=tony n=ansible | TASK [nginxinc.nginx : (Alpine Linux) Install dependencies] ********************
+2023-11-08 13:16:30,292 p=50025 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:16:30,295 p=50025 u=tony n=ansible | TASK [nginxinc.nginx : (Debian/Ubuntu) Install dependencies] *******************
+2023-11-08 13:16:36,738 p=50025 u=tony n=ansible | changed: [inventory]
+2023-11-08 13:16:36,742 p=50025 u=tony n=ansible | TASK [nginxinc.nginx : (Amazon Linux/CentOS/Oracle Linux/RHEL) Install dependencies] ***
+2023-11-08 13:16:36,750 p=50025 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:16:36,753 p=50025 u=tony n=ansible | TASK [nginxinc.nginx : (SLES) Install dependencies] ****************************
+2023-11-08 13:16:36,761 p=50025 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:16:36,765 p=50025 u=tony n=ansible | TASK [nginxinc.nginx : (FreeBSD) Install dependencies using package(s)] ********
+2023-11-08 13:16:36,773 p=50025 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:16:36,777 p=50025 u=tony n=ansible | TASK [nginxinc.nginx : (FreeBSD) Install dependencies using port(s)] ***********
+2023-11-08 13:16:36,787 p=50025 u=tony n=ansible | skipping: [inventory] => (item=security/ca_root_nss) 
+2023-11-08 13:16:36,787 p=50025 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:16:36,791 p=50025 u=tony n=ansible | TASK [nginxinc.nginx : Check if SELinux is enabled] ****************************
+2023-11-08 13:16:36,802 p=50025 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:16:36,806 p=50025 u=tony n=ansible | TASK [nginxinc.nginx : Configure SELinux] **************************************
+2023-11-08 13:16:36,816 p=50025 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:16:36,820 p=50025 u=tony n=ansible | TASK [nginxinc.nginx : Set up signing keys] ************************************
+2023-11-08 13:16:36,836 p=50025 u=tony n=ansible | included: /Users/tony/.ansible/roles/nginxinc.nginx/tasks/keys/setup-keys.yml for inventory
+2023-11-08 13:16:36,840 p=50025 u=tony n=ansible | TASK [nginxinc.nginx : (Alpine Linux) Set up NGINX signing key URL] ************
+2023-11-08 13:16:36,849 p=50025 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:16:36,852 p=50025 u=tony n=ansible | TASK [nginxinc.nginx : (Alpine Linux) Download NGINX signing key] **************
+2023-11-08 13:16:36,860 p=50025 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:16:36,863 p=50025 u=tony n=ansible | TASK [nginxinc.nginx : (Debian/Red Hat/SLES OSs) Set up NGINX signing key URL] ***
+2023-11-08 13:16:36,877 p=50025 u=tony n=ansible | ok: [inventory]
+2023-11-08 13:16:36,880 p=50025 u=tony n=ansible | TASK [nginxinc.nginx : (Debian/Ubuntu) Add NGINX signing key] ******************
+2023-11-08 13:16:37,631 p=50025 u=tony n=ansible | changed: [inventory]
+2023-11-08 13:16:37,634 p=50025 u=tony n=ansible | TASK [nginxinc.nginx : (Red Hat/SLES OSs) Add NGINX signing key] ***************
+2023-11-08 13:16:37,642 p=50025 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:16:37,649 p=50025 u=tony n=ansible | TASK [nginxinc.nginx : Install NGINX Open Source] ******************************
+2023-11-08 13:16:37,662 p=50025 u=tony n=ansible | included: /Users/tony/.ansible/roles/nginxinc.nginx/tasks/opensource/install-oss.yml for inventory
+2023-11-08 13:16:37,668 p=50025 u=tony n=ansible | TASK [nginxinc.nginx : Install NGINX from the official package repository] *****
+2023-11-08 13:16:37,689 p=50025 u=tony n=ansible | included: /Users/tony/.ansible/roles/nginxinc.nginx/tasks/opensource/install-debian.yml for inventory
+2023-11-08 13:16:37,693 p=50025 u=tony n=ansible | TASK [nginxinc.nginx : (Debian/Ubuntu) Configure NGINX repository] *************
+2023-11-08 13:16:39,112 p=50025 u=tony n=ansible | changed: [inventory] => (item=deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] https://nginx.org/packages/mainline/ubuntu/ jammy nginx)
+2023-11-08 13:16:40,164 p=50025 u=tony n=ansible | changed: [inventory] => (item=deb-src [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] https://nginx.org/packages/mainline/ubuntu/ jammy nginx)
+2023-11-08 13:16:40,170 p=50025 u=tony n=ansible | TASK [nginxinc.nginx : (Debian/Ubuntu) Pin NGINX repository] *******************
+2023-11-08 13:16:40,416 p=50025 u=tony n=ansible | changed: [inventory]
+2023-11-08 13:16:40,421 p=50025 u=tony n=ansible | TASK [nginxinc.nginx : (Debian/Ubuntu) Install NGINX] **************************
+2023-11-08 13:16:43,905 p=50025 u=tony n=ansible | changed: [inventory]
+2023-11-08 13:16:43,910 p=50025 u=tony n=ansible | TASK [nginxinc.nginx : Install NGINX from the distribution's package repository] ***
+2023-11-08 13:16:43,922 p=50025 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:16:43,927 p=50025 u=tony n=ansible | TASK [nginxinc.nginx : Install NGINX from source] ******************************
+2023-11-08 13:16:43,940 p=50025 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:16:43,945 p=50025 u=tony n=ansible | TASK [nginxinc.nginx : Install NGINX in Unix systems] **************************
+2023-11-08 13:16:43,958 p=50025 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:16:43,962 p=50025 u=tony n=ansible | TASK [nginxinc.nginx : Set up NGINX Plus license] ******************************
+2023-11-08 13:16:43,971 p=50025 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:16:43,975 p=50025 u=tony n=ansible | TASK [nginxinc.nginx : Install NGINX Plus] *************************************
+2023-11-08 13:16:43,984 p=50025 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:16:43,989 p=50025 u=tony n=ansible | TASK [nginxinc.nginx : Install NGINX dynamic modules] **************************
+2023-11-08 13:16:44,001 p=50025 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:16:44,004 p=50025 u=tony n=ansible | TASK [nginxinc.nginx : Remove NGINX Plus license] ******************************
+2023-11-08 13:16:44,013 p=50025 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:16:44,016 p=50025 u=tony n=ansible | TASK [nginxinc.nginx : Modify systemd parameters] ******************************
+2023-11-08 13:16:44,026 p=50025 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:16:44,029 p=50025 u=tony n=ansible | TASK [nginxinc.nginx : Trigger handlers if necessary] **************************
+2023-11-08 13:16:44,035 p=50025 u=tony n=ansible | RUNNING HANDLER [nginxinc.nginx : (Handler) Start/reload NGINX] ****************
+2023-11-08 13:16:44,351 p=50025 u=tony n=ansible | changed: [inventory]
+2023-11-08 13:16:44,354 p=50025 u=tony n=ansible | RUNNING HANDLER [nginxinc.nginx : (Handler) Check NGINX] ***********************
+2023-11-08 13:16:44,599 p=50025 u=tony n=ansible | ok: [inventory]
+2023-11-08 13:16:44,602 p=50025 u=tony n=ansible | RUNNING HANDLER [nginxinc.nginx : (Handler) Print NGINX error if syntax check fails] ***
+2023-11-08 13:16:44,613 p=50025 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:16:44,616 p=50025 u=tony n=ansible | TASK [nginxinc.nginx : Debug NGINX output] *************************************
+2023-11-08 13:16:44,625 p=50025 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:16:44,628 p=50025 u=tony n=ansible | TASK [nginxinc.nginx : Configure logrotate for NGINX] **************************
+2023-11-08 13:16:44,635 p=50025 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:16:44,639 p=50025 u=tony n=ansible | TASK [nginxinc.nginx : Install NGINX Amplify] **********************************
+2023-11-08 13:16:44,647 p=50025 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:16:44,655 p=50025 u=tony n=ansible | TASK [nginxinc.nginx_config : Set up SELinux] **********************************
+2023-11-08 13:16:44,663 p=50025 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:16:44,666 p=50025 u=tony n=ansible | TASK [nginxinc.nginx_config : Cleanup NGINX config] ****************************
+2023-11-08 13:16:44,674 p=50025 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:16:44,677 p=50025 u=tony n=ansible | TASK [nginxinc.nginx_config : Upload NGINX config] *****************************
+2023-11-08 13:16:44,686 p=50025 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:16:44,689 p=50025 u=tony n=ansible | TASK [nginxinc.nginx_config : Create NGINX config] *****************************
+2023-11-08 13:16:44,712 p=50025 u=tony n=ansible | included: /Users/tony/.ansible/roles/nginxinc.nginx_config/tasks/config/template-config.yml for inventory
+2023-11-08 13:16:44,716 p=50025 u=tony n=ansible | TASK [nginxinc.nginx_config : Ensure HTML directory exists] ********************
+2023-11-08 13:16:44,979 p=50025 u=tony n=ansible | ok: [inventory] => (item={'template_file': 'www/index.html.j2', 'deployment_location': '/usr/share/nginx/html/index.html', 'web_server_name': 'Default', 'backup': True})
+2023-11-08 13:16:44,985 p=50025 u=tony n=ansible | TASK [nginxinc.nginx_config : Dynamically generate HTML files] *****************
+2023-11-08 13:16:45,469 p=50025 u=tony n=ansible | changed: [inventory] => (item={'template_file': 'www/index.html.j2', 'deployment_location': '/usr/share/nginx/html/index.html', 'web_server_name': 'Default', 'backup': True})
+2023-11-08 13:16:45,474 p=50025 u=tony n=ansible | TASK [nginxinc.nginx_config : Configure NGINX modules] *************************
+2023-11-08 13:16:45,485 p=50025 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:16:45,489 p=50025 u=tony n=ansible | TASK [nginxinc.nginx_config : Ensure NGINX main directory exists] **************
+2023-11-08 13:16:45,659 p=50025 u=tony n=ansible | ok: [inventory]
+2023-11-08 13:16:45,663 p=50025 u=tony n=ansible | TASK [nginxinc.nginx_config : Dynamically generate NGINX main configuration file] ***
+2023-11-08 13:16:46,031 p=50025 u=tony n=ansible | changed: [inventory]
+2023-11-08 13:16:46,034 p=50025 u=tony n=ansible | TASK [nginxinc.nginx_config : Ensure NGINX client body cache directories exist] ***
+2023-11-08 13:16:46,050 p=50025 u=tony n=ansible | skipping: [inventory] => (item=/var/cache/nginx) 
+2023-11-08 13:16:46,051 p=50025 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:16:46,054 p=50025 u=tony n=ansible | TASK [nginxinc.nginx_config : Ensure NGINX proxy cache directories exist] ******
+2023-11-08 13:16:46,070 p=50025 u=tony n=ansible | skipping: [inventory] => (item=/var/cache/nginx/proxy/backend) 
+2023-11-08 13:16:46,070 p=50025 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:16:46,074 p=50025 u=tony n=ansible | TASK [nginxinc.nginx_config : Ensure NGINX HTTP directory exists] **************
+2023-11-08 13:16:46,101 p=50025 u=tony n=ansible | skipping: [inventory] => (item=/etc/nginx/conf.d) 
+2023-11-08 13:16:46,102 p=50025 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:16:46,105 p=50025 u=tony n=ansible | TASK [nginxinc.nginx_config : Dynamically generate NGINX HTTP config files] ****
+2023-11-08 13:16:46,121 p=50025 u=tony n=ansible | skipping: [inventory] => (item=/etc/nginx/conf.d/default.conf) 
+2023-11-08 13:16:46,123 p=50025 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:16:46,126 p=50025 u=tony n=ansible | TASK [nginxinc.nginx_config : Dynamically generate NGINX stub status config file] ***
+2023-11-08 13:16:46,135 p=50025 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:16:46,138 p=50025 u=tony n=ansible | TASK [nginxinc.nginx_config : Dynamically generate NGINX API config file] ******
+2023-11-08 13:16:46,146 p=50025 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:16:46,149 p=50025 u=tony n=ansible | TASK [nginxinc.nginx_config : Ensure NGINX stream directory exists] ************
+2023-11-08 13:16:46,160 p=50025 u=tony n=ansible | skipping: [inventory] => (item=/etc/nginx/conf.d/streams) 
+2023-11-08 13:16:46,161 p=50025 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:16:46,164 p=50025 u=tony n=ansible | TASK [nginxinc.nginx_config : Dynamically generate NGINX stream config files] ***
+2023-11-08 13:16:46,175 p=50025 u=tony n=ansible | skipping: [inventory] => (item=/etc/nginx/conf.d/streams/stream_default.conf) 
+2023-11-08 13:16:46,175 p=50025 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:16:46,178 p=50025 u=tony n=ansible | TASK [nginxinc.nginx_config : Ensure NGINX is running] *************************
+2023-11-08 13:16:46,183 p=50025 u=tony n=ansible | RUNNING HANDLER [nginxinc.nginx_config : (Handler - NGINX Config) Check NGINX] ***
+2023-11-08 13:16:46,365 p=50025 u=tony n=ansible | ok: [inventory]
+2023-11-08 13:16:46,380 p=50025 u=tony n=ansible | RUNNING HANDLER [nginxinc.nginx_config : (Handler - NGINX Config) Print NGINX error if syntax check fails] ***
+2023-11-08 13:16:46,391 p=50025 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:16:46,394 p=50025 u=tony n=ansible | RUNNING HANDLER [nginxinc.nginx_config : (Handler - NGINX Config) Start/reload NGINX] ***
+2023-11-08 13:16:46,599 p=50025 u=tony n=ansible | changed: [inventory]
+2023-11-08 13:16:46,603 p=50025 u=tony n=ansible | TASK [nginxinc.nginx_config : Debug output] ************************************
+2023-11-08 13:16:46,611 p=50025 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:16:46,616 p=50025 u=tony n=ansible | TASK [restart nginx] ***********************************************************
+2023-11-08 13:16:46,871 p=50025 u=tony n=ansible | changed: [inventory]
+2023-11-08 13:16:46,881 p=50025 u=tony n=ansible | PLAY RECAP *********************************************************************
+2023-11-08 13:16:46,881 p=50025 u=tony n=ansible | inventory                  : ok=27   changed=10   unreachable=0    failed=0    skipped=36   rescued=0    ignored=0   
+2023-11-08 13:37:14,649 p=52576 u=tony n=ansible | PLAY [Configure webserver with nginx] ******************************************
+2023-11-08 13:37:14,656 p=52576 u=tony n=ansible | TASK [Gathering Facts] *********************************************************
+2023-11-08 13:37:14,762 p=52576 u=tony n=ansible | fatal: [inventory]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: test@127.0.0.1: Permission denied (password).", "unreachable": true}
+2023-11-08 13:37:14,762 p=52576 u=tony n=ansible | PLAY RECAP *********************************************************************
+2023-11-08 13:37:14,762 p=52576 u=tony n=ansible | inventory                  : ok=0    changed=0    unreachable=1    failed=0    skipped=0    rescued=0    ignored=0   
+2023-11-08 13:44:01,789 p=53571 u=tony n=ansible | PLAY [Configure webserver with nginx] ******************************************
+2023-11-08 13:44:01,796 p=53571 u=tony n=ansible | TASK [Gathering Facts] *********************************************************
+2023-11-08 13:44:01,917 p=53571 u=tony n=ansible | fatal: [inventory]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: test@127.0.0.1: Permission denied (publickey,password).", "unreachable": true}
+2023-11-08 13:44:01,917 p=53571 u=tony n=ansible | PLAY RECAP *********************************************************************
+2023-11-08 13:44:01,918 p=53571 u=tony n=ansible | inventory                  : ok=0    changed=0    unreachable=1    failed=0    skipped=0    rescued=0    ignored=0   
+2023-11-08 13:44:54,256 p=53642 u=tony n=ansible | PLAY [Configure webserver with nginx] ******************************************
+2023-11-08 13:44:54,261 p=53642 u=tony n=ansible | TASK [Gathering Facts] *********************************************************
+2023-11-08 13:44:54,371 p=53642 u=tony n=ansible | fatal: [inventory]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: test@127.0.0.1: Permission denied (publickey,password).", "unreachable": true}
+2023-11-08 13:44:54,372 p=53642 u=tony n=ansible | PLAY RECAP *********************************************************************
+2023-11-08 13:44:54,372 p=53642 u=tony n=ansible | inventory                  : ok=0    changed=0    unreachable=1    failed=0    skipped=0    rescued=0    ignored=0   
+2023-11-08 13:44:58,804 p=53686 u=tony n=ansible | PLAY [Configure webserver with nginx] ******************************************
+2023-11-08 13:44:58,809 p=53686 u=tony n=ansible | TASK [Gathering Facts] *********************************************************
+2023-11-08 13:44:58,822 p=53686 u=tony n=ansible | fatal: [inventory]: FAILED! => {"msg": "to use the 'ssh' connection type with passwords or pkcs11_provider, you must install the sshpass program"}
+2023-11-08 13:44:58,822 p=53686 u=tony n=ansible | PLAY RECAP *********************************************************************
+2023-11-08 13:44:58,822 p=53686 u=tony n=ansible | inventory                  : ok=0    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+2023-11-08 13:54:08,529 p=54547 u=tony n=ansible | PLAY [Configure webserver with nginx] ******************************************
+2023-11-08 13:54:08,537 p=54547 u=tony n=ansible | TASK [Gathering Facts] *********************************************************
+2023-11-08 13:54:08,652 p=54547 u=tony n=ansible | fatal: [inventory]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: test@127.0.0.1: Permission denied (publickey,password).", "unreachable": true}
+2023-11-08 13:54:08,653 p=54547 u=tony n=ansible | PLAY RECAP *********************************************************************
+2023-11-08 13:54:08,653 p=54547 u=tony n=ansible | inventory                  : ok=0    changed=0    unreachable=1    failed=0    skipped=0    rescued=0    ignored=0   
+2023-11-08 13:54:49,007 p=54620 u=tony n=ansible | PLAY [Configure webserver with nginx] ******************************************
+2023-11-08 13:54:49,012 p=54620 u=tony n=ansible | TASK [Gathering Facts] *********************************************************
+2023-11-08 13:54:49,126 p=54620 u=tony n=ansible | fatal: [inventory]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: no such identity: ../docker/id_rsa: No such file or directory\r\ntest@127.0.0.1: Permission denied (publickey,password).", "unreachable": true}
+2023-11-08 13:54:49,126 p=54620 u=tony n=ansible | PLAY RECAP *********************************************************************
+2023-11-08 13:54:49,126 p=54620 u=tony n=ansible | inventory                  : ok=0    changed=0    unreachable=1    failed=0    skipped=0    rescued=0    ignored=0   
+2023-11-08 13:55:07,975 p=54670 u=tony n=ansible | PLAY [Configure webserver with nginx] ******************************************
+2023-11-08 13:55:07,980 p=54670 u=tony n=ansible | TASK [Gathering Facts] *********************************************************
+2023-11-08 13:55:08,097 p=54670 u=tony n=ansible | fatal: [inventory]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: no such identity: /docker/id_rsa: No such file or directory\r\ntest@127.0.0.1: Permission denied (publickey,password).", "unreachable": true}
+2023-11-08 13:55:08,097 p=54670 u=tony n=ansible | PLAY RECAP *********************************************************************
+2023-11-08 13:55:08,097 p=54670 u=tony n=ansible | inventory                  : ok=0    changed=0    unreachable=1    failed=0    skipped=0    rescued=0    ignored=0   
+2023-11-08 13:55:14,307 p=54716 u=tony n=ansible | PLAY [Configure webserver with nginx] ******************************************
+2023-11-08 13:55:14,312 p=54716 u=tony n=ansible | TASK [Gathering Facts] *********************************************************
+2023-11-08 13:55:15,262 p=54716 u=tony n=ansible | ok: [inventory]
+2023-11-08 13:55:15,272 p=54716 u=tony n=ansible | TASK [nginxinc.nginx : Validate distribution and role variables] ***************
+2023-11-08 13:55:15,288 p=54716 u=tony n=ansible | included: /Users/tony/.ansible/roles/nginxinc.nginx/tasks/validate/validate.yml for inventory
+2023-11-08 13:55:15,292 p=54716 u=tony n=ansible | TASK [nginxinc.nginx : Check whether you are using a supported NGINX distribution] ***
+2023-11-08 13:55:15,354 p=54716 u=tony n=ansible | ok: [inventory] => {
+    "changed": false,
+    "msg": "Your distribution, Ubuntu 22.04 (aarch64), is supported by NGINX Open Source."
+}
+2023-11-08 13:55:15,357 p=54716 u=tony n=ansible | TASK [nginxinc.nginx : Check that 'nginx_setup' is an allowed value] ***********
+2023-11-08 13:55:15,371 p=54716 u=tony n=ansible | ok: [inventory] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+2023-11-08 13:55:15,374 p=54716 u=tony n=ansible | TASK [nginxinc.nginx : Check that 'nginx_branch' is an allowed value] **********
+2023-11-08 13:55:15,388 p=54716 u=tony n=ansible | ok: [inventory] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+2023-11-08 13:55:15,392 p=54716 u=tony n=ansible | TASK [nginxinc.nginx : Check that 'nginx_install_from' is an allowed value] ****
+2023-11-08 13:55:15,407 p=54716 u=tony n=ansible | ok: [inventory] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+2023-11-08 13:55:15,411 p=54716 u=tony n=ansible | TASK [nginxinc.nginx : Set up prerequisites] ***********************************
+2023-11-08 13:55:15,429 p=54716 u=tony n=ansible | included: /Users/tony/.ansible/roles/nginxinc.nginx/tasks/prerequisites/prerequisites.yml for inventory
+2023-11-08 13:55:15,433 p=54716 u=tony n=ansible | TASK [nginxinc.nginx : Install dependencies] ***********************************
+2023-11-08 13:55:15,468 p=54716 u=tony n=ansible | included: /Users/tony/.ansible/roles/nginxinc.nginx/tasks/prerequisites/install-dependencies.yml for inventory
+2023-11-08 13:55:15,471 p=54716 u=tony n=ansible | TASK [nginxinc.nginx : (Alpine Linux) Install dependencies] ********************
+2023-11-08 13:55:15,480 p=54716 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:55:15,484 p=54716 u=tony n=ansible | TASK [nginxinc.nginx : (Debian/Ubuntu) Install dependencies] *******************
+2023-11-08 13:55:21,880 p=54716 u=tony n=ansible | changed: [inventory]
+2023-11-08 13:55:21,889 p=54716 u=tony n=ansible | TASK [nginxinc.nginx : (Amazon Linux/CentOS/Oracle Linux/RHEL) Install dependencies] ***
+2023-11-08 13:55:21,898 p=54716 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:55:21,901 p=54716 u=tony n=ansible | TASK [nginxinc.nginx : (SLES) Install dependencies] ****************************
+2023-11-08 13:55:21,914 p=54716 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:55:21,920 p=54716 u=tony n=ansible | TASK [nginxinc.nginx : (FreeBSD) Install dependencies using package(s)] ********
+2023-11-08 13:55:21,930 p=54716 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:55:21,934 p=54716 u=tony n=ansible | TASK [nginxinc.nginx : (FreeBSD) Install dependencies using port(s)] ***********
+2023-11-08 13:55:21,944 p=54716 u=tony n=ansible | skipping: [inventory] => (item=security/ca_root_nss) 
+2023-11-08 13:55:21,946 p=54716 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:55:21,951 p=54716 u=tony n=ansible | TASK [nginxinc.nginx : Check if SELinux is enabled] ****************************
+2023-11-08 13:55:21,963 p=54716 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:55:21,967 p=54716 u=tony n=ansible | TASK [nginxinc.nginx : Configure SELinux] **************************************
+2023-11-08 13:55:21,977 p=54716 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:55:21,981 p=54716 u=tony n=ansible | TASK [nginxinc.nginx : Set up signing keys] ************************************
+2023-11-08 13:55:22,001 p=54716 u=tony n=ansible | included: /Users/tony/.ansible/roles/nginxinc.nginx/tasks/keys/setup-keys.yml for inventory
+2023-11-08 13:55:22,005 p=54716 u=tony n=ansible | TASK [nginxinc.nginx : (Alpine Linux) Set up NGINX signing key URL] ************
+2023-11-08 13:55:22,013 p=54716 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:55:22,017 p=54716 u=tony n=ansible | TASK [nginxinc.nginx : (Alpine Linux) Download NGINX signing key] **************
+2023-11-08 13:55:22,026 p=54716 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:55:22,029 p=54716 u=tony n=ansible | TASK [nginxinc.nginx : (Debian/Red Hat/SLES OSs) Set up NGINX signing key URL] ***
+2023-11-08 13:55:22,044 p=54716 u=tony n=ansible | ok: [inventory]
+2023-11-08 13:55:22,047 p=54716 u=tony n=ansible | TASK [nginxinc.nginx : (Debian/Ubuntu) Add NGINX signing key] ******************
+2023-11-08 13:55:22,710 p=54716 u=tony n=ansible | changed: [inventory]
+2023-11-08 13:55:22,717 p=54716 u=tony n=ansible | TASK [nginxinc.nginx : (Red Hat/SLES OSs) Add NGINX signing key] ***************
+2023-11-08 13:55:22,726 p=54716 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:55:22,735 p=54716 u=tony n=ansible | TASK [nginxinc.nginx : Install NGINX Open Source] ******************************
+2023-11-08 13:55:22,752 p=54716 u=tony n=ansible | included: /Users/tony/.ansible/roles/nginxinc.nginx/tasks/opensource/install-oss.yml for inventory
+2023-11-08 13:55:22,758 p=54716 u=tony n=ansible | TASK [nginxinc.nginx : Install NGINX from the official package repository] *****
+2023-11-08 13:55:22,781 p=54716 u=tony n=ansible | included: /Users/tony/.ansible/roles/nginxinc.nginx/tasks/opensource/install-debian.yml for inventory
+2023-11-08 13:55:22,786 p=54716 u=tony n=ansible | TASK [nginxinc.nginx : (Debian/Ubuntu) Configure NGINX repository] *************
+2023-11-08 13:55:24,329 p=54716 u=tony n=ansible | changed: [inventory] => (item=deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] https://nginx.org/packages/mainline/ubuntu/ jammy nginx)
+2023-11-08 13:55:25,570 p=54716 u=tony n=ansible | changed: [inventory] => (item=deb-src [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] https://nginx.org/packages/mainline/ubuntu/ jammy nginx)
+2023-11-08 13:55:25,579 p=54716 u=tony n=ansible | TASK [nginxinc.nginx : (Debian/Ubuntu) Pin NGINX repository] *******************
+2023-11-08 13:55:25,844 p=54716 u=tony n=ansible | changed: [inventory]
+2023-11-08 13:55:25,849 p=54716 u=tony n=ansible | TASK [nginxinc.nginx : (Debian/Ubuntu) Install NGINX] **************************
+2023-11-08 13:55:29,724 p=54716 u=tony n=ansible | changed: [inventory]
+2023-11-08 13:55:29,732 p=54716 u=tony n=ansible | TASK [nginxinc.nginx : Install NGINX from the distribution's package repository] ***
+2023-11-08 13:55:29,745 p=54716 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:55:29,753 p=54716 u=tony n=ansible | TASK [nginxinc.nginx : Install NGINX from source] ******************************
+2023-11-08 13:55:29,770 p=54716 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:55:29,776 p=54716 u=tony n=ansible | TASK [nginxinc.nginx : Install NGINX in Unix systems] **************************
+2023-11-08 13:55:29,789 p=54716 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:55:29,792 p=54716 u=tony n=ansible | TASK [nginxinc.nginx : Set up NGINX Plus license] ******************************
+2023-11-08 13:55:29,803 p=54716 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:55:29,808 p=54716 u=tony n=ansible | TASK [nginxinc.nginx : Install NGINX Plus] *************************************
+2023-11-08 13:55:29,817 p=54716 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:55:29,822 p=54716 u=tony n=ansible | TASK [nginxinc.nginx : Install NGINX dynamic modules] **************************
+2023-11-08 13:55:29,833 p=54716 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:55:29,837 p=54716 u=tony n=ansible | TASK [nginxinc.nginx : Remove NGINX Plus license] ******************************
+2023-11-08 13:55:29,845 p=54716 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:55:29,849 p=54716 u=tony n=ansible | TASK [nginxinc.nginx : Modify systemd parameters] ******************************
+2023-11-08 13:55:29,859 p=54716 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:55:29,863 p=54716 u=tony n=ansible | TASK [nginxinc.nginx : Trigger handlers if necessary] **************************
+2023-11-08 13:55:29,869 p=54716 u=tony n=ansible | RUNNING HANDLER [nginxinc.nginx : (Handler) Start/reload NGINX] ****************
+2023-11-08 13:55:30,182 p=54716 u=tony n=ansible | changed: [inventory]
+2023-11-08 13:55:30,186 p=54716 u=tony n=ansible | RUNNING HANDLER [nginxinc.nginx : (Handler) Check NGINX] ***********************
+2023-11-08 13:55:30,463 p=54716 u=tony n=ansible | ok: [inventory]
+2023-11-08 13:55:30,467 p=54716 u=tony n=ansible | RUNNING HANDLER [nginxinc.nginx : (Handler) Print NGINX error if syntax check fails] ***
+2023-11-08 13:55:30,478 p=54716 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:55:30,481 p=54716 u=tony n=ansible | TASK [nginxinc.nginx : Debug NGINX output] *************************************
+2023-11-08 13:55:30,490 p=54716 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:55:30,494 p=54716 u=tony n=ansible | TASK [nginxinc.nginx : Configure logrotate for NGINX] **************************
+2023-11-08 13:55:30,503 p=54716 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:55:30,506 p=54716 u=tony n=ansible | TASK [nginxinc.nginx : Install NGINX Amplify] **********************************
+2023-11-08 13:55:30,514 p=54716 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:55:30,522 p=54716 u=tony n=ansible | TASK [nginxinc.nginx_config : Set up SELinux] **********************************
+2023-11-08 13:55:30,529 p=54716 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:55:30,532 p=54716 u=tony n=ansible | TASK [nginxinc.nginx_config : Cleanup NGINX config] ****************************
+2023-11-08 13:55:30,539 p=54716 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:55:30,542 p=54716 u=tony n=ansible | TASK [nginxinc.nginx_config : Upload NGINX config] *****************************
+2023-11-08 13:55:30,551 p=54716 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:55:30,554 p=54716 u=tony n=ansible | TASK [nginxinc.nginx_config : Create NGINX config] *****************************
+2023-11-08 13:55:30,574 p=54716 u=tony n=ansible | included: /Users/tony/.ansible/roles/nginxinc.nginx_config/tasks/config/template-config.yml for inventory
+2023-11-08 13:55:30,577 p=54716 u=tony n=ansible | TASK [nginxinc.nginx_config : Ensure HTML directory exists] ********************
+2023-11-08 13:55:30,851 p=54716 u=tony n=ansible | ok: [inventory] => (item={'template_file': 'www/index.html.j2', 'deployment_location': '/usr/share/nginx/html/index.html', 'web_server_name': 'Default', 'backup': True})
+2023-11-08 13:55:30,858 p=54716 u=tony n=ansible | TASK [nginxinc.nginx_config : Dynamically generate HTML files] *****************
+2023-11-08 13:55:31,372 p=54716 u=tony n=ansible | changed: [inventory] => (item={'template_file': 'www/index.html.j2', 'deployment_location': '/usr/share/nginx/html/index.html', 'web_server_name': 'Default', 'backup': True})
+2023-11-08 13:55:31,378 p=54716 u=tony n=ansible | TASK [nginxinc.nginx_config : Configure NGINX modules] *************************
+2023-11-08 13:55:31,389 p=54716 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:55:31,392 p=54716 u=tony n=ansible | TASK [nginxinc.nginx_config : Ensure NGINX main directory exists] **************
+2023-11-08 13:55:31,583 p=54716 u=tony n=ansible | ok: [inventory]
+2023-11-08 13:55:31,586 p=54716 u=tony n=ansible | TASK [nginxinc.nginx_config : Dynamically generate NGINX main configuration file] ***
+2023-11-08 13:55:31,989 p=54716 u=tony n=ansible | changed: [inventory]
+2023-11-08 13:55:31,993 p=54716 u=tony n=ansible | TASK [nginxinc.nginx_config : Ensure NGINX client body cache directories exist] ***
+2023-11-08 13:55:32,009 p=54716 u=tony n=ansible | skipping: [inventory] => (item=/var/cache/nginx) 
+2023-11-08 13:55:32,011 p=54716 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:55:32,014 p=54716 u=tony n=ansible | TASK [nginxinc.nginx_config : Ensure NGINX proxy cache directories exist] ******
+2023-11-08 13:55:32,034 p=54716 u=tony n=ansible | skipping: [inventory] => (item=/var/cache/nginx/proxy/backend) 
+2023-11-08 13:55:32,036 p=54716 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:55:32,039 p=54716 u=tony n=ansible | TASK [nginxinc.nginx_config : Ensure NGINX HTTP directory exists] **************
+2023-11-08 13:55:32,058 p=54716 u=tony n=ansible | skipping: [inventory] => (item=/etc/nginx/conf.d) 
+2023-11-08 13:55:32,060 p=54716 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:55:32,064 p=54716 u=tony n=ansible | TASK [nginxinc.nginx_config : Dynamically generate NGINX HTTP config files] ****
+2023-11-08 13:55:32,082 p=54716 u=tony n=ansible | skipping: [inventory] => (item=/etc/nginx/conf.d/default.conf) 
+2023-11-08 13:55:32,083 p=54716 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:55:32,086 p=54716 u=tony n=ansible | TASK [nginxinc.nginx_config : Dynamically generate NGINX stub status config file] ***
+2023-11-08 13:55:32,094 p=54716 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:55:32,097 p=54716 u=tony n=ansible | TASK [nginxinc.nginx_config : Dynamically generate NGINX API config file] ******
+2023-11-08 13:55:32,105 p=54716 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:55:32,109 p=54716 u=tony n=ansible | TASK [nginxinc.nginx_config : Ensure NGINX stream directory exists] ************
+2023-11-08 13:55:32,120 p=54716 u=tony n=ansible | skipping: [inventory] => (item=/etc/nginx/conf.d/streams) 
+2023-11-08 13:55:32,121 p=54716 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:55:32,124 p=54716 u=tony n=ansible | TASK [nginxinc.nginx_config : Dynamically generate NGINX stream config files] ***
+2023-11-08 13:55:32,137 p=54716 u=tony n=ansible | skipping: [inventory] => (item=/etc/nginx/conf.d/streams/stream_default.conf) 
+2023-11-08 13:55:32,138 p=54716 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:55:32,141 p=54716 u=tony n=ansible | TASK [nginxinc.nginx_config : Ensure NGINX is running] *************************
+2023-11-08 13:55:32,146 p=54716 u=tony n=ansible | RUNNING HANDLER [nginxinc.nginx_config : (Handler - NGINX Config) Check NGINX] ***
+2023-11-08 13:55:32,339 p=54716 u=tony n=ansible | ok: [inventory]
+2023-11-08 13:55:32,342 p=54716 u=tony n=ansible | RUNNING HANDLER [nginxinc.nginx_config : (Handler - NGINX Config) Print NGINX error if syntax check fails] ***
+2023-11-08 13:55:32,354 p=54716 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:55:32,357 p=54716 u=tony n=ansible | RUNNING HANDLER [nginxinc.nginx_config : (Handler - NGINX Config) Start/reload NGINX] ***
+2023-11-08 13:55:32,568 p=54716 u=tony n=ansible | changed: [inventory]
+2023-11-08 13:55:32,571 p=54716 u=tony n=ansible | TASK [nginxinc.nginx_config : Debug output] ************************************
+2023-11-08 13:55:32,579 p=54716 u=tony n=ansible | skipping: [inventory]
+2023-11-08 13:55:32,585 p=54716 u=tony n=ansible | TASK [restart nginx] ***********************************************************
+2023-11-08 13:55:32,854 p=54716 u=tony n=ansible | changed: [inventory]
+2023-11-08 13:55:32,865 p=54716 u=tony n=ansible | PLAY RECAP *********************************************************************
+2023-11-08 13:55:32,865 p=54716 u=tony n=ansible | inventory                  : ok=27   changed=10   unreachable=0    failed=0    skipped=36   rescued=0    ignored=0   

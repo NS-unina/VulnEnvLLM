@@ -1,0 +1,14 @@
+- name: Configure webserver with nginx
+  hosts: webserver
+
+  roles:
+    - role: nginxinc.nginx
+    - role: nginxinc.nginx_config
+      vars:
+        nginx_config_main_template_enable: true
+        nginx_config_html_demo_template_enable: true
+
+  become: True
+  tasks:
+    - name: restart nginx
+      service: name=nginx state=restarted
