@@ -68,8 +68,7 @@ RUN cp -R osTicket/upload/* /var/www/html && \
 EXPOSE 80
 
 # Run Apache in Foreground
-CMD [""apache2-foreground""]
-"	EV ChatGPT	EV Bard	EV Bing
+CMD [""apache2-foreground""]"	EV ChatGPT	EV Bard	EV Bing
 File Upload Remote Code Execution (RCE) (Authenticated) (https://www.exploit-db.com/exploits/51639) CVE-2023-39147	Generate a dockerfile of Uvdesk v1.1.3	"# Use an official PHP image as base
 FROM php:7.4-apache
 
@@ -147,8 +146,7 @@ RUN cp -R uvdesk/* /var/www/html && \
 EXPOSE 80
 
 # Run Apache in Foreground
-CMD [""apache2-foreground""]
-"	EV ChatGPT	EV Bard	EV Bing
+CMD [""apache2-foreground""]"	EV ChatGPT	EV Bard	EV Bing
 Pre-auth Remote Code Execution (RCE) (https://www.exploit-db.com/exploits/51532) CVE-2023-0297	Generate a dockerfile of PyLoad 0.5.0	"# Use an official Python image as base
 FROM python:3.9-slim
 
@@ -201,9 +199,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 8000
 
 # Run pyLoad when the container launches
-CMD [""python"", ""pyLoad.py""]
-"	EV ChatGPT	EV Bard	EV Bing
-Remote Code Execution(https://www.exploit-db.com/exploits/47837) CVE-2019-16278	Generate a dockerfile of nostromo 1.9.6	"# Use an official Ubuntu base image
+CMD [""python"", ""pyLoad.py""]"	EV ChatGPT	EV Bard	EV Bing
+Remote Code Execution (https://www.exploit-db.com/exploits/47837) CVE-2019-16278	Generate a dockerfile of nostromo 1.9.6	"# Use an official Ubuntu base image
 FROM ubuntu:18.04
 
 # Install necessary dependencies
@@ -262,8 +259,7 @@ RUN make && make install
 EXPOSE 8080
 
 # Run Nostromo when the container launches
-CMD [""nhttpd""]
-"	EV ChatGPT	EV Bard	EV Bing
+CMD [""nhttpd""]"	EV ChatGPT	EV Bard	EV Bing
 Cross-Site Scripting (https://www.exploit-db.com/exploits/44216) CVE-2018-6193	Create a dockerfile of Routers2 2.24	"As of my last knowledge update in January 2022, I don't have specific information about ""Routers2 2.24."" If it's a software or application that has been released or updated after that date, I might not have the details."	"FROM ubuntu:20.04
 
 # Install dependencies
@@ -299,8 +295,7 @@ EXPOSE 80
 ENV NAME World
 
 # Run routers2.pl when the container launches
-CMD [""perl"", ""routers2.pl""]
-"	EV ChatGPT	EV Bard	EV Bing
+CMD [""perl"", ""routers2.pl""]"	EV ChatGPT	EV Bard	EV Bing
 File Enumeration / Path Traversal (https://www.exploit-db.com/exploits/40596) CVE-2016-7982	Create a dockerfile of SPIP 3.1.1	"# Use an official PHP with Apache image as base
 FROM php:7.4-apache
 
@@ -359,9 +354,8 @@ EXPOSE 80
 ENV NAME World
 
 # Run apache2 in the foreground
-CMD [""apache2-foreground""]
-"	EV ChatGPT	EV Bard	EV Bing
-Directory Traversal(https://www.exploit-db.com/exploits/51636) CVE-2023-37474	Create a dockerfile of copyparty 1.8.2	"# Use an official Python image as base
+CMD [""apache2-foreground""]"	EV ChatGPT	EV Bard	EV Bing
+Directory Traversal (https://www.exploit-db.com/exploits/51636) CVE-2023-37474	Create a dockerfile of copyparty 1.8.2	"# Use an official Python image as base
 FROM python:3.9-slim
 
 # Set the working directory inside the container
@@ -413,8 +407,7 @@ EXPOSE 80
 ENV NAME World
 
 # Run copyparty.py when the container launches
-CMD [""python"", ""copyparty.py""]
-"	EV ChatGPT	EV Bard	EV Bing
+CMD [""python"", ""copyparty.py""]"	EV ChatGPT	EV Bard	EV Bing
 Path Traversal & Remote Code Execution (RCE) (https://www.exploit-db.com/exploits/50383) CVE-2021-41773	Create a dockerfile of Apache HTTP Server 2.4.49	"# Use an official Apache HTTP Server image as base
 FROM httpd:2.4.49-alpine
 
@@ -455,8 +448,7 @@ COPY ./my-httpd.conf /usr/local/apache2/conf/httpd.conf
 EXPOSE 80
 
 # Run httpd in the foreground
-CMD [""httpd-foreground""]
-"	EV ChatGPT	EV Bard	EV Bing
+CMD [""httpd-foreground""]"	EV ChatGPT	EV Bard	EV Bing
 Buffer Overflow (https://www.exploit-db.com/exploits/51193) CVE-2021-44790	Create a dockerfile of Apache 2.4.50	"# Use an official Apache HTTP Server image as the base image
 FROM httpd:2.4.50
 
@@ -506,8 +498,7 @@ RUN chown -R www-data:www-data /var/www/html
 EXPOSE 80
 
 # Run Apache
-CMD [""/usr/sbin/apache2ctl"", ""-D"", ""FOREGROUND""]
-"	EV ChatGPT	EV Bard	EV Bing
+CMD [""/usr/sbin/apache2ctl"", ""-D"", ""FOREGROUND""]"	EV ChatGPT	EV Bard	EV Bing
 Arbitrary File Upload (https://www.exploit-db.com/exploits/42934) CVE-2017-6090	Generate a dockerfile of PhpCollab 2.5.1	"# Use an official PHP and Apache image as the base image
 FROM php:7.4-apache
 
@@ -570,24 +561,481 @@ RUN docker-php-ext-install pdo_mysql
 EXPOSE 80
 
 # Run Apache in the foreground
-CMD [""/usr/sbin/apache2ctl"", ""-D"", ""FOREGROUND""]
+CMD [""/usr/sbin/apache2ctl"", ""-D"", ""FOREGROUND""]"	EV ChatGPT	EV Bard	EV Bing
+Account Hijack (https://www.exploit-db.com/exploits/47879) CVE-2019-19844	Generate a dockerfile of Python 3.7.x, with Django, and with PostgreSQL 9.5	"# Use an official Python runtime as a parent image
+FROM python:3.7
+
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update \
+    && apt-get install -y postgresql-client-9.5
+
+# Install Python dependencies
+COPY requirements.txt /app/
+RUN pip install --upgrade pip \
+    && pip install -r requirements.txt
+
+# Copy the current directory contents into the container at /app
+COPY . /app/
+
+# Expose the port that Django will run on
+EXPOSE 8000
+
+# Run the command to start Django development server
+CMD [""python"", ""manage.py"", ""runserver"", ""0.0.0.0:8000""]
+"	"FROM python:3.7-slim
+
+# Install PostgreSQL client
+RUN apt-get update && apt-get install -y libpq-dev
+
+# Install Django and other dependencies
+RUN pip install django psycopg2
+
+# Create a working directory
+WORKDIR /app
+
+# Copy the Django project files
+COPY . .
+
+# Build the PostgreSQL database
+RUN python manage.py migrate
+
+# Start the Django development server
+EXPOSE 8000
+CMD [""python"", ""manage.py"", ""runserver"", ""0.0.0.0:8000""]
+"	"# Use an official Python runtime as a parent image
+FROM python:3.7-slim
+
+# Set the working directory in the container to /app
+WORKDIR /app
+
+# Add the current directory contents into the container at /app
+ADD . /app
+
+# Install any needed packages specified in requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Make port 8000 available to the world outside this container
+EXPOSE 8000
+
+# Define environment variable
+ENV NAME World
+
+# Run app.py when the container launches
+CMD [""python"", ""manage.py"", ""runserver"", ""0.0.0.0:8000""]
 "	EV ChatGPT	EV Bard	EV Bing
-					EV ChatGPT	EV Bard	EV Bing
-					EV ChatGPT	EV Bard	EV Bing
-					EV ChatGPT	EV Bard	EV Bing
-					EV ChatGPT	EV Bard	EV Bing
-					EV ChatGPT	EV Bard	EV Bing
-					EV ChatGPT	EV Bard	EV Bing
-					EV ChatGPT	EV Bard	EV Bing
-					EV ChatGPT	EV Bard	EV Bing
-					EV ChatGPT	EV Bard	EV Bing
-					EV ChatGPT	EV Bard	EV Bing
-					EV ChatGPT	EV Bard	EV Bing
-					EV ChatGPT	EV Bard	EV Bing
-					EV ChatGPT	EV Bard	EV Bing
-					EV ChatGPT	EV Bard	EV Bing
-					EV ChatGPT	EV Bard	EV Bing
-					EV ChatGPT	EV Bard	EV Bing
-					EV ChatGPT	EV Bard	EV Bing
-					EV ChatGPT	EV Bard	EV Bing
-					EV ChatGPT	EV Bard	EV Bing
+HTML Injection (https://www.exploit-db.com/exploits/51073) CVE-2019-13068	Create a dockerfile of Grafana 6.2.4	"# Use an official Grafana base image
+FROM grafana/grafana:6.2.4
+
+# Add any additional configurations or plugins as needed
+# For example, to add a custom configuration file, you can use the COPY command:
+# COPY custom.ini /etc/grafana/grafana.ini
+
+# Expose the port Grafana runs on
+EXPOSE 3000
+
+# Start Grafana
+CMD [""grafana-server"", ""--config=/etc/grafana/grafana.ini""]
+"	"FROM grafana/grafana:6.2.4
+
+# Set the working directory to /var/lib/grafana
+WORKDIR /var/lib/grafana
+
+# Copy Grafana configuration file
+COPY ./grafana.ini /etc/grafana/grafana.ini
+
+# Expose the Grafana port
+EXPOSE 3000
+
+# Start Grafana
+CMD [""grafana-server"", ""--config"", ""/etc/grafana/grafana.ini""]
+"	"# Use an official Grafana runtime as a parent image
+FROM grafana/grafana:6.2.4
+
+# Set the working directory in the container to /var/lib/grafana
+WORKDIR /var/lib/grafana
+
+# Copy the Grafana configuration file into the container
+COPY ./grafana.ini /etc/grafana/grafana.ini
+
+# Make port 3000 available to the world outside this container
+EXPOSE 3000
+
+# Run Grafana when the container launches
+CMD [""/run.sh""]
+"	EV ChatGPT	EV Bard	EV Bing
+Auth Bruteforce Bypass (https://www.exploit-db.com/exploits/48942) CVE-2019-17240	Generate a dockerfile of Bludit 3.9.2	"# Use the official PHP and Apache image
+FROM php:7.4-apache
+
+# Set the working directory to /var/www/html
+WORKDIR /var/www/html
+
+# Download and install dependencies
+RUN apt-get update && \
+    apt-get install -y unzip && \
+    rm -rf /var/lib/apt/lists/*
+
+# Download and install Bludit
+RUN curl -o bludit.zip -SL https://github.com/bludit/bludit/archive/3.9.2.zip && \
+    unzip bludit.zip && \
+    rm bludit.zip && \
+    mv bludit-3.9.2/* . && \
+    rm -r bludit-3.9.2
+
+# Set up permissions
+RUN chown -R www-data:www-data /var/www/html && \
+    chmod -R 755 /var/www/html
+
+# Expose port 80
+EXPOSE 80
+
+# Start Apache
+CMD [""apache2-foreground""]
+"	"FROM nginx:latest
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    php7.4-fpm \
+    php7.4-mysql \
+    php7.4-mbstring \
+    php-curl
+
+# Create a working directory
+WORKDIR /var/www/bludit
+
+# Download Bludit and extract it
+RUN wget https://github.com/bludit/bludit/releases/download/v3.9.2/bludit-3.9.2.zip && \
+    unzip bludit-3.9.2.zip && \
+    rm bludit-3.9.2.zip
+
+# Copy Bludit configuration file
+COPY ./bludit.conf /etc/nginx/sites-available/default
+
+# Enable Bludit configuration
+RUN ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+
+# Remove default nginx configuration
+RUN rm /etc/nginx/sites-enabled/default.conf
+
+# Change ownership of Bludit directory
+RUN chown -R www-data:www-data /var/www/bludit
+
+# Expose Bludit port
+EXPOSE 80
+
+# Start Nginx and PHP-FPM
+CMD [""nginx"", ""-g"", ""daemon off;""]
+"	"# Use an official PHP runtime as a parent image
+FROM php:7.3-apache
+
+# Set the working directory in the container to /var/www/html
+WORKDIR /var/www/html
+
+# Remove the default Apache index.html
+RUN rm index.html
+
+# Download and install Bludit
+RUN curl -o bludit.zip -SL https://www.bludit.com/releases/bludit-3-9-2.zip \
+    && unzip bludit.zip \
+    && rm bludit.zip
+
+# Change the ownership of the application directory to the apache user
+RUN chown -R www-data:www-data /var/www/html
+
+# Expose port 80
+EXPOSE 80
+
+# Start Apache service
+CMD [""apache2-foreground""]
+"	EV ChatGPT	EV Bard	EV Bing
+Improper Authentication Control (https://www.exploit-db.com/exploits/51226) CVE-2022-31125	Generate a dockerfile of Roxy WI v6.1.0.0	"# Use the official Node.js image as the base image
+FROM node:14
+
+# Set working directory
+WORKDIR /app
+
+# Clone Roxy WI repository
+RUN git clone -b v6.1.0.0 --single-branch https://github.com/marklogic/roxy-wi.git .
+
+# Install dependencies
+RUN npm install
+
+# Expose default port
+EXPOSE 3000
+
+# Start Roxy WI
+CMD [""npm"", ""start""]
+"	"FROM ubuntu:18.04
+
+WORKDIR /opt/roxy
+
+RUN apt-get update -y
+RUN apt-get install -y wget unzip curl
+
+# Download Roxy WI archive
+RUN wget https://github.com/open-mmlab/Roxy-WI/releases/download/v6.1.0.0/roxy-wi-6.1.0.0-linux_x64.zip
+
+# Extract Roxy WI archive
+RUN unzip roxy-wi-6.1.0.0-linux_x64.zip
+
+# Set Roxy WI executable permissions
+RUN chmod +x roxy-wi
+
+# Add Roxy WI to PATH
+ENV PATH=""/opt/roxy/roxy-wi-6.1.0.0/bin:$PATH""
+
+# Expose Roxy WI port
+EXPOSE 8080
+
+# Start Roxy WI
+ENTRYPOINT [""roxy-wi""]"	"# Use an official Python runtime as a parent image
+FROM python:3.7-slim
+
+# Set the working directory in the container to /app
+WORKDIR /app
+
+# Add the current directory contents into the container at /app
+ADD . /app
+
+# Install any needed packages specified in requirements.txt
+RUN pip install --trusted-host pypi.python.org -r requirements.txt
+
+# Make port 80 available to the world outside this container
+EXPOSE 80
+
+# Define environment variable
+ENV NAME World
+
+# Run app.py when the container launches
+CMD [""python"", ""app.py""]
+"	EV ChatGPT	EV Bard	EV Bing
+SQL injection (https://www.exploit-db.com/exploits/46838) OpenProject 8.3.1	Generate a dockerfile of OpenProject 8.3.1	"# Use the official Ruby image with Node.js and Yarn
+FROM ruby:2.5.8
+
+# Set the Rails environment to production
+ENV RAILS_ENV=production
+
+# Install system dependencies
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        curl \
+        nodejs \
+        libpq-dev \
+        postgresql-client \
+        imagemagick \
+        libmagickwand-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install OpenProject
+RUN curl -sSL https://www.openproject.org/download/repositories/stable/Debian_9/Release.key | gpg --dearmor > /usr/share/keyrings/openproject-archive-keyring.gpg \
+    && echo ""deb [signed-by=/usr/share/keyrings/openproject-archive-keyring.gpg] http://dl.packager.io/srv/opf/openproject/stable/8.3/Debian/9/ openproject main"" > /etc/apt/sources.list.d/openproject.list \
+    && apt-get update && apt-get install -y openproject=8.3.1-20201029143849 \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Expose OpenProject port
+EXPOSE 6000
+
+# Start OpenProject
+CMD [""bash"", ""-c"", ""rm -f tmp/pids/server.pid && bundle exec rails server -b '0.0.0.0' -p 6000""]"	"FROM ubuntu:18.04
+
+WORKDIR /opt/openproject
+
+RUN apt-get update -y
+RUN apt-get install -y curl wget unzip nodejs npm
+
+# Download OpenProject archive
+RUN curl -sO https://github.com/opf/openproject/releases/download/v8.3.1/openproject-community-8.3.1.tar.gz
+
+# Extract OpenProject archive
+RUN tar -zxvf openproject-community-8.3.1.tar.gz
+
+# Install OpenProject dependencies
+RUN npm install --production
+
+# Copy OpenProject configuration
+COPY openproject.yml /opt/openproject/config/openproject.yml
+
+# Expose OpenProject ports
+EXPOSE 8080
+EXPOSE 80
+
+# Start OpenProject
+ENTRYPOINT [""./bin/openproject""]"	"# Use an official Ruby runtime as a parent image
+FROM ruby:2.5
+
+# Set the working directory in the container to /app
+WORKDIR /app
+
+# Add metadata identifying these images as our build containers
+LABEL openproject.build=""packager""
+
+# Install the necessary software
+RUN apt-get update && apt-get install -y \
+  build-essential \
+  libmysqlclient-dev \
+  mysql-client \
+  libpq-dev \
+  postgresql-client \
+  sqlite3 \
+  zlib1g-dev \
+  libqt4-dev \
+  libxml2-dev \
+  libxslt1-dev \
+  imagemagick \
+  openjdk-8-jre \
+  git
+
+# Clone the specific version of OpenProject
+RUN git clone --branch ""v8.3.1"" --depth 1 https://github.com/opf/openproject.git .
+
+# Install the project dependencies
+RUN bundle install
+
+# Copy the rest of your app's source code from your host to your image filesystem.
+COPY . .
+
+# Expose port 3000 in the container
+EXPOSE 3000
+
+# Start the application server
+CMD [""rails"", ""server"", ""-b"", ""0.0.0.0""]"	EV ChatGPT	EV Bard	EV Bing
+Remote Code Execution (https://www.exploit-db.com/exploits/44913) Apache CouchDB 2.0	Generate a dockerfile of Apache CouchDB 2.0	"# Use the official CouchDB 2.0 image
+FROM couchdb:2.0
+
+# Expose CouchDB ports
+EXPOSE 5984 4369 9100
+
+# Optionally, you can set environment variables if needed
+# ENV COUCHDB_USER=admin
+# ENV COUCHDB_PASSWORD=mysecretpassword
+
+# You can also copy local.ini to customize the configuration
+# COPY local.ini /opt/couchdb/etc/local.ini
+
+# Start CouchDB
+CMD [""couchdb""]"	"FROM ubuntu:18.04
+
+RUN apt-get update -y
+RUN apt-get install -y default-jre
+RUN mkdir -p /opt/couchdb
+
+WORKDIR /opt/couchdb
+
+# Download CouchDB archive
+RUN wget https://couchdb.apache.org/releases/couchdb-2.0.0.tar.gz
+
+# Extract CouchDB archive
+RUN tar -zxvf couchdb-2.0.0.tar.gz
+
+ENV COUCHDB_HOME /opt/couchdb/couchdb-2.0.0
+
+EXPOSE 5984
+
+ENTRYPOINT [""/opt/couchdb/couchdb-2.0.0/bin/couchdb""]"	"# Use an official Ubuntu runtime as a parent image
+FROM ubuntu:16.04
+
+# Set the maintainer
+LABEL maintainer=""your-email@example.com""
+
+# Install necessary packages
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    pkg-config \
+    erlang \
+    libicu-dev \
+    libmozjs185-dev \
+    libcurl4-openssl-dev
+
+# Download and install CouchDB
+RUN apt-get install -y wget && \
+    wget http://apache.mirrors.pair.com/couchdb/source/2.0.0/apache-couchdb-2.0.0.tar.gz && \
+    tar xvf apache-couchdb-2.0.0.tar.gz && \
+    cd apache-couchdb-2.0.0 && \
+    ./configure && \
+    make release
+
+# Expose the CouchDB HTTP port
+EXPOSE 5984
+
+# Start CouchDB
+CMD [""./apache-couchdb-2.0.0/rel/couchdb/bin/couchdb""]"	EV ChatGPT	EV Bard	EV Bing
+Arbitrary File Disclosure (https://www.exploit-db.com/exploits/41312) Kodi 17.1	Generate a dockerfile of Kodi 17.1	"# Use a base image with Ubuntu
+FROM ubuntu:16.04
+
+# Install dependencies
+RUN apt-get update && \
+    apt-get install -y software-properties-common && \
+    add-apt-repository ppa:team-xbmc/ppa && \
+    apt-get update && \
+    apt-get install -y kodi=2:17.1*
+
+# Expose Kodi default ports
+EXPOSE 8080 9777/udp 9090
+
+# Start Kodi
+CMD [""kodi""]"	"FROM ubuntu:18.04
+
+RUN apt-get update -y && apt-get install -y curl wget unzip sudo
+RUN mkdir -p /opt/kodi
+
+WORKDIR /opt/kodi
+
+# Download Kodi archive
+RUN curl -sO https://mirrors.kodi.tv/releases/17.1/Kodi-17.1-Linux-x86_64.tar.bz2
+
+# Extract Kodi archive
+RUN tar -jxvf Kodi-17.1-Linux-x86_64.tar.bz2
+
+# Create Kodi user and group
+RUN groupadd kodi
+RUN useradd -m -d /opt/kodi -g kodi kodi
+
+# Change ownership of Kodi directory to kodi user
+RUN chown -R kodi:kodi /opt/kodi
+
+# Set PATH to include Kodi bin directory
+ENV PATH=""$PATH:/opt/kodi/kodi/bin""
+
+# Set Kodi user as default
+USER kodi
+
+# Expose Kodi HTTP and HTTPS ports
+EXPOSE 8080 8443
+
+# Start Kodi
+ENTRYPOINT [""kodi""]"	"# Use an official Ubuntu runtime as a parent image
+FROM ubuntu:16.04
+
+# Set the maintainer
+LABEL maintainer=""your-email@example.com""
+
+# Update the system
+RUN apt-get update && apt-get upgrade -y
+
+# Install necessary packages
+RUN apt-get install -y software-properties-common
+
+# Add the necessary PPA
+RUN add-apt-repository ppa:team-xbmc/ppa
+
+# Update the system again
+RUN apt-get update
+
+# Install Kodi
+RUN apt-get install -y kodi
+
+# Set the version of Kodi to 17.1
+RUN apt-get install -y kodi=2:17.1* && apt-mark hold kodi
+
+# Make port 80 available to the world outside this container
+EXPOSE 80
+
+# Run Kodi when the container launches
+CMD [""kodi""]"	EV ChatGPT	EV Bard	EV Bing
