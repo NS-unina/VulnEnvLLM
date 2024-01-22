@@ -6,16 +6,16 @@ FROM php:7.4-apache
 RUN docker-php-ext-install mysqli && docker-php-ext-install gd && docker-php-ext-install gettext && docker-php-ext-install intl
 
 # Set recommended PHP.ini settings
-RUN echo 'date.timezone = “UTC""' > /usr/local/etc/php/php.ini
-RUN echo 'memory_limit = 256M’ >> /usr/local/etc/php/php.ini
-RUN echo 'upload_max_filesize = 100M’ >> /usr/local/etc/php/php.ini
-RUN echo 'post_max_size = 100M’ >> /usr/local/etc/php/php.ini
-RUN echo 'max_execution_time = 600’ >> /usr/local/etc/php/php.ini
+RUN echo 'date.timezone = ""UTC""' > /usr/local/etc/php/php.ini
+RUN echo 'memory_limit = 256M' >> /usr/local/etc/php/php.ini
+RUN echo 'upload_max_filesize = 100M' >> /usr/local/etc/php/php.ini
+RUN echo 'post_max_size = 100M' >> /usr/local/etc/php/php.ini
+RUN echo 'max_execution_time = 600' >> /usr/local/etc/php/php.ini
 
 # Download and install osTicket v1.12
 WORKDIR /var/www/html
-RUN apt-get update< && apt-get install -y wget
-RUN wget https://github.com/osTicketosTicket/releases/download/v1.12/osTicket-v1.12.zip
+RUN apt-get update && apt-get install -y wget
+RUN wget https://github.com/osTicket/osTicket/releases/download/v1.12/osTicket-v1.12.zip
 RUN unzip osTicket-v1.12.zip
 RUN rm osTicket-v1.12.zip
 RUN chown -R www-data:www-data upload include
@@ -25,25 +25,25 @@ RUN a2enmod rewrite
 EXPOSE 80
 
 # Start Apache
-CMD [“apache2-foreground""]"	"FROM php:7.4-apache
- # Install osTicket dependencies
- RUN apt-get update && apt-get install -y  libjpeg-dev libpng-dev libpq-dev libzip-dev mysql-client sqlite3
+CMD [""apache2-foreground""]"	"FROM php:7.4-apache
+# Install osTicket dependencies
+RUN apt-get update && apt-get install -y  libjpeg-dev libpng-dev libpq-dev libzip-dev mysql-client sqlite3
  
- # Install osTicket
- RUN curl -sL https://github.com/osTicket/osTicket/archive/v1.12.tar.gz | tar -xzC /var/www/html
+# Install osTicket
+RUN curl -sL https://github.com/osTicket/osTicket/archive/v1.12.tar.gz | tar -xzC /var/www/html
  
- # Configure osTicket
- RUN chown -R www-data:www-data /var/www/html/osTicket
- RUN chmod -R 755 /var/www/html/osTicket/upload
+# Configure osTicket
+RUN chown -R www-data:www-data /var/www/html/osTicket
+RUN chmod -R 755 /var/www/html/osTicket/upload
  
- # Copy osTicket configuration file
- COPY ./osticket.conf /etc/apache2/sites-available/osticket.conf
+# Copy osTicket configuration file
+COPY ./osticket.conf /etc/apache2/sites-available/osticket.conf
  
- # Enable osTicket site
- RUN a2ensite osticket
+# Enable osTicket site
+RUN a2ensite osticket
  
- # Restart Apache
- RUN service apache2 restart"	"# Use an official PHP runtime as a parent image
+# Restart Apache
+RUN service apache2 restart"	"# Use an official PHP runtime as a parent image
 FROM php:7.2-apache
 
 # Set the working directory in the container
@@ -68,7 +68,29 @@ RUN cp -R osTicket/upload/* /var/www/html && \
 EXPOSE 80
 
 # Run Apache in Foreground
-CMD [""apache2-foreground""]"	EV ChatGPT	EV Bard	EV Bing
+CMD [""apache2-foreground""]"	"BUILDING ERROR
+- zlib/libpng absent in php building process
+- zip absent at line 21 to unzip osTicket file
+- can't chmod upload folder at line 22, it doesn't exist
+mysql not installed
+
+WORKING ERROR
+- install package git to use manage.php automate setup
+- Document root set to /var/www/htdocs (the github guide install osticket in that directory)
+Set ""Options +Indexes"" in ""docker-php.conf""	
+
+CONCLUSION
+After all the correction the exploit working, using as a payload a simple cvs formula ""=1+2"" which return successfully 3"	"BUILDING ERROR
+- OsTicket.conf doesn't exist
+- Package 'mysql-client' has no installation candidate, it's called ""default-mysql-client"" now
+- Extracted file name is ""osTicket-1.12"", not ""osTicket"", raising error for chown and chmod, and there's no subfolder named upload
+
+Too many minor problem to work with, similar with chat-gpt ones"	"BUILDING ERROR
+- Package 'mysql-client' has no installation candidate, it's called ""default-mysql-client"" now
+- Package 'unzip' absent, needed for unzip function
+- There's no subfolder named ""upload"", need to copy full path
+
+Too many minor problem to work with, similar with chat-gpt ones"
 File Upload Remote Code Execution (RCE) (Authenticated) (https://www.exploit-db.com/exploits/51639) CVE-2023-39147	Generate a dockerfile of Uvdesk v1.1.3	"# Use an official PHP image as base
 FROM php:7.4-apache
 
@@ -588,8 +610,7 @@ COPY . /app/
 EXPOSE 8000
 
 # Run the command to start Django development server
-CMD [""python"", ""manage.py"", ""runserver"", ""0.0.0.0:8000""]
-"	"FROM python:3.7-slim
+CMD [""python"", ""manage.py"", ""runserver"", ""0.0.0.0:8000""]"	"FROM python:3.7-slim
 
 # Install PostgreSQL client
 RUN apt-get update && apt-get install -y libpq-dev
@@ -608,8 +629,7 @@ RUN python manage.py migrate
 
 # Start the Django development server
 EXPOSE 8000
-CMD [""python"", ""manage.py"", ""runserver"", ""0.0.0.0:8000""]
-"	"# Use an official Python runtime as a parent image
+CMD [""python"", ""manage.py"", ""runserver"", ""0.0.0.0:8000""]"	"# Use an official Python runtime as a parent image
 FROM python:3.7-slim
 
 # Set the working directory in the container to /app
@@ -628,8 +648,7 @@ EXPOSE 8000
 ENV NAME World
 
 # Run app.py when the container launches
-CMD [""python"", ""manage.py"", ""runserver"", ""0.0.0.0:8000""]
-"	EV ChatGPT	EV Bard	EV Bing
+CMD [""python"", ""manage.py"", ""runserver"", ""0.0.0.0:8000""]"	EV ChatGPT	EV Bard	EV Bing
 HTML Injection (https://www.exploit-db.com/exploits/51073) CVE-2019-13068	Create a dockerfile of Grafana 6.2.4	"# Use an official Grafana base image
 FROM grafana/grafana:6.2.4
 
@@ -641,8 +660,7 @@ FROM grafana/grafana:6.2.4
 EXPOSE 3000
 
 # Start Grafana
-CMD [""grafana-server"", ""--config=/etc/grafana/grafana.ini""]
-"	"FROM grafana/grafana:6.2.4
+CMD [""grafana-server"", ""--config=/etc/grafana/grafana.ini""]"	"FROM grafana/grafana:6.2.4
 
 # Set the working directory to /var/lib/grafana
 WORKDIR /var/lib/grafana
@@ -654,8 +672,7 @@ COPY ./grafana.ini /etc/grafana/grafana.ini
 EXPOSE 3000
 
 # Start Grafana
-CMD [""grafana-server"", ""--config"", ""/etc/grafana/grafana.ini""]
-"	"# Use an official Grafana runtime as a parent image
+CMD [""grafana-server"", ""--config"", ""/etc/grafana/grafana.ini""]"	"# Use an official Grafana runtime as a parent image
 FROM grafana/grafana:6.2.4
 
 # Set the working directory in the container to /var/lib/grafana
@@ -668,8 +685,7 @@ COPY ./grafana.ini /etc/grafana/grafana.ini
 EXPOSE 3000
 
 # Run Grafana when the container launches
-CMD [""/run.sh""]
-"	EV ChatGPT	EV Bard	EV Bing
+CMD [""/run.sh""]"	EV ChatGPT	EV Bard	EV Bing
 Auth Bruteforce Bypass (https://www.exploit-db.com/exploits/48942) CVE-2019-17240	Generate a dockerfile of Bludit 3.9.2	"# Use the official PHP and Apache image
 FROM php:7.4-apache
 
@@ -696,8 +712,7 @@ RUN chown -R www-data:www-data /var/www/html && \
 EXPOSE 80
 
 # Start Apache
-CMD [""apache2-foreground""]
-"	"FROM nginx:latest
+CMD [""apache2-foreground""]"	"FROM nginx:latest
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
@@ -730,8 +745,7 @@ RUN chown -R www-data:www-data /var/www/bludit
 EXPOSE 80
 
 # Start Nginx and PHP-FPM
-CMD [""nginx"", ""-g"", ""daemon off;""]
-"	"# Use an official PHP runtime as a parent image
+CMD [""nginx"", ""-g"", ""daemon off;""]"	"# Use an official PHP runtime as a parent image
 FROM php:7.3-apache
 
 # Set the working directory in the container to /var/www/html
@@ -752,8 +766,7 @@ RUN chown -R www-data:www-data /var/www/html
 EXPOSE 80
 
 # Start Apache service
-CMD [""apache2-foreground""]
-"	EV ChatGPT	EV Bard	EV Bing
+CMD [""apache2-foreground""]"	EV ChatGPT	EV Bard	EV Bing
 Improper Authentication Control (https://www.exploit-db.com/exploits/51226) CVE-2022-31125	Generate a dockerfile of Roxy WI v6.1.0.0	"# Use the official Node.js image as the base image
 FROM node:14
 
@@ -770,8 +783,7 @@ RUN npm install
 EXPOSE 3000
 
 # Start Roxy WI
-CMD [""npm"", ""start""]
-"	"FROM ubuntu:18.04
+CMD [""npm"", ""start""]"	"FROM ubuntu:18.04
 
 WORKDIR /opt/roxy
 
@@ -813,8 +825,7 @@ EXPOSE 80
 ENV NAME World
 
 # Run app.py when the container launches
-CMD [""python"", ""app.py""]
-"	EV ChatGPT	EV Bard	EV Bing
+CMD [""python"", ""app.py""]"	EV ChatGPT	EV Bard	EV Bing
 SQL injection (https://www.exploit-db.com/exploits/46838) OpenProject 8.3.1	Generate a dockerfile of OpenProject 8.3.1	"# Use the official Ruby image with Node.js and Yarn
 FROM ruby:2.5.8
 
