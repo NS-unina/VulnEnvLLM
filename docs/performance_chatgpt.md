@@ -18,6 +18,11 @@
 - GitHub Copilot nuovamente risponde identico a Bard nella domanda "Realize a Dockerfile containing Cybrotech CyBroHttpServer 1.0.3", soltanto che Bard ne ha spiegato i passaggi
 
 # Conclusioni
-GitHub Copilot è più portato ovviamente per la scrittura di codice, è molto veloce e preciso, e fornisce anche la possibilità di spiegare e/o documentare il codice.
+~~GitHub Copilot è più portato ovviamente per la scrittura di codice, è molto veloce e preciso, e fornisce anche la possibilità di spiegare e/o documentare il codice~~ Copilot è stato scartato in quanto è pesantemente influenzato dal contesto in cui si trova, è quindi tutte le risposte trovate sinora sono da attribuire a riformulazioni dei risultati ottenuti da GPT/Bard
+
 ChatGPT-3 è buono in molti ambiti ma non può eccellere molto nelle domande real-time, si può ovviare con GPT-4 (20€/mo)
+
 Bard risulta un po' meno efficace con le domande rispetto a GPT-3 ma sul codice risulta più completo e esplicativo
+
+
+
