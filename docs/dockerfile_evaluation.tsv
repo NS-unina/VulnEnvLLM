@@ -69,15 +69,15 @@ EXPOSE 80
 
 # Run Apache in Foreground
 CMD [""apache2-foreground""]"	"BUILDING ERROR
-- zlib/libpng absent in php building process
+- zlib/libpng absent in php building procuvdesk-gpt:latestess
 - zip absent at line 21 to unzip osTicket file
 - can't chmod upload folder at line 22, it doesn't exist
-mysql not installed
+- mysql not installed
 
 WORKING ERROR
 - install package git to use manage.php automate setup
 - Document root set to /var/www/htdocs (the github guide install osticket in that directory)
-Set ""Options +Indexes"" in ""docker-php.conf""	
+- Set ""Options +Indexes"" in ""docker-php.conf""	
 
 CONCLUSION
 After all the correction the exploit working, using as a payload a simple cvs formula ""=1+2"" which return successfully 3"	"BUILDING ERROR
@@ -168,7 +168,30 @@ RUN cp -R uvdesk/* /var/www/html && \
 EXPOSE 80
 
 # Run Apache in Foreground
-CMD [""apache2-foreground""]"	EV ChatGPT	EV Bard	EV Bing
+CMD [""apache2-foreground""]"	"BUILDING ERROR
+- Missing mailparse/imap/mysqli php extension
+- Needed libc-client-dev/libkrb5-dev package and command ""docker-php-ext-configure imap --with-kerberos --with-imap-ssl"" in order to make imap extension working
+
+WORKING ERROR
+- 403 Forbidden, apache.conf needed AllowOverride all
+- Set ""Options +Indexes"" in ""docker-php.conf""
+
+Exploit worked with the payload ""python3 exploit.py -u ""http://localhost:8888/helpdesk-project/public"" -c ""cat /etc/passwd"", removing in the code double slash in some urls."	"BUILDING ERROR
+- uvdesk.conf is missing, so a2ensite can't work without configuration
+- mysql-client package has new name, now it's default-mysql-client
+- extracted folder had different name
+- upload subfolder doesn't exist
+
+WORKING ERROR
+- the extracted project wasn't builded using composer
+- 403 Forbidden, apache.conf needed AllowOverride all
+- Set ""Options +Indexes"" in ""docker-php.conf"""	"BUILDING ERROR
+- mysql-client package has new name, now it's default-mysql-client
+- missing libzip-dev package required to build uvdesk
+
+WORKING ERROR
+- missing ""helpdesk-project"" in composer install, therefore there's no installation wizard
+- Set ""Options +Indexes"" in ""docker-php.conf"""
 Pre-auth Remote Code Execution (RCE) (https://www.exploit-db.com/exploits/51532) CVE-2023-0297	Generate a dockerfile of PyLoad 0.5.0	"# Use an official Python image as base
 FROM python:3.9-slim
 
