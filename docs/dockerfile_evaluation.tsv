@@ -244,7 +244,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 8000
 
 # Run pyLoad when the container launches
-CMD [""python"", ""pyLoad.py""]"	EV ChatGPT	EV Bard	EV Bing
+CMD [""python"", ""pyLoad.py""]"	Pyload GitHub page released until version 0.4.20 while it’s available newer version only on pip	"Pyload package on pip is called ""pyload-ng"" and there’s no 0.5.0 version, so it’s impossible to track the vulnerable version, the versioning system work with the following syntax:
+0.5.0XY.devYYY
+X is a letter
+Y is a number
+Example: 0.5.0b3.dev60"	It’s a generic python application who need a lot of work and customization to even start
 Remote Code Execution (https://www.exploit-db.com/exploits/47837) CVE-2019-16278	Generate a dockerfile of nostromo 1.9.6	"# Use an official Ubuntu base image
 FROM ubuntu:18.04
 
@@ -304,7 +308,20 @@ RUN make && make install
 EXPOSE 8080
 
 # Run Nostromo when the container launches
-CMD [""nhttpd""]"	EV ChatGPT	EV Bard	EV Bing
+CMD [""nhttpd""]"	"BUILDING ERROR:
+- Missing ""libssl-dev"" package required in make function
+- Missing ""groff-base"" package required for ""nroff"" function (GNU troff text-formatting system)
+- Remove all flags of the entrypoint nhttpd, because they don't exist
+- Added custom configuration as actual configuration, changing ip, user and others"	"BUILDING ERROR:
+- Installed ""wget"" package, needed to download nostromo package
+- ./configure executable doesn't exist
+- Daemon service ""/usr/local/sbin/nostromo"" doens't exist"	"BUILDING ERROR:
+- Missing ""libressl-dev"" package required in make function
+- Missing ""groff"" package required for ""nroff"" function (GNU troff text-formatting system)
+- After dowload with wget, changing directory in a different ""RUN"" command, doesn't keep changed directory
+- Missing ""openssl"" package required in make function
+
+Main error: Bing opted to start from an alpine distribution due to its small size, but the makefile is for debian distribution"
 Cross-Site Scripting (https://www.exploit-db.com/exploits/44216) CVE-2018-6193	Create a dockerfile of Routers2 2.24	"As of my last knowledge update in January 2022, I don't have specific information about ""Routers2 2.24."" If it's a software or application that has been released or updated after that date, I might not have the details."	"FROM ubuntu:20.04
 
 # Install dependencies
