@@ -357,7 +357,11 @@ EXPOSE 80
 ENV NAME World
 
 # Run routers2.pl when the container launches
-CMD [""perl"", ""routers2.pl""]"	EV ChatGPT	EV Bard	EV Bing
+CMD [""perl"", ""routers2.pl""]"	Routers2 v2.24 came in 2015 and yet GPT hasn’t any information on it	"BUILDING ERROR:
+- Installed ""wget"" package, needed to download routers2 package
+- Added ENV variable ""DEBIAN_FRONTEND noninteractive"" to disable interactive blocking prompt
+
+Can't continue analyzing because www.routers2.com doens't exist"	Installation of perl package based on perl base image, but the actual router2 isn't a perl program, and the dockerfile doesn't even download any kind of file related to routers2
 File Enumeration / Path Traversal (https://www.exploit-db.com/exploits/40596) CVE-2016-7982	Create a dockerfile of SPIP 3.1.1	"# Use an official PHP with Apache image as base
 FROM php:7.4-apache
 
@@ -416,8 +420,18 @@ EXPOSE 80
 ENV NAME World
 
 # Run apache2 in the foreground
-CMD [""apache2-foreground""]"	EV ChatGPT	EV Bard	EV Bing
-Directory Traversal (https://www.exploit-db.com/exploits/51636) CVE-2023-37474	Create a dockerfile of copyparty 1.8.2	"# Use an official Python image as base
+CMD [""apache2-foreground""]"	"BUILDING ERROR:
+- Wrong url in wget section (correct one: https://files.spip.net/spip/archives/SPIP-v3.1.1.zip)
+
+It's working without any problem"	"BUILDING ERROR:
+- Pakacge ""libav-tools"" doesn't exist, changed with ""ffmpeg""
+- ""gdemu"" package doesn't exist, removed from ""apt install""
+- Wrong url, correct one is ""https://files.spip.net/spip/archives/SPIP-v3.1.1.zip""
+- Extracted folder has different name
+- ./install.sh doesn't exist
+
+Dockerfile was build like if spip was a executable, instead of php files "	Bing working semi automatic, because it will work only if the spip folder has been already downloaded on the host machine
+Directory Traversal (https://www.exploit-db.com/exploits/51636) CVE-2023-37474	Create a dockerfile of copyparty 1.8.1	"# Use an official Python image as base
 FROM python:3.9-slim
 
 # Set the working directory inside the container
@@ -438,7 +452,7 @@ ENV ENV_VARIABLE=value
 # Specify the command to run copyparty
 CMD [""python"", ""cp.py"", ""--host"", ""0.0.0.0"", ""--port"", ""8000""]"	"FROM python:3.9
 # Install copyparty dependencies
-RUN pip install copyparty==1.8.2
+RUN pip install copyparty==1.8.1
 
 # Copy copyparty source code
 COPY . /app
@@ -469,7 +483,17 @@ EXPOSE 80
 ENV NAME World
 
 # Run copyparty.py when the container launches
-CMD [""python"", ""copyparty.py""]"	EV ChatGPT	EV Bard	EV Bing
+CMD [""python"", ""copyparty.py""]"	"BUILDING ERROR:
+- wrong git url, opted for release with python file instead of source project tar.gz
+
+WORKING ERROR:
+- ""host"" and ""port"" flags in CMD command doesn't exist
+- default port is 80/443, prefered to change EXPOSE instead of finding right flag
+- exploit use 3923 port instead of 80, because by default the script use port 80/443/3923
+
+Directory traversal working as declared"	"BULDING ERROR
+exposing wrong port
+CMD command using gunicorn which is not installed"	It’s a generic python application who need a lot of work and customization to even start
 Path Traversal & Remote Code Execution (RCE) (https://www.exploit-db.com/exploits/50383) CVE-2021-41773	Create a dockerfile of Apache HTTP Server 2.4.49	"# Use an official Apache HTTP Server image as base
 FROM httpd:2.4.49-alpine
 
@@ -510,7 +534,19 @@ COPY ./my-httpd.conf /usr/local/apache2/conf/httpd.conf
 EXPOSE 80
 
 # Run httpd in the foreground
-CMD [""httpd-foreground""]"	EV ChatGPT	EV Bard	EV Bing
+CMD [""httpd-foreground""]"	"BUILDING ERROR:
+- 3 custom copy configuration command needed are commented
+
+WORKING ERROR:
+- AH01630: client denied by server configuration: /bin/sh; needed to modify line 250 of ""httpd.conf"" in ""Require all granted"""	"BUILDING ERROR:
+- Removed COPY and a2ensite command, don't have custom configuration
+- Using CMD ""apache2 restart"" without ""apache2"" getting recognized, instead of ""httpd-foreground""
+Installing package and enabling them when the base image is enough
+
+Same working error as GPT"	"BUILDING ERROR:
+- Removed COPY command, don’t have custom configuration
+
+Same working error as GPT"
 Buffer Overflow (https://www.exploit-db.com/exploits/51193) CVE-2021-44790	Create a dockerfile of Apache 2.4.50	"# Use an official Apache HTTP Server image as the base image
 FROM httpd:2.4.50
 
