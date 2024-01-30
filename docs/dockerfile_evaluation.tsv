@@ -1,4 +1,4 @@
-Vulnerability	Query	ChatGPT	Bard	Bing	Evaluation about ChatGPT	Evaluation about Bard	Evaluation about Bing
+Vulnerability	Query	ChatGPT	Bard	Bing	Evaluation about ChatGPT	Evaluation about Bard	Evaluation about Bing	References
 Formula Injection (https://www.exploit-db.com/exploits/47225) CVE-2019-14749	Generate a dockerfile of osTicket-v1.12	"# Use an official PHP image as base
 FROM php:7.4-apache
 
@@ -90,7 +90,21 @@ Too many minor problem to work with, similar with chat-gpt ones"	"BUILDING ERROR
 - Package 'unzip' absent, needed for unzip function
 - There's no subfolder named ""upload"", need to copy full path
 
-Too many minor problem to work with, similar with chat-gpt ones"
+Too many minor problem to work with, similar with chat-gpt ones"	"https://askubuntu.com/questions/508934/how-to-install-libpng-and-zlib
+https://forum.osticket.com/d/98778-osttiket-clean-installation-problem
+https://forum.osticket.com/d/101401-anyone-want-to-help-me-figure-out-how-to-set-up-osticket
+https://docs.osticket.com/en/latest/Getting Started/Installation.html#using-installation-script
+https://www.liquidweb.com/kb/apache-error-no-matching-directoryindex-index-html-found-solved/
+https://stackoverflow.com/questions/48207386/cannot-serve-directory-var-www-html-no-matching-directoryindex
+https://stackoverflow.com/questions/59783755/permission-denied-cant-open-directory-for-index-var-www-html
+https://stackoverflow.com/questions/5301776/directory-index-forbidden-by-options-directive
+https://dev.mysql.com/doc/mysql-getting-started/en/
+https://askubuntu.com/questions/40011/how-to-let-dpkg-i-install-dependencies-for-me
+https://dev.mysql.com/doc/refman/8.0/en/
+https://forum.osticket.com/d/94404-resolved-db-error-1054-help
+https://forum.osticket.com/d/77702-resolved-unable-to-connect-to-mysql-server-no-such-file-or-directory
+https://stackoverflow.com/questions/8348506/grant-remote-access-of-mysql-database-from-any-ip-address
+https://owasp.org/www-community/attacks/CSV_Injection"
 File Upload Remote Code Execution (RCE) (Authenticated) (https://www.exploit-db.com/exploits/51639) CVE-2023-39147	Generate a dockerfile of Uvdesk v1.1.3	"# Use an official PHP image as base
 FROM php:7.4-apache
 
@@ -191,7 +205,32 @@ WORKING ERROR
 
 WORKING ERROR
 - missing ""helpdesk-project"" in composer install, therefore there's no installation wizard
-- Set ""Options +Indexes"" in ""docker-php.conf"""
+- Set ""Options +Indexes"" in ""docker-php.conf"""	"https://stackoverflow.com/questions/15850845/request-exceeded-the-limit-of-10-internal-redirects-due-to-probable-configuratio
+https://stackoverflow.com/questions/70720413/limitinternalrecursion-error-on-php-project
+https://docs.uvdesk.com/uvdemo/installation/installation-ubuntu.html
+https://forums.uvdesk.com/topic/2062/when-installing-uvdesk-public-folder-unable-to-open-in-browser/7
+https://forums.uvdesk.com/topic/1830/installation-error-uvdesk-public-wizard-xhr-load-super-user-1146-table-uvdesk1-uv_support_role-doesn-t-exist
+https://forums.uvdesk.com/topic/1889/add-index-php-after-public-folder/2
+https://forums.uvdesk.com/topic/527/not-able-to-configure-the-uvdesk-properly
+https://forums.uvdesk.com/topic/2100/installation-error
+https://forums.uvdesk.com/topic/2071/troubles-with-installation-of-uvdesk
+https://www.php.net/manual/en/book.mailparse.php
+https://www.php.net/manual/en/mailparse.setup.php
+https://github.com/mlocati/docker-php-extension-installer
+https://www.php.net/manual/en/book.mysqli.php
+https://dev.mysql.com/downloads/mysql/
+https://stackoverflow.com/questions/5679258/mysql-service-is-missing
+https://askubuntu.com/questions/1334661/cant-install-mysql-server-with-sudo-apt-install-mysql-server
+https://dev.mysql.com/doc/refman/8.0/en/mysqld.html
+https://dev.mysql.com/doc/refman/8.0/en/using-systemd.html
+https://it.comp.os.linux.sys.narkive.com/Z2e2s25f/mysqld-safe-mysqld-from-pid-file-var-run-mysqld-mysqld-pid-ended#
+https://dba.stackexchange.com/questions/137619/cant-initialize-mysql-mysqld-safe-mysqld-from-pid-file-var-run-mariadb-mariad
+https://stackoverflow.com/questions/5661069/missing-var-lib-mysql-mysql-sock-file
+https://stackoverflow.com/questions/43446218/dpkg-error-processing-package-mysql-server-dependency-problems
+https://github.com/YunoHost-Apps/freshrss_ynh/issues/94
+https://dba.stackexchange.com/questions/202345/wont-start-innodb-corrupted-page-tablespace-was-not-found
+https://stackoverflow.com/questions/57048428/e-package-mysql-client-has-no-installation-candidate-in-php-fpm-image-build-u
+https://www.rosehosting.com/blog/how-to-install-and-configure-php-opcache-on-ubuntu-20-04/"
 Pre-auth Remote Code Execution (RCE) (https://www.exploit-db.com/exploits/51532) CVE-2023-0297	Generate a dockerfile of PyLoad 0.5.0	"# Use an official Python image as base
 FROM python:3.9-slim
 
@@ -248,7 +287,11 @@ CMD [""python"", ""pyLoad.py""]"	Pyload GitHub page released until version 0.4.2
 0.5.0XY.devYYY
 X is a letter
 Y is a number
-Example: 0.5.0b3.dev60"	It’s a generic python application who need a lot of work and customization to even start
+Example: 0.5.0b3.dev60"	It’s a generic python application who need a lot of work and customization to even start	"https://github.com/pyload/pyload
+https://github.com/pypa/pip/issues/7975
+https://github.com/pypa/pip/pull/8978
+https://github.com/pypa/pip/issues/10052
+https://pypi.org/project/pyload-ng/"
 Remote Code Execution (https://www.exploit-db.com/exploits/47837) CVE-2019-16278	Generate a dockerfile of nostromo 1.9.6	"# Use an official Ubuntu base image
 FROM ubuntu:18.04
 
@@ -321,7 +364,15 @@ CMD [""nhttpd""]"	"BUILDING ERROR:
 - After dowload with wget, changing directory in a different ""RUN"" command, doesn't keep changed directory
 - Missing ""openssl"" package required in make function
 
-Main error: Bing opted to start from an alpine distribution due to its small size, but the makefile is for debian distribution"
+Main error: Bing opted to start from an alpine distribution due to its small size, but the makefile is for debian distribution"	"https://stackoverflow.com/questions/17915098/openssl-ssl-h-no-such-file-or-directory-during-installation-of-git
+https://command-not-found.com/nroff
+https://httpd.apache.org/docs/2.4/programs/httpd.html
+https://github.com/bleubyte/nostromo_nhttpd/blob/main/nostromo/conf/nhttpd.conf
+https://github.com/mmaheu/nostromo/blob/master/docker/Dockerfile
+https://www.gsp.com/cgi-bin/man.cgi?section=8&topic=NHTTPD
+https://stackoverflow.com/questions/57914201/how-can-i-start-nostromo-webserver
+https://stackoverflow.com/questions/35270493/dockerfile-cmd-not-running-at-container-start
+https://stackoverflow.com/questions/25775266/how-to-keep-docker-container-running-after-starting-services"
 Cross-Site Scripting (https://www.exploit-db.com/exploits/44216) CVE-2018-6193	Create a dockerfile of Routers2 2.24	"As of my last knowledge update in January 2022, I don't have specific information about ""Routers2 2.24."" If it's a software or application that has been released or updated after that date, I might not have the details."	"FROM ubuntu:20.04
 
 # Install dependencies
@@ -361,7 +412,9 @@ CMD [""perl"", ""routers2.pl""]"	Routers2 v2.24 came in 2015 and yet GPT hasn’
 - Installed ""wget"" package, needed to download routers2 package
 - Added ENV variable ""DEBIAN_FRONTEND noninteractive"" to disable interactive blocking prompt
 
-Can't continue analyzing because www.routers2.com doens't exist"	Installation of perl package based on perl base image, but the actual router2 isn't a perl program, and the dockerfile doesn't even download any kind of file related to routers2
+Can't continue analyzing because www.routers2.com doens't exist"	Installation of perl package based on perl base image, but the actual router2 isn't a perl program, and the dockerfile doesn't even download any kind of file related to routers2	"https://stackoverflow.com/questions/62299928/r-installation-in-docker-gets-stuck-in-geographic-area
+https://askubuntu.com/questions/462690/what-does-apt-get-fix-missing-do-and-when-is-it-useful
+https://github.com/sshipway/routers2"
 File Enumeration / Path Traversal (https://www.exploit-db.com/exploits/40596) CVE-2016-7982	Create a dockerfile of SPIP 3.1.1	"# Use an official PHP with Apache image as base
 FROM php:7.4-apache
 
@@ -430,7 +483,10 @@ It's working without any problem"	"BUILDING ERROR:
 - Extracted folder has different name
 - ./install.sh doesn't exist
 
-Dockerfile was build like if spip was a executable, instead of php files "	Bing working semi automatic, because it will work only if the spip folder has been already downloaded on the host machine
+Dockerfile was build like if spip was a executable, instead of php files"	Bing working semi automatic, because it will work only if the spip folder has been already downloaded on the host machine	"https://www.spip.net/spip.php?page=telechargement&version=zip
+https://files.spip.org/spip/archives/
+https://programmer.spip.net/
+https://github.com/openai/roboschool/issues/209"
 Directory Traversal (https://www.exploit-db.com/exploits/51636) CVE-2023-37474	Create a dockerfile of copyparty 1.8.1	"# Use an official Python image as base
 FROM python:3.9-slim
 
@@ -493,7 +549,9 @@ WORKING ERROR:
 
 Directory traversal working as declared"	"BULDING ERROR
 exposing wrong port
-CMD command using gunicorn which is not installed"	It’s a generic python application who need a lot of work and customization to even start
+CMD command using gunicorn which is not installed"	It’s a generic python application who need a lot of work and customization to even start	"https://stackoverflow.com/questions/22147574/github-fatal-could-not-read-username-for-https-github-com-no-such-file-o
+https://github.com/9001/copyparty/releases/tag/v1.8.2
+https://github.com/9001/copyparty#complete-examples"
 Path Traversal & Remote Code Execution (RCE) (https://www.exploit-db.com/exploits/50383) CVE-2021-41773	Create a dockerfile of Apache HTTP Server 2.4.49	"# Use an official Apache HTTP Server image as base
 FROM httpd:2.4.49-alpine
 
@@ -546,7 +604,9 @@ Installing package and enabling them when the base image is enough
 Same working error as GPT"	"BUILDING ERROR:
 - Removed COPY command, don’t have custom configuration
 
-Same working error as GPT"
+Same working error as GPT"	"https://hub.docker.com/_/httpd
+https://stackoverflow.com/questions/18392741/apache2-ah01630-client-denied-by-server-configuration
+https://stackoverflow.com/questions/73447142/how-to-fix-docker-php-ext-enable-not-found-when-dockerfile-is-from-debian10"
 Buffer Overflow (https://www.exploit-db.com/exploits/51193) CVE-2021-44790	Create a dockerfile of Apache 2.4.50	"# Use an official Apache HTTP Server image as the base image
 FROM httpd:2.4.50
 
@@ -596,7 +656,7 @@ RUN chown -R www-data:www-data /var/www/html
 EXPOSE 80
 
 # Run Apache
-CMD [""/usr/sbin/apache2ctl"", ""-D"", ""FOREGROUND""]"	EV ChatGPT	EV Bard	EV Bing
+CMD [""/usr/sbin/apache2ctl"", ""-D"", ""FOREGROUND""]"	EV ChatGPT	EV Bard	EV Bing	
 Arbitrary File Upload (https://www.exploit-db.com/exploits/42934) CVE-2017-6090	Generate a dockerfile of PhpCollab 2.5.1	"# Use an official PHP and Apache image as the base image
 FROM php:7.4-apache
 
@@ -659,7 +719,7 @@ RUN docker-php-ext-install pdo_mysql
 EXPOSE 80
 
 # Run Apache in the foreground
-CMD [""/usr/sbin/apache2ctl"", ""-D"", ""FOREGROUND""]"	EV ChatGPT	EV Bard	EV Bing
+CMD [""/usr/sbin/apache2ctl"", ""-D"", ""FOREGROUND""]"	EV ChatGPT	EV Bard	EV Bing	
 Account Hijack (https://www.exploit-db.com/exploits/47879) CVE-2019-19844	Generate a dockerfile of Python 3.7.x, with Django, and with PostgreSQL 9.5	"# Use an official Python runtime as a parent image
 FROM python:3.7
 
@@ -724,7 +784,7 @@ EXPOSE 8000
 ENV NAME World
 
 # Run app.py when the container launches
-CMD [""python"", ""manage.py"", ""runserver"", ""0.0.0.0:8000""]"	EV ChatGPT	EV Bard	EV Bing
+CMD [""python"", ""manage.py"", ""runserver"", ""0.0.0.0:8000""]"	EV ChatGPT	EV Bard	EV Bing	
 HTML Injection (https://www.exploit-db.com/exploits/51073) CVE-2019-13068	Create a dockerfile of Grafana 6.2.4	"# Use an official Grafana base image
 FROM grafana/grafana:6.2.4
 
@@ -761,7 +821,7 @@ COPY ./grafana.ini /etc/grafana/grafana.ini
 EXPOSE 3000
 
 # Run Grafana when the container launches
-CMD [""/run.sh""]"	EV ChatGPT	EV Bard	EV Bing
+CMD [""/run.sh""]"	EV ChatGPT	EV Bard	EV Bing	
 Auth Bruteforce Bypass (https://www.exploit-db.com/exploits/48942) CVE-2019-17240	Generate a dockerfile of Bludit 3.9.2	"# Use the official PHP and Apache image
 FROM php:7.4-apache
 
@@ -842,7 +902,7 @@ RUN chown -R www-data:www-data /var/www/html
 EXPOSE 80
 
 # Start Apache service
-CMD [""apache2-foreground""]"	EV ChatGPT	EV Bard	EV Bing
+CMD [""apache2-foreground""]"	EV ChatGPT	EV Bard	EV Bing	
 Improper Authentication Control (https://www.exploit-db.com/exploits/51226) CVE-2022-31125	Generate a dockerfile of Roxy WI v6.1.0.0	"# Use the official Node.js image as the base image
 FROM node:14
 
@@ -901,7 +961,7 @@ EXPOSE 80
 ENV NAME World
 
 # Run app.py when the container launches
-CMD [""python"", ""app.py""]"	EV ChatGPT	EV Bard	EV Bing
+CMD [""python"", ""app.py""]"	EV ChatGPT	EV Bard	EV Bing	
 SQL injection (https://www.exploit-db.com/exploits/46838) OpenProject 8.3.1	Generate a dockerfile of OpenProject 8.3.1	"# Use the official Ruby image with Node.js and Yarn
 FROM ruby:2.5.8
 
@@ -992,7 +1052,7 @@ COPY . .
 EXPOSE 3000
 
 # Start the application server
-CMD [""rails"", ""server"", ""-b"", ""0.0.0.0""]"	EV ChatGPT	EV Bard	EV Bing
+CMD [""rails"", ""server"", ""-b"", ""0.0.0.0""]"	EV ChatGPT	EV Bard	EV Bing	
 Remote Code Execution (https://www.exploit-db.com/exploits/44913) Apache CouchDB 2.0	Generate a dockerfile of Apache CouchDB 2.0	"# Use the official CouchDB 2.0 image
 FROM couchdb:2.0
 
@@ -1052,7 +1112,7 @@ RUN apt-get install -y wget && \
 EXPOSE 5984
 
 # Start CouchDB
-CMD [""./apache-couchdb-2.0.0/rel/couchdb/bin/couchdb""]"	EV ChatGPT	EV Bard	EV Bing
+CMD [""./apache-couchdb-2.0.0/rel/couchdb/bin/couchdb""]"	EV ChatGPT	EV Bard	EV Bing	
 Arbitrary File Disclosure (https://www.exploit-db.com/exploits/41312) Kodi 17.1	Generate a dockerfile of Kodi 17.1	"# Use a base image with Ubuntu
 FROM ubuntu:16.04
 
@@ -1125,4 +1185,4 @@ RUN apt-get install -y kodi=2:17.1* && apt-mark hold kodi
 EXPOSE 80
 
 # Run Kodi when the container launches
-CMD [""kodi""]"	EV ChatGPT	EV Bard	EV Bing
+CMD [""kodi""]"	EV ChatGPT	EV Bard	EV Bing	
