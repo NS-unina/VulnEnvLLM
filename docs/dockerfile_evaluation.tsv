@@ -104,7 +104,7 @@ https://dev.mysql.com/doc/refman/8.0/en/
 https://forum.osticket.com/d/94404-resolved-db-error-1054-help
 https://forum.osticket.com/d/77702-resolved-unable-to-connect-to-mysql-server-no-such-file-or-directory
 https://stackoverflow.com/questions/8348506/grant-remote-access-of-mysql-database-from-any-ip-address
-https://owasp.org/www-community/attacks/CSV_Injection"
+https://owasp.org/www-community/attacks/CSV_Injection https://stackoverflow.com/questions/34954455/mysql-daemon-lock-issue"
 File Upload Remote Code Execution (RCE) (Authenticated) (https://www.exploit-db.com/exploits/51639) CVE-2023-39147	Generate a dockerfile of Uvdesk v1.1.3	"# Use an official PHP image as base
 FROM php:7.4-apache
 
@@ -656,7 +656,22 @@ RUN chown -R www-data:www-data /var/www/html
 EXPOSE 80
 
 # Run Apache
-CMD [""/usr/sbin/apache2ctl"", ""-D"", ""FOREGROUND""]"	EV ChatGPT	EV Bard	EV Bing	
+CMD [""/usr/sbin/apache2ctl"", ""-D"", ""FOREGROUND""]"	"WORKING ERROR:
+Enabled lua module to handle lua files: ""LoadModule lua_module modules/mod_lua.so"" in ""/usr/local/apache2/conf/httpd.conf""
+
+Got AH00052: child pid 23 exit signal Segmentation fault (11)"	"BUILDING ERROR:
+-  Removed COPY command, don’t have custom configuration
+It’s apache 2.4.58 version, which isn’t vulnerable to  CVE-2021-44790
+
+Can’t work more on it"	"BUILDING ERROR
+-  Removed ADD command, don’t have custom configuration
+It’s apache 2.4.56 version, which isn’t vulnerable to  CVE-2021-44790
+
+Can’t work more on it"	"https://httpd.apache.org/docs/trunk/mod/mod_lua.html
+https://www.icelab.eu/blog/apache-e-web-server-3/attivare-disattivare-moduli-apache-2-34.htm
+https://stackoverflow.com/questions/49809748/add-mod-rewrite-to-docker-image-httpdalpine
+https://www.admin-magazine.com/Articles/Lua-for-Apache
+https://stackoverflow.com/questions/38550375/apache2-4-with-lua-scripts-luamaphandler-causes-config-syntax-error"
 Arbitrary File Upload (https://www.exploit-db.com/exploits/42934) CVE-2017-6090	Generate a dockerfile of PhpCollab 2.5.1	"# Use an official PHP and Apache image as the base image
 FROM php:7.4-apache
 
@@ -719,7 +734,18 @@ RUN docker-php-ext-install pdo_mysql
 EXPOSE 80
 
 # Run Apache in the foreground
-CMD [""/usr/sbin/apache2ctl"", ""-D"", ""FOREGROUND""]"	EV ChatGPT	EV Bard	EV Bing	
+CMD [""/usr/sbin/apache2ctl"", ""-D"", ""FOREGROUND""]"	"BULDING ERROR: - Missing ""unzip"" package to unzip phppcollab package
+Slightly different url (missing a dash in the file name)
+
+WORKING ERROR:
+- Needed base package ""apt-get update && apt-get install -y wget libz-dev libpng-dev libicu-dev unzip""
+Needed php extension for mysql: docker-php-ext-install mysqli && docker-php-ext-install gd && docker-php-ext-install gettext && docker-php-ext-install intl
+
+Setup.php has mysql function written for php5.7, not compatible with php7.4, because all the function are called mysqli_* instead, and all of them requires one more parameter which define the actual database connection ($dbc)
+"	Didn’t actually evaluate since previous problem with GPT version	Didn’t actually evaluate since previous problem with GPT version	"https://github.com/phpcollab/phpcollab/blob/v2.10.3/docs/install.md
+https://github.com/rubo77/php-mysql-fix?tab=readme-ov-file
+https://phpcollab.github.io/phpcollab/installation/Installation.html
+https://w3schools.sinsixx.com/php/func_mysql_connect.asp.htm"
 Account Hijack (https://www.exploit-db.com/exploits/47879) CVE-2019-19844	Generate a dockerfile of Python 3.7.x, with Django, and with PostgreSQL 9.5	"# Use an official Python runtime as a parent image
 FROM python:3.7
 
