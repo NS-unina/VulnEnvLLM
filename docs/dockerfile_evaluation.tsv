@@ -741,8 +741,7 @@ WORKING ERROR:
 - Needed base package ""apt-get update && apt-get install -y wget libz-dev libpng-dev libicu-dev unzip""
 Needed php extension for mysql: docker-php-ext-install mysqli && docker-php-ext-install gd && docker-php-ext-install gettext && docker-php-ext-install intl
 
-Setup.php has mysql function written for php5.7, not compatible with php7.4, because all the function are called mysqli_* instead, and all of them requires one more parameter which define the actual database connection ($dbc)
-"	Didn’t actually evaluate since previous problem with GPT version	Didn’t actually evaluate since previous problem with GPT version	"https://github.com/phpcollab/phpcollab/blob/v2.10.3/docs/install.md
+Setup.php has mysql function written for php5.7, not compatible with php7.4, because all the function are called mysqli_* instead, and all of them requires one more parameter which define the actual database connection ($dbc)"	Didn’t actually evaluate since previous problem with GPT version	Didn’t actually evaluate since previous problem with GPT version	"https://github.com/phpcollab/phpcollab/blob/v2.10.3/docs/install.md
 https://github.com/rubo77/php-mysql-fix?tab=readme-ov-file
 https://phpcollab.github.io/phpcollab/installation/Installation.html
 https://w3schools.sinsixx.com/php/func_mysql_connect.asp.htm"
@@ -810,7 +809,18 @@ EXPOSE 8000
 ENV NAME World
 
 # Run app.py when the container launches
-CMD [""python"", ""manage.py"", ""runserver"", ""0.0.0.0:8000""]"	EV ChatGPT	EV Bard	EV Bing	
+CMD [""python"", ""manage.py"", ""runserver"", ""0.0.0.0:8000""]"	"- Didn’t install Django, just required from user a requirements.txt containing the needed packages
+- postgresql-client package doesn’t exist, moreover it’s a clieint, not a server"	"BUILDING ERROR:
+""psycopg2"" package need ""gcc""
+Added ""Django-admin startproject test_project"" to create Django Project base folder and changed working directory
+Added ""ENV DJANGO_DATABASE_NAME=django_cve_2019_19844_poc"" needed for CVE exploitation
+
+WORKING ERROR: - PostgreSQL installation hard ""apt install postgresql-16""
+- PSQL cluster starting (in case docker base image isnt’ psql) ""pg_lsclusters"" to list all cluster, then ""pg_ctlcluster <version> <name> <command>"", in our case ""16 main start"""	It’s a generic python application who need a lot of work and customization to even start	"https://www.postgresql.org/download/
+https://www.postgresql.org/docs/15/server-start.html
+https://askubuntu.com/questions/898010/postgres-command-not-found-after-regular-install-of-postgres-and-configure
+https://askubuntu.com/questions/385416/pg-ctl-command-not-found-what-package-has-this-command
+https://stackoverflow.com/questions/26082128/improperlyconfigured-you-must-either-define-the-environment-variable-django-set"
 HTML Injection (https://www.exploit-db.com/exploits/51073) CVE-2019-13068	Create a dockerfile of Grafana 6.2.4	"# Use an official Grafana base image
 FROM grafana/grafana:6.2.4
 
@@ -847,7 +857,7 @@ COPY ./grafana.ini /etc/grafana/grafana.ini
 EXPOSE 3000
 
 # Run Grafana when the container launches
-CMD [""/run.sh""]"	EV ChatGPT	EV Bard	EV Bing	
+CMD [""/run.sh""]"	No problem at all, was everything already installed, exploit succeed creating a new dashbord, and inserting the HTML payload in the drilldown link title or uri 	Working as GPT, no problem, just configuration file copy not needed	It was perfect like other one, but failed in the end because of wrong CMD, and configuration file copy not needed	https://stackoverflow.com/questions/54039604/what-is-the-default-username-and-password-for-grafana-login-page
 Auth Bruteforce Bypass (https://www.exploit-db.com/exploits/48942) CVE-2019-17240	Generate a dockerfile of Bludit 3.9.2	"# Use the official PHP and Apache image
 FROM php:7.4-apache
 
