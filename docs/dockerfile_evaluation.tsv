@@ -69,7 +69,7 @@ EXPOSE 80
 
 # Run Apache in Foreground
 CMD [""apache2-foreground""]"	"BUILDING ERROR
-- zlib/libpng absent in php building procuvdesk-gpt:latestess
+- zlib/libpng absent in php building php modules
 - zip absent at line 21 to unzip osTicket file
 - can't chmod upload folder at line 22, it doesn't exist
 - mysql not installed
@@ -356,7 +356,7 @@ CMD [""nhttpd""]"	"BUILDING ERROR:
 - Missing ""groff-base"" package required for ""nroff"" function (GNU troff text-formatting system)
 - Remove all flags of the entrypoint nhttpd, because they don't exist
 - Added custom configuration as actual configuration, changing ip, user and others"	"BUILDING ERROR:
-- Installed ""wget"" package, needed to download nostromo package
+- Installed ""wget"" package, needed to download nostromo archive
 - ./configure executable doesn't exist
 - Daemon service ""/usr/local/sbin/nostromo"" doens't exist"	"BUILDING ERROR:
 - Missing ""libressl-dev"" package required in make function
@@ -409,7 +409,7 @@ ENV NAME World
 
 # Run routers2.pl when the container launches
 CMD [""perl"", ""routers2.pl""]"	Routers2 v2.24 came in 2015 and yet GPT hasn’t any information on it	"BUILDING ERROR:
-- Installed ""wget"" package, needed to download routers2 package
+- Installed ""wget"" package, needed to download routers2 archive
 - Added ENV variable ""DEBIAN_FRONTEND noninteractive"" to disable interactive blocking prompt
 
 Can't continue analyzing because www.routers2.com doens't exist"	Installation of perl package based on perl base image, but the actual router2 isn't a perl program, and the dockerfile doesn't even download any kind of file related to routers2	"https://stackoverflow.com/questions/62299928/r-installation-in-docker-gets-stuck-in-geographic-area
@@ -938,7 +938,29 @@ RUN chown -R www-data:www-data /var/www/html
 EXPOSE 80
 
 # Start Apache service
-CMD [""apache2-foreground""]"	EV ChatGPT	EV Bard	EV Bing	
+CMD [""apache2-foreground""]"	"WORKING ERROR:
+In order to install the progam ( install.php ) are required these php modules: gd, json and dom
+To build those modules we need the packages ""zlib"", ""libpng"" and ""libxml2-dev""
+
+Using python script with pwntools module credentials bruteforce is possible"	"BUILDING ERROR:
+Removed COPY command, don’t have custom configuration and the linking and removing after it
+Removed version near package name of php modules
+Installed ""wget"" package and unzip, needed to download bludit archive 
+Added flag -O to wget to change output file name
+In order to install the progam ( install.php ) are required these php modules: gd, json and dom
+To build those modules we need the packages ""zlib"", ""libpng"" and ""libxml2-dev""
+
+WORKING ERROR:
+ Start and configure php-fpm8.2 with the command ""php-fpm8.2"" and modifying conf file in ""/etc/php/8.2/fpm/pool.d/www.conf"" and ""/etc/nginx/conf.d/default.conf""
+In ""/etc/php/8.2/fpm/pool.d/www.conf"" listen.owner and listen.group must be ""nginx""
+In ""/etc/nginx/config.d/default.conf"" the root folder is set with ""root /var/www/bludit/bludit-3.9.2;"" directive and changing fastcgi_pass to unix:/run/php/php8.2-fpm.sock:
+
+
+Got some error with PHP deprecated functions, because it used PHP8.2, but worked the same as GPT version"	Same problem as before, but more problem because of base configuration error and need to install extensions, but probably easier than Bard version	"https://stackoverflow.com/questions/37321397/no-package-libxml-2-0-found
+https://www.theserverside.com/blog/Coffee-Talk-Java-News-Stories-and-Opinions/Nginx-PHP-FPM-config-example https://www.digitalocean.com/community/tutorials/php-fpm-nginx
+https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_pass
+https://bobcares.com/blog/php-fpm-sock-failed-13-permission-denied/
+https://stackoverflow.com/questions/19285355/nginx-403-error-directory-index-of-folder-is-forbidden"
 Improper Authentication Control (https://www.exploit-db.com/exploits/51226) CVE-2022-31125	Generate a dockerfile of Roxy WI v6.1.0.0	"# Use the official Node.js image as the base image
 FROM node:14
 
@@ -997,7 +1019,8 @@ EXPOSE 80
 ENV NAME World
 
 # Run app.py when the container launches
-CMD [""python"", ""app.py""]"	EV ChatGPT	EV Bard	EV Bing	
+CMD [""python"", ""app.py""]"	GPT assumed that Roxy was based on npm package instead of Python3, so can’t start it and has wrong git repo url	Dockerfile was build like if Roxy-WI was a executable, instead of python3 project used with Nginx and Apache2	It's the closer one as solution, because has python3 as base image, but can’t really understand what is or how to use this application	"https://roxy-wi.org/installation#manual&gsc.tab=0
+https://github.com/hap-wi/roxy-wi"
 SQL injection (https://www.exploit-db.com/exploits/46838) OpenProject 8.3.1	Generate a dockerfile of OpenProject 8.3.1	"# Use the official Ruby image with Node.js and Yarn
 FROM ruby:2.5.8
 
