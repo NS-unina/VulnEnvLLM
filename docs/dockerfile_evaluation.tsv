@@ -1021,7 +1021,7 @@ ENV NAME World
 # Run app.py when the container launches
 CMD [""python"", ""app.py""]"	GPT assumed that Roxy was based on npm package instead of Python3, so can’t start it and has wrong git repo url	Dockerfile was build like if Roxy-WI was a executable, instead of python3 project used with Nginx and Apache2	It's the closer one as solution, because has python3 as base image, but can’t really understand what is or how to use this application	"https://roxy-wi.org/installation#manual&gsc.tab=0
 https://github.com/hap-wi/roxy-wi"
-SQL injection (https://www.exploit-db.com/exploits/46838) OpenProject 8.3.1	Generate a dockerfile of OpenProject 8.3.1	"# Use the official Ruby image with Node.js and Yarn
+SQL injection (https://www.exploit-db.com/exploits/46838) CVE-2019-11600	Generate a dockerfile of OpenProject 8.3.1	"# Use the official Ruby image with Node.js and Yarn
 FROM ruby:2.5.8
 
 # Set the Rails environment to production
@@ -1111,8 +1111,10 @@ COPY . .
 EXPOSE 3000
 
 # Start the application server
-CMD [""rails"", ""server"", ""-b"", ""0.0.0.0""]"	EV ChatGPT	EV Bard	EV Bing	
-Remote Code Execution (https://www.exploit-db.com/exploits/44913) Apache CouchDB 2.0	Generate a dockerfile of Apache CouchDB 2.0	"# Use the official CouchDB 2.0 image
+CMD [""rails"", ""server"", ""-b"", ""0.0.0.0""]"	Openproject is too hard to automate and setup, but GPT version had the installation part wrong, because repo url didn’t exist	Openproject is too hard to automate and setup, but Bard version had the installation part wrong, because the version on GitHub doesn’t exist as an archive and tried to use as an npm project	"Openproject is too hard to automate and setup, but Bing version had the installation part wrong, because the branch on GitHub doesn’t exist, had some problem with some packages, like jre8.∑
+Moreover started downloading a lot of useless and conflicting package, like mysql client, mariadb client and postgresql client"	"https://www.openproject.org/docs/installation-and-operations/installation/packaged/#ubuntu-2004
+https://github.com/opf/openproject"
+Remote Code Execution (https://www.exploit-db.com/exploits/44913) CVE-2017-12636	Generate a dockerfile of Apache CouchDB 2.0	"# Use the official CouchDB 2.0 image
 FROM couchdb:2.0
 
 # Expose CouchDB ports
@@ -1171,77 +1173,6 @@ RUN apt-get install -y wget && \
 EXPOSE 5984
 
 # Start CouchDB
-CMD [""./apache-couchdb-2.0.0/rel/couchdb/bin/couchdb""]"	EV ChatGPT	EV Bard	EV Bing	
-Arbitrary File Disclosure (https://www.exploit-db.com/exploits/41312) Kodi 17.1	Generate a dockerfile of Kodi 17.1	"# Use a base image with Ubuntu
-FROM ubuntu:16.04
-
-# Install dependencies
-RUN apt-get update && \
-    apt-get install -y software-properties-common && \
-    add-apt-repository ppa:team-xbmc/ppa && \
-    apt-get update && \
-    apt-get install -y kodi=2:17.1*
-
-# Expose Kodi default ports
-EXPOSE 8080 9777/udp 9090
-
-# Start Kodi
-CMD [""kodi""]"	"FROM ubuntu:18.04
-
-RUN apt-get update -y && apt-get install -y curl wget unzip sudo
-RUN mkdir -p /opt/kodi
-
-WORKDIR /opt/kodi
-
-# Download Kodi archive
-RUN curl -sO https://mirrors.kodi.tv/releases/17.1/Kodi-17.1-Linux-x86_64.tar.bz2
-
-# Extract Kodi archive
-RUN tar -jxvf Kodi-17.1-Linux-x86_64.tar.bz2
-
-# Create Kodi user and group
-RUN groupadd kodi
-RUN useradd -m -d /opt/kodi -g kodi kodi
-
-# Change ownership of Kodi directory to kodi user
-RUN chown -R kodi:kodi /opt/kodi
-
-# Set PATH to include Kodi bin directory
-ENV PATH=""$PATH:/opt/kodi/kodi/bin""
-
-# Set Kodi user as default
-USER kodi
-
-# Expose Kodi HTTP and HTTPS ports
-EXPOSE 8080 8443
-
-# Start Kodi
-ENTRYPOINT [""kodi""]"	"# Use an official Ubuntu runtime as a parent image
-FROM ubuntu:16.04
-
-# Set the maintainer
-LABEL maintainer=""your-email@example.com""
-
-# Update the system
-RUN apt-get update && apt-get upgrade -y
-
-# Install necessary packages
-RUN apt-get install -y software-properties-common
-
-# Add the necessary PPA
-RUN add-apt-repository ppa:team-xbmc/ppa
-
-# Update the system again
-RUN apt-get update
-
-# Install Kodi
-RUN apt-get install -y kodi
-
-# Set the version of Kodi to 17.1
-RUN apt-get install -y kodi=2:17.1* && apt-mark hold kodi
-
-# Make port 80 available to the world outside this container
-EXPOSE 80
-
-# Run Kodi when the container launches
-CMD [""kodi""]"	EV ChatGPT	EV Bard	EV Bing	
+CMD [""./apache-couchdb-2.0.0/rel/couchdb/bin/couchdb""]"	GPT assumed that there’s an already built docker image, and starting from that, skipped all setup and downloading phases	Broken URL from their site, CVE and version too old to be found anywhere	Broken URL from their site, CVE and version too old to be found anywhere, but according to the guide on GitHub, Bing installed all of the required dependency to build the project, despite being rare and unusual	"https://github.com/apache/couchdb/blob/main/README-DEV.rst
+https://github.com/apache/couchdb/blob/main/INSTALL.Unix.md
+https://docs.couchdb.org/en/stable/"
