@@ -1,0 +1,213 @@
+Vulnerability	Query clustered version	ChatGPT clustered version	Query dockerfile only main component (semi-automatic with docker compose)	ChatGPT single version	Evaluation, similarities and differences
+SQL Injection (https://www.exploit-db.com/exploits/51632) CVE-2023-2636	Generate a dockerfile of Wordpress with Plugin AN_Gradebook <= 5.0.1	"# Use an official WordPress image as the base image
+FROM wordpress:latest
+
+# Set the working directory to the WordPress plugins directory
+WORKDIR /var/www/html/wp-content/plugins
+
+# Download and install the AN_Gradebook plugin version 5.0.1
+RUN curl -o an-gradebook.zip -SL https://downloads.wordpress.org/plugin/an-gradebook.5.0.1.zip \
+    && unzip an-gradebook.zip \
+    && rm an-gradebook.zip
+
+# Set the working directory back to the WordPress root directory
+WORKDIR /var/www/html
+
+# Continue with the default WordPress setup from the official image"	Generate a dockerfile of Wordpress with Plugin AN_Gradebook <= 5.0.1 and a mysql server	"# Use an official WordPress image
+FROM wordpress:latest
+
+# Set the AN_Gradebook plugin version
+ENV AN_GRADEBOOK_VERSION 5.0.1
+
+# Download and install AN_Gradebook plugin
+RUN curl -o /usr/src/wordpress/wp-content/plugins/an_gradebook.zip -SL https://downloads.wordpress.org/plugin/an_gradebook.${AN_GRADEBOOK_VERSION}.zip \
+    && unzip -q /usr/src/wordpress/wp-content/plugins/an_gradebook.zip -d /usr/src/wordpress/wp-content/plugins/ \
+    && rm /usr/src/wordpress/wp-content/plugins/an_gradebook.zip
+
+# Set up MySQL environment variables
+ENV MYSQL_ROOT_PASSWORD=root_password
+ENV MYSQL_DATABASE=wordpress
+ENV MYSQL_USER=wordpress_user
+ENV MYSQL_PASSWORD=wordpress_password
+
+# Use an official MySQL image with a specific version
+FROM mysql:5.7
+
+# Copy custom MySQL configuration file
+COPY my.cnf /etc/mysql/conf.d/my.cnf
+
+# Copy the initialization script to create the database and user
+COPY init.sql /docker-entrypoint-initdb.d/init.sql"	"Clustered version succeed really fast, it needed just the ""unzip"" package, setup of mysql variable (can be automated with ENV variables) and enabling the plugin
+
+Single version merged two different images in one without considering the overlapping, resulting in a mysql image without the Wordpress part starting"
+Stored XSS (https://www.exploit-db.com/exploits/51020) CVE-2022-2941	Generate a dockerfile of Wordpress with WP-UserOnline 2.88.0 enabled	"# Use an official WordPress image as the base image
+FROM wordpress:latest
+
+# Set the working directory to the WordPress plugins directory
+WORKDIR /var/www/html/wp-content/plugins
+
+# Download and install the WP-UserOnline plugin version 2.88.0
+RUN curl -o wp-useronline.zip -SL https://downloads.wordpress.org/plugin/wp-useronline.2.88.0.zip \
+    && unzip wp-useronline.zip \
+    && rm wp-useronline.zip
+
+# Set the working directory back to the WordPress root directory
+WORKDIR /var/www/html
+
+# Continue with the default WordPress setup from the official image
+"	Generate a dockerfile of Wordpress with WP-UserOnline 2.88.0 enabled with mariadb database	"# Use an official WordPress image
+FROM wordpress:latest
+
+# Set the WP-UserOnline plugin version
+ENV WP_USERONLINE_VERSION 2.88.0
+
+# Download and install WP-UserOnline plugin
+RUN curl -o /usr/src/wordpress/wp-content/plugins/wp-useronline.zip -SL https://downloads.wordpress.org/plugin/wp-useronline.${WP_USERONLINE_VERSION}.zip \
+    && unzip -q /usr/src/wordpress/wp-content/plugins/wp-useronline.zip -d /usr/src/wordpress/wp-content/plugins/ \
+    && rm /usr/src/wordpress/wp-content/plugins/wp-useronline.zip
+
+# Set up MariaDB environment variables
+ENV MYSQL_ROOT_PASSWORD=root_password
+ENV MYSQL_DATABASE=wordpress
+ENV MYSQL_USER=wordpress_user
+ENV MYSQL_PASSWORD=wordpress_password
+
+# Use an official MariaDB image with a specific version
+FROM mariadb:latest
+
+# Copy custom MariaDB configuration file
+COPY my.cnf /etc/mysql/conf.d/my.cnf
+
+# Copy the initialization script to create the database and user
+COPY init.sql /docker-entrypoint-initdb.d/init.sql
+"	"Clustered version succeed really fast, it needed just the ""unzip"" package, setup of mysql variable (can be automated with ENV variables) and enabling the plugin
+
+Single version merged two different images in one without considering the overlapping, resulting in a mysql image without the Wordpress part starting"
+CSV Injection (https://www.exploit-db.com/exploits/44559) CVE-2018-10504	Generate a dockerfile of Wordpress with Plugin Form Maker 1.12.20	"# Use the official WordPress image as the base image
+FROM wordpress:latest
+
+# Set the working directory to the WordPress plugins directory
+WORKDIR /var/www/html/wp-content/plugins/
+
+# Download and install Form Maker plugin version 1.12.20
+RUN curl -O https://downloads.wordpress.org/plugin/form-maker.1.12.20.zip \
+    && unzip form-maker.1.12.20.zip \
+    && rm form-maker.1.12.20.zip
+
+# Set the working directory back to the WordPress root directory
+WORKDIR /var/www/html/
+
+# Expose port 80 for HTTP
+EXPOSE 80
+
+# Start the WordPress service
+CMD [""apache2-foreground""]
+"	Generate a dockerfile of Wordpress with Plugin Form Maker 1.12.20 and mariadb server in a single dockerfile	"# Use an official WordPress image
+FROM wordpress:latest
+
+# Set environment variables for MariaDB
+ENV MYSQL_ROOT_PASSWORD=YOUR_DB_PASSWORD
+ENV MYSQL_DATABASE=wordpress
+ENV MYSQL_USER=wordpress
+ENV MYSQL_PASSWORD=YOUR_WP_DB_PASSWORD
+
+# Install necessary PHP extensions for Form Maker
+RUN docker-php-ext-install mysqli pdo pdo_mysql
+
+# Install Form Maker plugin
+RUN curl -o /tmp/form-maker.zip -SL https://downloads.wordpress.org/plugin/form-maker.1.12.20.zip \
+    && unzip /tmp/form-maker.zip -d /usr/src/wordpress/wp-content/plugins/ \
+    && rm /tmp/form-maker.zip
+
+# Expose the default WordPress and MariaDB ports
+EXPOSE 80
+
+# Copy the entrypoint script to set up database and start services
+COPY ./docker-entrypoint.sh /usr/local/bin/
+
+# Make the entrypoint script executable
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+# Set the entrypoint script
+ENTRYPOINT [""docker-entrypoint.sh""]
+
+# Start the services
+CMD [""apache2-foreground""]
+
+
+ENTRYPOINT.SH
+
+#!/bin/bash
+set -e
+
+# Start the MariaDB service
+service mysql start
+
+# Wait for the MariaDB service to be ready
+while ! mysqladmin ping -hlocalhost --silent; do
+    sleep 1
+done
+
+# Create the WordPress database and user
+mysql -uroot -p""$MYSQL_ROOT_PASSWORD"" -e ""CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE;""
+mysql -uroot -p""$MYSQL_ROOT_PASSWORD"" -e ""GRANT ALL PRIVILEGES ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD';""
+mysql -uroot -p""$MYSQL_ROOT_PASSWORD"" -e ""FLUSH PRIVILEGES;""
+
+# Continue with the default WordPress entrypoint script
+exec docker-entrypoint.sh ""$@""
+
+"	"Clustered version succeed really fast, it needed just the ""unzip"" package, setup of mysql variable (can be automated with ENV variables) and enabling the plugin, but in this case it’s impossible to check if the CVS injection worked, because the submission result raises an exception and crash
+
+Single version used Wordpress as base image, and a personalized additional entrypoint to setup mysql server, but didn’t install ""unzip"" package and didn’t actually install the mysql server even if it tries to start it"
+Local File Inclusion (https://www.exploit-db.com/exploits/44340) CVE-2018-7422	Generate a dockerfile of Wordpress with Site Editor Plugin 1.1.1	"# Use the official WordPress image
+FROM wordpress:latest
+
+# Set environment variables
+ENV WORDPRESS_DB_HOST=db \
+    WORDPRESS_DB_USER=root \
+    WORDPRESS_DB_PASSWORD=password \
+    WORDPRESS_DB_NAME=mydatabase
+
+# Install necessary tools and dependencies
+RUN apt-get update && \
+    apt-get install -y unzip && \
+    rm -rf /var/lib/apt/lists/*
+
+# Download and install the Site Editor Plugin version 1.1.1
+RUN curl -o /usr/src/wordpress/wp-content/plugins/site-editor.zip -SL https://downloads.wordpress.org/plugin/site-editor.1.1.1.zip && \
+    unzip /usr/src/wordpress/wp-content/plugins/site-editor.zip -d /usr/src/wordpress/wp-content/plugins/ && \
+    rm /usr/src/wordpress/wp-content/plugins/site-editor.zip
+
+# Set ownership and permissions
+RUN chown -R www-data:www-data /usr/src/wordpress/wp-content/plugins/site-editor
+
+# Expose port 80 for web server
+EXPOSE 80
+
+# Start WordPress
+CMD [""apache2-foreground""]
+"	Generate a dockerfile of Wordpress with Plugin Site Editor 1.1.1 and mysql server	"# Use the official WordPress image
+FROM wordpress:latest
+
+# Set environment variables for MySQL
+ENV MYSQL_ROOT_PASSWORD=root
+ENV MYSQL_DATABASE=wordpress
+ENV MYSQL_USER=wordpress
+ENV MYSQL_PASSWORD=wordpress
+
+# Install MySQL server
+RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli
+
+# Download and install the Site Editor plugin version 1.1.1
+RUN curl -o /usr/src/wordpress/wp-content/plugins/site-editor.zip -SL https://downloads.wordpress.org/plugin/site-editor.1.1.1.zip \
+    && unzip -q /usr/src/wordpress/wp-content/plugins/site-editor.zip -d /usr/src/wordpress/wp-content/plugins/ \
+    && rm /usr/src/wordpress/wp-content/plugins/site-editor.zip
+
+# Expose ports
+EXPOSE 80
+
+# Start the WordPress installation
+CMD [""apache2-foreground""]
+"	"Clustered version seems to work, but the download url doesn’t exist and there’s no info about this plugin on internet, even the exploitdb page says that the owner of the plugin didn’t answer to the CVE fix request from 2018
+
+Single version can’t work, because there’s no MySQL server since GPT explicitly said that assumed a mysql server already setup and running"
