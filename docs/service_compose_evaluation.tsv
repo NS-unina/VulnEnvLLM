@@ -54,8 +54,7 @@ RUN curl -o wp-useronline.zip -SL https://downloads.wordpress.org/plugin/wp-user
 # Set the working directory back to the WordPress root directory
 WORKDIR /var/www/html
 
-# Continue with the default WordPress setup from the official image
-"	Generate a dockerfile of Wordpress with WP-UserOnline 2.88.0 enabled with mariadb database	"# Use an official WordPress image
+# Continue with the default WordPress setup from the official image"	Generate a dockerfile of Wordpress with WP-UserOnline 2.88.0 enabled with mariadb database	"# Use an official WordPress image
 FROM wordpress:latest
 
 # Set the WP-UserOnline plugin version
@@ -79,8 +78,7 @@ FROM mariadb:latest
 COPY my.cnf /etc/mysql/conf.d/my.cnf
 
 # Copy the initialization script to create the database and user
-COPY init.sql /docker-entrypoint-initdb.d/init.sql
-"	"Clustered version succeed really fast, it needed just the ""unzip"" package, setup of mysql variable (can be automated with ENV variables) and enabling the plugin
+COPY init.sql /docker-entrypoint-initdb.d/init.sql"	"Clustered version succeed really fast, it needed just the ""unzip"" package, setup of mysql variable (can be automated with ENV variables) and enabling the plugin
 
 Single version merged two different images in one without considering the overlapping, resulting in a mysql image without the Wordpress part starting"
 CSV Injection (https://www.exploit-db.com/exploits/44559) CVE-2018-10504	Generate a dockerfile of Wordpress with Plugin Form Maker 1.12.20	"# Use the official WordPress image as the base image
@@ -153,9 +151,7 @@ mysql -uroot -p""$MYSQL_ROOT_PASSWORD"" -e ""GRANT ALL PRIVILEGES ON $MYSQL_DATA
 mysql -uroot -p""$MYSQL_ROOT_PASSWORD"" -e ""FLUSH PRIVILEGES;""
 
 # Continue with the default WordPress entrypoint script
-exec docker-entrypoint.sh ""$@""
-
-"	"Clustered version succeed really fast, it needed just the ""unzip"" package, setup of mysql variable (can be automated with ENV variables) and enabling the plugin, but in this case it’s impossible to check if the CVS injection worked, because the submission result raises an exception and crash
+exec docker-entrypoint.sh ""$@"""	"Clustered version succeed really fast, it needed just the ""unzip"" package, setup of mysql variable (can be automated with ENV variables) and enabling the plugin, but in this case it’s impossible to check if the CVS injection worked, because the submission result raises an exception and crash
 
 Single version used Wordpress as base image, and a personalized additional entrypoint to setup mysql server, but didn’t install ""unzip"" package and didn’t actually install the mysql server even if it tries to start it"
 Local File Inclusion (https://www.exploit-db.com/exploits/44340) CVE-2018-7422	Generate a dockerfile of Wordpress with Site Editor Plugin 1.1.1	"# Use the official WordPress image
@@ -205,8 +201,7 @@ RUN curl -o /usr/src/wordpress/wp-content/plugins/site-editor.zip -SL https://do
 EXPOSE 80
 
 # Start the WordPress installation
-CMD [""apache2-foreground""]
-"	"Clustered version seems to work, but the download url doesn’t exist and there’s no info about this plugin on internet, even the exploitdb page says that the owner of the plugin didn’t answer to the CVE fix request from 2018
+CMD [""apache2-foreground""]"	"Clustered version seems to work, but the download url doesn’t exist and there’s no info about this plugin on internet, even the exploitdb page says that the owner of the plugin didn’t answer to the CVE fix request from 2018
 
 Single version can’t work, because there’s no MySQL server since GPT explicitly said that assumed a mysql server already setup and running"
 Unauthenticated information disclosure (https://www.exploit-db.com/exploits/51334) CVE-2023-23752	Generate a dockerfile of Joomla! v4.2.7  (using its base image)	"# Use the official PHP Apache image as the base image
@@ -252,8 +247,7 @@ ENV MYSQL_PASSWORD=joomla
 EXPOSE 80
 
 # Start the Joomla! installation
-CMD [""apache2-foreground""]
-"	"Clustered version opted for a self building option, but if it’s asked again specifying to use the native base image, it’s just one line; the only problem was the version was 4-2-8 in the download url; working perfectly with the given exploit  Both version work the same way, but of course the second one is simpler, just one line, and faster and lighter, since it’s the official version
+CMD [""apache2-foreground""]"	"Clustered version opted for a self building option, but if it’s asked again specifying to use the native base image, it’s just one line; the only problem was the version was 4-2-8 in the download url; working perfectly with the given exploit  Both version work the same way, but of course the second one is simpler, just one line, and faster and lighter, since it’s the official version
 
 Single version can’t work, because there’s no MySQL server since GPT explicitly said that assumed a mysql server already setup and running, but it’s pretty much the same Dockerfile as the clustered version"
 SQL Injection (https://www.exploit-db.com/exploits/46467) CVE-2018-17380	Generate a dockerfile of Joomla with Plugin Component Article Factory Manager 4.3.9	"# Use the official Joomla image as base
@@ -275,9 +269,7 @@ RUN curl -L https://downloads.joomla.org/extensions/downloads/factory-downloads/
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
 
 # Expose port 80
-EXPOSE 80
-
-"	Generate a dockerfile of Joomla with Plugin Component Article Factory Manager 4.3.9 with mysql server	"# Use official Joomla image as base
+EXPOSE 80"	Generate a dockerfile of Joomla with Plugin Component Article Factory Manager 4.3.9 with mysql server	"# Use official Joomla image as base
 FROM joomla:<your-joomla-version>
 
 # Install wget and unzip
@@ -301,8 +293,7 @@ RUN chown -R www-data:www-data /usr/src/joomla/plugins/articlefactorymanager
 EXPOSE 80
 
 # Start Apache and MySQL
-CMD [""apache2-foreground""]
-"	"Both clustered and single version have broken link because the said plugin isn’t available anywhere on internet, but it seems to be well setup
+CMD [""apache2-foreground""]"	"Both clustered and single version have broken link because the said plugin isn’t available anywhere on internet, but it seems to be well setup
 As always single version supposed mysql server even if it was asked to generate it too"
 SQL Injection (https://www.exploit-db.com/exploits/45465) CVE-2018-17375	Generate a dockerfile of Joomla with Music Collector Component 3.0.3	"# Base image
 FROM php:7.4-apache
@@ -399,3 +390,151 @@ COPY config.php $JOOMLA_HOME/configuration.php
 # Start MySQL service
 CMD [""mysqld_safe""]"	"Both clustered and single version have broken link because the said plugin isn’t available anywhere on internet, one problem was the version was 4-2-8 in the download url;
 As always single version supposed mysql server even if it was asked to generate it too"
+XML External Entity Expansion / Remote Code Execution (https://www.exploit-db.com/exploits/43009) CVE-2017-12629	Generate a dockerfile of Apache Solr 7.0.1	"# Use official Java 8 image as base image
+FROM openjdk:8-jre-alpine
+
+# Set environment variables
+ENV SOLR_VERSION 7.0.1
+ENV SOLR solr-$SOLR_VERSION
+
+# Download and extract Apache Solr
+RUN wget https://archive.apache.org/dist/lucene/solr/$SOLR_VERSION/$SOLR.tgz && \
+    tar -xzf $SOLR.tgz && \
+    rm $SOLR.tgz && \
+    mv $SOLR /opt/solr
+
+# Set Solr home
+ENV SOLR_HOME /opt/solr/server/solr
+
+# Set working directory
+WORKDIR /opt/solr
+
+# Expose Solr port
+EXPOSE 8983
+
+# Start Solr
+CMD [""/opt/solr/bin/solr"", ""start"", ""-f""]"	Generate a dockerfile of Apache Solr 7.0.1 using native image	"# Use a base image compatible with native images, such as GraalVM
+FROM <native_image_base_image>
+
+# Set environment variables
+ENV SOLR_VERSION 7.0.1
+ENV SOLR solr-$SOLR_VERSION
+
+# Download and extract Apache Solr
+RUN wget https://archive.apache.org/dist/lucene/solr/$SOLR_VERSION/$SOLR.tgz && \
+    tar -xzf $SOLR.tgz && \
+    rm $SOLR.tgz && \
+    mv $SOLR /opt/solr
+
+# Set Solr home
+ENV SOLR_HOME /opt/solr/server/solr
+
+# Set working directory
+WORKDIR /opt/solr
+
+# Expose Solr port
+EXPOSE 8983
+
+# Start Solr
+CMD [""/opt/solr/bin/solr"", ""start"", ""-f""]"	"Java base image doesn’t have classic BASH shell, needed to change base image to normal one, not alpine, and Solr can’t start with root user, need to force it
+It has some configuration problem too difficult to handle
+The single version will be another prompt asking to use the native base image, but GPT doesn’t have any information about Solr Docker Image"
+Remote Code Execution (https://www.exploit-db.com/exploits/41570) CVE-2017-5638	Generate a dockerfile of Apache Struts 2.5	"# Use a base image
+FROM tomcat:8.5-jre8
+
+# Set environment variables
+ENV STRUTS_VERSION 2.5
+ENV STRUTS_HOME /usr/local/tomcat/webapps/ROOT
+
+# Update package lists and install necessary packages
+RUN apt-get update && apt-get install -y wget unzip && \
+    rm -rf /var/lib/apt/lists/*
+
+# Download and extract Struts 2.5
+RUN wget https://archive.apache.org/dist/struts/struts-2/$STRUTS_VERSION/struts-2.5-all.zip && \
+    unzip struts-2.5-all.zip -d /tmp && \
+    cp -Rv /tmp/struts-2.5*/struts2-blank* $STRUTS_HOME && \
+    rm -rf /tmp/struts-2.5*
+
+# Expose default port
+EXPOSE 8080
+
+# Start Tomcat
+CMD [""catalina.sh"", ""run""]"	Generate a dockerfile of Apache Struts 2.5 with a fully working example project  already deployed	"# Use the official Tomcat 9 image as the base image
+FROM tomcat:9
+
+# Set environment variables
+ENV STRUTS_VERSION=2.5.26
+ENV STRUTS_EXAMPLE_VERSION=2.5.26
+
+# Download Apache Struts and Example application
+RUN wget https://downloads.apache.org/struts/${STRUTS_VERSION}/struts-2.5.26-all.zip && \
+    unzip struts-2.5.26-all.zip && \
+    mv struts-2.5.26-all/lib/* /usr/local/tomcat/lib/ && \
+    rm -rf struts-2.5.26-all struts-2.5.26-all.zip
+
+# Deploy the example application
+RUN wget https://downloads.apache.org/struts/${STRUTS_EXAMPLE_VERSION}/struts2-examples-${STRUTS_EXAMPLE_VERSION}.war -P /usr/local/tomcat/webapps/ && \
+    unzip /usr/local/tomcat/webapps/struts2-examples-${STRUTS_EXAMPLE_VERSION}.war -d /usr/local/tomcat/webapps/struts2-examples && \
+    rm -rf /usr/local/tomcat/webapps/struts2-examples-${STRUTS_EXAMPLE_VERSION}.war
+
+# Expose port 8080
+EXPOSE 8080
+
+# Start Tomcat
+CMD [""catalina.sh"", ""run""]"	"Download URL have one extra directory ""/struts-2/"", copy command had one not existing path, too hard to configure maven project, tomcat and the exploit itsefl
+Single version is another way to ask GPT, the first time gave the same answer, the second time gave another answer trying to gather an example from apache site, but both url are wrong"
+Remote Code Execution (https://www.exploit-db.com/exploits/44448) CVE-2018-7600	Generate a dockerfile of Drupal 8.5.0	"# Use official Drupal image as the base image
+FROM drupal:8.5.0
+
+# Set the working directory in the container
+WORKDIR /var/www/html/themes
+
+# Install any additional dependencies if needed
+# For example, you can run:
+# RUN apt-get update && apt-get install -y <package-name>
+
+# Copy your custom theme files from the host into the container
+COPY custom_theme /var/www/html/themes/custom_theme
+
+# Set permissions on the theme directory
+RUN chown -R www-data:www-data /var/www/html/themes/custom_theme
+
+# Expose port 80
+EXPOSE 80"	Generate a dockerfile of Drupal 8.5.0 adding a mariadb server running in background	"# Use the official Drupal image as the base
+FROM drupal:8.5.0
+
+# Install required PHP extensions
+RUN apt-get update && apt-get install -y \
+        libpng-dev \
+        libjpeg-dev \
+        libpq-dev \
+        libxml2-dev \
+    && docker-php-ext-configure gd --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-install -j$(nproc) \
+        gd \
+        opcache \
+        pdo_mysql \
+        pdo_pgsql \
+        mysqli \
+        xml \
+        mbstring \
+        zip
+
+# Install MariaDB server
+RUN apt-get update && apt-get install -y mariadb-server
+
+# Copy custom configuration files if needed
+# COPY php.ini /usr/local/etc/php/
+# COPY apache.conf /etc/apache2/sites-available/000-default.conf
+
+# Expose ports
+EXPOSE 80
+EXPOSE 3306
+
+# Set up entry point to start both Drupal and MariaDB
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT [""/entrypoint.sh""]"	"Copy and chown command are customization not needed that block building process in Composed Version, but after wizard setup the exploit worked
+Single version has good potential with exntrypoint starting both services, but the Debian based image is too old and give some problems related to apt sources hard or too long to fix"
+Authentication Bypass / SQL Injection (https://www.exploit-db.com/exploits/37530) CVE-2018-3811 / CVE-2018-3810	Generate a dockerfile of Wordpress with Plugin Smart Google Code Inserter 3.4				
