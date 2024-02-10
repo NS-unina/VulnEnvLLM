@@ -1,4 +1,4 @@
-Vulnerability	Query	ChatGPT	Bard	Bing	Evaluation about ChatGPT	Evaluation about Bard	Evaluation about Bing	References
+Vulnerability	Query	ChatGPT	Gemini	Bing	Evaluation about ChatGPT	Evaluation about Gemini	Evaluation about Bing	References
 Formula Injection (https://www.exploit-db.com/exploits/47225) CVE-2019-14749	Generate a dockerfile of osTicket-v1.12	"# Use an official PHP image as base
 FROM php:7.4-apache
 
@@ -956,7 +956,7 @@ In ""/etc/php/8.2/fpm/pool.d/www.conf"" listen.owner and listen.group must be ""
 In ""/etc/nginx/config.d/default.conf"" the root folder is set with ""root /var/www/bludit/bludit-3.9.2;"" directive and changing fastcgi_pass to unix:/run/php/php8.2-fpm.sock:
 
 
-Got some error with PHP deprecated functions, because it used PHP8.2, but worked the same as GPT version"	Same problem as before, but more problem because of base configuration error and need to install extensions, but probably easier than Bard version	"https://stackoverflow.com/questions/37321397/no-package-libxml-2-0-found
+Got some error with PHP deprecated functions, because it used PHP8.2, but worked the same as GPT version"	Same problem as before, but more problem because of base configuration error and need to install extensions, but probably easier than Gemini version	"https://stackoverflow.com/questions/37321397/no-package-libxml-2-0-found
 https://www.theserverside.com/blog/Coffee-Talk-Java-News-Stories-and-Opinions/Nginx-PHP-FPM-config-example https://www.digitalocean.com/community/tutorials/php-fpm-nginx
 https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_pass
 https://bobcares.com/blog/php-fpm-sock-failed-13-permission-denied/
@@ -1111,7 +1111,7 @@ COPY . .
 EXPOSE 3000
 
 # Start the application server
-CMD [""rails"", ""server"", ""-b"", ""0.0.0.0""]"	Openproject is too hard to automate and setup, but GPT version had the installation part wrong, because repo url didn’t exist	Openproject is too hard to automate and setup, but Bard version had the installation part wrong, because the version on GitHub doesn’t exist as an archive and tried to use as an npm project	"Openproject is too hard to automate and setup, but Bing version had the installation part wrong, because the branch on GitHub doesn’t exist, had some problem with some packages, like jre8.∑
+CMD [""rails"", ""server"", ""-b"", ""0.0.0.0""]"	Openproject is too hard to automate and setup, but GPT version had the installation part wrong, because repo url didn’t exist	Openproject is too hard to automate and setup, but Gemini version had the installation part wrong, because the version on GitHub doesn’t exist as an archive and tried to use as an npm project	"Openproject is too hard to automate and setup, but Bing version had the installation part wrong, because the branch on GitHub doesn’t exist, had some problem with some packages, like jre8.∑
 Moreover started downloading a lot of useless and conflicting package, like mysql client, mariadb client and postgresql client"	"https://www.openproject.org/docs/installation-and-operations/installation/packaged/#ubuntu-2004
 https://github.com/opf/openproject"
 Remote Code Execution (https://www.exploit-db.com/exploits/44913) CVE-2017-12636	Generate a dockerfile of Apache CouchDB 2.0	"# Use the official CouchDB 2.0 image
