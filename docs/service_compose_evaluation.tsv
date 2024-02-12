@@ -537,4 +537,156 @@ COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 ENTRYPOINT [""/entrypoint.sh""]"	"Copy and chown command are customization not needed that block building process in Composed Version, but after wizard setup the exploit worked
 Single version has good potential with exntrypoint starting both services, but the Debian based image is too old and give some problems related to apt sources hard or too long to fix"
-Authentication Bypass / SQL Injection (https://www.exploit-db.com/exploits/37530) CVE-2018-3811 / CVE-2018-3810	Generate a dockerfile of Wordpress with Plugin Smart Google Code Inserter 3.4				
+Authentication Bypass  (https://www.exploit-db.com/exploits/43420) CVE-2018-3811	Generate a dockerfile of Wordpress with Plugin Smart Google Code Inserter 3.4	"# Use the official WordPress image as base
+FROM wordpress:latest
+
+# Set up environment variables for MySQL
+ENV WORDPRESS_DB_HOST=db \
+    WORDPRESS_DB_USER=wordpress \
+    WORDPRESS_DB_PASSWORD=password \
+    WORDPRESS_DB_NAME=wordpress
+
+# Install wget and unzip
+RUN apt-get update && apt-get install -y wget unzip
+
+# Download Smart Google Code Inserter plugin
+RUN wget -O /tmp/smart-google-code-inserter.zip https://downloads.wordpress.org/plugin/smart-google-code-inserter.3.4.zip
+
+# Install the plugin
+RUN unzip /tmp/smart-google-code-inserter.zip -d /usr/src/wordpress/wp-content/plugins/ \
+    && rm /tmp/smart-google-code-inserter.zip
+
+# Set permissions
+RUN chown -R www-data:www-data /usr/src/wordpress/wp-content/plugins/smart-google-code-inserter
+
+# Expose port 80
+EXPOSE 80
+
+# Start the WordPress server
+CMD [""apache2-foreground""]"	Generate a dockerfile of Wordpress with Plugin Smart Google Code Inserter 3.4 with a mariadb server installed, and starting wordpress and mariadb services	"# Use the official WordPress image as base
+FROM wordpress:latest
+
+# Set environment variables for WordPress
+ENV WORDPRESS_DB_HOST=mariadb
+ENV WORDPRESS_DB_USER=root
+ENV WORDPRESS_DB_PASSWORD=root
+ENV WORDPRESS_DB_NAME=wordpress
+
+# Install MariaDB client for WordPress to connect
+RUN apt-get update && apt-get install -y mariadb-client
+
+# Copy and activate Smart Google Code Inserter plugin
+COPY smart-google-code-inserter.zip /usr/src/wordpress/wp-content/plugins/
+RUN unzip /usr/src/wordpress/wp-content/plugins/smart-google-code-inserter.zip -d /usr/src/wordpress/wp-content/plugins/
+RUN chown -R www-data:www-data /usr/src/wordpress/wp-content/plugins/smart-google-code-inserter
+
+# Expose port 80 for HTTP
+EXPOSE 80
+
+# Start WordPress and MariaDB services
+CMD [""docker-entrypoint.sh"", ""apache2-foreground""]"	"Clustered version build without any error, the plugin is correctly installed and started, but there’s not a configuration section to set and exploit the plugin
+Single version usually generate something close, this time installed mariadb client instead of the server, used copy command to install the plugin instead of downloading from internet, and used a custom entrypoint, probably to start both services, not existing"
+SQL Injection (https://www.exploit-db.com/exploits/39280) CVE-2014-5180	Generate a dockerfile of Wordpress with Plugin HDW Player 2.4.2	"# Use the official WordPress image
+FROM wordpress:latest
+
+# Set environment variables
+ENV WORDPRESS_DB_HOST=localhost \
+    WORDPRESS_DB_USER=root \
+    WORDPRESS_DB_PASSWORD=password \
+    WORDPRESS_DB_NAME=wordpress \
+    HDW_PLAYER_VERSION=2.4.2
+
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    wget \
+    unzip
+
+# Download and install HDW Player plugin
+RUN wget -P /tmp https://downloads.wordpress.org/plugin/hdw-player.${HDW_PLAYER_VERSION}.zip \
+    && unzip /tmp/hdw-player.${HDW_PLAYER_VERSION}.zip -d /usr/src/wordpress/wp-content/plugins/ \
+    && rm /tmp/hdw-player.${HDW_PLAYER_VERSION}.zip
+
+# Set permissions
+RUN chown -R www-data:www-data /usr/src/wordpress/wp-content/plugins/hdw-player
+
+# Cleanup
+RUN apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Expose port
+EXPOSE 80
+
+# Start WordPress
+CMD [""apache2-foreground""]
+"		"# Use the official WordPress image as base
+FROM wordpress:latest
+
+# Set environment variables for MySQL
+ENV MYSQL_ROOT_PASSWORD=root_password
+ENV MYSQL_DATABASE=wordpress
+ENV MYSQL_USER=wordpress_user
+ENV MYSQL_PASSWORD=wordpress_password
+
+# Install unzip utility
+RUN apt-get update && apt-get install -y unzip
+
+# Download and install HDW Player plugin
+RUN curl -o /tmp/hdw-player.zip -SL https://downloads.wordpress.org/plugin/hdw-player.2.4.2.zip && \
+    unzip /tmp/hdw-player.zip -d /usr/src/wordpress/wp-content/plugins/ && \
+    rm /tmp/hdw-player.zip
+
+# Copy custom configuration files
+COPY ./wp-config.php /var/www/html/wp-config.php
+
+# Expose ports
+EXPOSE 80
+
+# Start MySQL server in the background
+CMD [""sh"", ""-c"", ""/usr/local/bin/docker-entrypoint.sh mysqld & docker-entrypoint.sh apache2-foreground""]"	"Clustered version had some url and name problem, since the base and the extracted package had more complex name, the exploit doesn’t work but the image generated start and has the plugin
+Single version had same url and name convention problem, moreover it tries to use an entrypoint for mysql daemon service, but it didn’t install or setup it beforehand"
+JSP Upload Bypass (https://www.exploit-db.com/exploits/42966) CVE-2017-12617	Generate a dockerfile of Apache Tomcat 8.5.0	"# Use the official Tomcat 9 image from Docker Hub
+FROM tomcat:8.5.0
+
+# Optionally, you can add maintainer information
+LABEL maintainer=""your-email@example.com""
+
+# Expose the default Tomcat port
+EXPOSE 8080
+
+# Optionally, you can add a volume for webapps directory if you want to deploy your own WAR files
+# VOLUME /usr/local/tomcat/webapps
+
+# Optionally, you can set environment variables if needed
+# ENV CATALINA_OPTS=""-Xms512m -Xmx1024m""
+
+# Optionally, you can copy custom configuration files or webapps into the container
+# COPY /path/to/your/webapps /usr/local/tomcat/webapps
+
+# Optionally, you can run additional commands if needed
+# CMD [""catalina.sh"", ""run""]"	Generate a dockerfile of Apache Tomcat 8.5.0 setting the readonly initialisation parameter of the Default servlet to false in web.xml using init-parameter syntax in the dockerfile	"# Use the official Tomcat 8.5 image as base
+FROM tomcat:8.5.0
+
+# Create a directory to place customized web.xml
+RUN mkdir -p /usr/local/tomcat/conf/Catalina/localhost/
+
+# Copy the customized web.xml to the appropriate location
+COPY ./web.xml /usr/local/tomcat/conf/Catalina/localhost/
+
+# Expose port 8080 to the outside world
+EXPOSE 8080
+ 
+WEB.XML
+
+<?xml version=""1.0"" encoding=""UTF-8""?>
+<web-app xmlns=""http://xmlns.jcp.org/xml/ns/javaee"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"" version=""3.1"">
+    <servlet>
+        <servlet-name>default</servlet-name>
+        <servlet-class>org.apache.catalina.servlets.DefaultServlet</servlet-class>
+        <init-param>
+            <param-name>readonly</param-name>
+            <param-value>false</param-value>
+        </init-param>
+    </servlet>
+</web-app>"	"Composed version opted automatically for the native tomcat base image, without too much problem the exploit worked, needed just to put ""readonly"" parameter to false (as NVD stated)
+
+Single version with way more complex syntax, after several tries to get correct xml configuration file, it correctly setup readonly parameter but the whole file isn’t complete and can’t work"
