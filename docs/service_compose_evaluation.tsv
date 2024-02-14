@@ -617,8 +617,7 @@ RUN apt-get clean \
 EXPOSE 80
 
 # Start WordPress
-CMD [""apache2-foreground""]
-"		"# Use the official WordPress image as base
+CMD [""apache2-foreground""]"	Generate a dockerfile of Wordpress with Plugin HDW Player 2.4.2 with mysql server started and working in background	"# Use the official WordPress image as base
 FROM wordpress:latest
 
 # Set environment variables for MySQL
@@ -690,3 +689,100 @@ WEB.XML
 </web-app>"	"Composed version opted automatically for the native tomcat base image, without too much problem the exploit worked, needed just to put ""readonly"" parameter to false (as NVD stated)
 
 Single version with way more complex syntax, after several tries to get correct xml configuration file, it correctly setup readonly parameter but the whole file isn’t complete and can’t work"
+Cross Site Scripting (https://www.exploit-db.com/exploits/38230) CVE-2013-0177	Generate a dockerfile of Apache OFBiz 10.04.04	"# Use the official OpenJDK 8 image as base
+FROM openjdk:8-jdk
+
+# Set environment variables
+ENV OFBIZ_HOME=/ofbiz \
+    PATH=$PATH:/ofbiz/bin
+
+# Create directory for OFBiz
+RUN mkdir /ofbiz
+
+# Download Apache OFBiz 10.04.04 and extract it
+ADD http://archive.apache.org/dist/ofbiz/apache-ofbiz-10.04.04.tar.gz /ofbiz
+RUN tar -xzf /ofbiz/apache-ofbiz-10.04.04.tar.gz -C /ofbiz --strip-components=1 && \
+    rm /ofbiz/apache-ofbiz-10.04.04.tar.gz
+
+# Expose ports
+EXPOSE 8080 8443
+
+# Set the working directory
+WORKDIR /ofbiz
+
+# Start Apache OFBiz
+CMD [""./gradlew"", ""ofbiz""]
+"	Generate a dockerfile of Apache OFBiz 10.04.04 from apache archive server in zip format	"# Use a base image with Java and Ant pre-installed
+FROM openjdk:8-jdk-alpine AS builder
+
+# Define environment variables
+ENV OFBIZ_HOME /ofbiz
+
+# Set up working directory
+WORKDIR $OFBIZ_HOME
+
+# Install necessary tools
+RUN apk update && \
+    apk add --no-cache curl && \
+    apk add --no-cache unzip && \
+    apk add --no-cache bash
+
+# Download and extract OFBiz
+RUN curl -fSL ""https://archive.apache.org/dist/ofbiz/apache-ofbiz-10.04.04.zip"" -o ofbiz.zip && \
+    unzip ofbiz.zip && \
+    rm ofbiz.zip && \
+    mv apache-ofbiz-10.04.04/* . && \
+    rm -rf apache-ofbiz-10.04.04
+
+# Expose ports
+EXPOSE 8080
+
+# Start OFBiz
+CMD [""./ant"", ""load-demo""]"	"Clustered version tried to download tar.gz when there’s only zip packages, can’t work because older version used ""ant"" instead of ""gradle""
+Single version has a more complex and precise prompt and correctly used ""ant"" but with the wrong prompt and without actual starting it, tried to fix but ant building process had some xlint problem"
+REST Module RCE (https://www.exploit-db.com/exploits/46459) CVE-2019-6340	Generate a dockerfile of Drupal 8.6.9	"# Use the official Drupal image as base
+FROM drupal:8.6.9
+
+# Set environment variables
+ENV DRUPAL_HOME=/var/www/html \
+    DRUPAL_CORE_VERSION=8.6.9
+
+# Copy custom PHP configuration
+COPY php.ini /usr/local/etc/php/conf.d/php.ini
+
+# Expose ports
+EXPOSE 80
+
+# Run any additional commands here, if needed
+
+# Start Apache server
+CMD [""apache2-foreground""]"	Generate a dockerfile of Drupal 8.6.9 using its native image, then install in the same image a mariadb server, finally run in background both the mariadb and drupal service	"# Use the official Drupal image
+FROM drupal:8.6.9
+
+# Install dependencies
+RUN apt-get update && \
+    apt-get install -y mariadb-server && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Copy custom Drupal configuration files if needed
+# COPY config/some-config-file.ini /etc/some-config-file.ini
+
+# Expose ports for Drupal and MariaDB
+EXPOSE 80
+EXPOSE 3306
+
+# Define environment variables
+ENV MYSQL_ROOT_PASSWORD=root
+ENV MYSQL_DATABASE=drupal
+ENV MYSQL_USER=drupal
+ENV MYSQL_PASSWORD=drupal
+
+# Start MariaDB service
+RUN service mysql start
+
+# CMD [""apache2-foreground""]  # Uncomment this if it's not already set in the base image
+
+# Start Drupal service
+CMD [""apache2-foreground""]"	"Composed version needed to comment copy command and, following NVD requirements, must install four web services modules: HAL, HTTP Basic Authentication, RESTful Web Services and Serialization
+Single version had a problem with base image, because it’s based on Debian 9 and on March 27th 2023 its source list migrated to archive.debian.org, so every repository reported 404 error, mariadb server was correctly installed, server start command didn’t keep the service up and needed to create manually user and database and, following NVD requirements, must install four web services modules: HAL, HTTP Basic Authentication, RESTful Web Services and Serialization"
