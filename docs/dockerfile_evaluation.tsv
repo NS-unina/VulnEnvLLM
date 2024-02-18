@@ -69,11 +69,10 @@ EXPOSE 80
 
 # Run Apache in Foreground
 CMD [""apache2-foreground""]"	"BUILDING ERROR
-- zlib/libpng absent in php building php modules
-- zip absent at line 21 to unzip osTicket file
-- can't chmod upload folder at line 22, it doesn't exist
-- mysql not installed
-
+-  zlib1g-dev/libpng/libicu-dev absent in php building php modules
+-  unzip absent at line 21 to unzip osTicket file
+ can't chown include folder at line 22, it doesn't exist
+mysql not installed
 WORKING ERROR
 - install package git to use manage.php automate setup
 - Document root set to /var/www/htdocs (the github guide install osticket in that directory)
@@ -85,12 +84,26 @@ After all the correction the exploit working, using as a payload a simple cvs fo
 - Package 'mysql-client' has no installation candidate, it's called ""default-mysql-client"" now
 - Extracted file name is ""osTicket-1.12"", not ""osTicket"", raising error for chown and chmod, and there's no subfolder named upload
 
-Too many minor problem to work with, similar with chat-gpt ones"	"BUILDING ERROR
-- Package 'mysql-client' has no installation candidate, it's called ""default-mysql-client"" now
-- Package 'unzip' absent, needed for unzip function
-- There's no subfolder named ""upload"", need to copy full path
+WORKING ERROR
+- install package git to use manage.php automate setup
+- Document root set to /var/www/htdocs (the github guide install osticket in that directory)
+- Set ""Options +Indexes"" in ""docker-php.conf""	
 
-Too many minor problem to work with, similar with chat-gpt ones"	"https://askubuntu.com/questions/508934/how-to-install-libpng-and-zlib
+CONCLUSION
+After all the correction the exploit working, using as a payload a simple cvs formula ""=1+2"" which return successfully 3"	"BUILDING ERROR
+- Package 'mysql-client' has no installation candidate, it's called ""default-mysql-client"" now
+Package 'unzip' absent, needed for unzip function
+-  zlib1g-dev/libpng/libicu-dev absent in php building php modules
+There's no subfolder named ""upload"", need to copy full path
+Wrong php extensions, now installing same as gpt
+
+WORKING ERROR
+- install package git to use manage.php automate setup
+- Document root set to /var/www/htdocs (the github guide install osticket in that directory)
+- Set ""Options +Indexes"" in ""docker-php.conf""	
+
+CONCLUSION
+After all the correction the exploit working, using as a payload a simple cvs formula ""=1+2"" which return successfully 3"	"https://askubuntu.com/questions/508934/how-to-install-libpng-and-zlib
 https://forum.osticket.com/d/98778-osttiket-clean-installation-problem
 https://forum.osticket.com/d/101401-anyone-want-to-help-me-figure-out-how-to-set-up-osticket
 https://docs.osticket.com/en/latest/Getting Started/Installation.html#using-installation-script
@@ -183,7 +196,8 @@ EXPOSE 80
 
 # Run Apache in Foreground
 CMD [""apache2-foreground""]"	"BUILDING ERROR
-- Missing mailparse/imap/mysqli php extension
+Missing mailparse/imap/mysqli php extension
+Mailparse need to do manually ""pecl install mailparse && docker-php-ext-enable mailparse""
 - Needed libc-client-dev/libkrb5-dev package and command ""docker-php-ext-configure imap --with-kerberos --with-imap-ssl"" in order to make imap extension working
 
 WORKING ERROR
@@ -203,9 +217,7 @@ WORKING ERROR
 - mysql-client package has new name, now it's default-mysql-client
 - missing libzip-dev package required to build uvdesk
 
-WORKING ERROR
-- missing ""helpdesk-project"" in composer install, therefore there's no installation wizard
-- Set ""Options +Indexes"" in ""docker-php.conf"""	"https://stackoverflow.com/questions/15850845/request-exceeded-the-limit-of-10-internal-redirects-due-to-probable-configuratio
+Can’t start because it tries to checkout branch, but there’s no branch ""v.1.1.3"", so even after fixing it will still not be vulnerable"	"https://stackoverflow.com/questions/15850845/request-exceeded-the-limit-of-10-internal-redirects-due-to-probable-configuratio
 https://stackoverflow.com/questions/70720413/limitinternalrecursion-error-on-php-project
 https://docs.uvdesk.com/uvdemo/installation/installation-ubuntu.html
 https://forums.uvdesk.com/topic/2062/when-installing-uvdesk-public-folder-unable-to-open-in-browser/7
@@ -357,14 +369,17 @@ CMD [""nhttpd""]"	"BUILDING ERROR:
 - Remove all flags of the entrypoint nhttpd, because they don't exist
 - Added custom configuration as actual configuration, changing ip, user and others"	"BUILDING ERROR:
 - Installed ""wget"" package, needed to download nostromo archive
-- ./configure executable doesn't exist
+./configure executable doesn't exist
+- mysql-client package has new name, now it's default-mysql-client
 - Daemon service ""/usr/local/sbin/nostromo"" doens't exist"	"BUILDING ERROR:
 - Missing ""libressl-dev"" package required in make function
 - Missing ""groff"" package required for ""nroff"" function (GNU troff text-formatting system)
 - After dowload with wget, changing directory in a different ""RUN"" command, doesn't keep changed directory
 - Missing ""openssl"" package required in make function
 
-Main error: Bing opted to start from an alpine distribution due to its small size, but the makefile is for debian distribution"	"https://stackoverflow.com/questions/17915098/openssl-ssl-h-no-such-file-or-directory-during-installation-of-git
+Main error: Bing opted to start from an alpine distribution due to its small size, but the makefile is for debian distribution (switching to ubuntu:latest and apt)
+
+After changing base image libressl-dev became libssl-dev and need wget, make and gcc package"	"https://stackoverflow.com/questions/17915098/openssl-ssl-h-no-such-file-or-directory-during-installation-of-git
 https://command-not-found.com/nroff
 https://httpd.apache.org/docs/2.4/programs/httpd.html
 https://github.com/bleubyte/nostromo_nhttpd/blob/main/nostromo/conf/nhttpd.conf
@@ -540,7 +555,7 @@ ENV NAME World
 
 # Run copyparty.py when the container launches
 CMD [""python"", ""copyparty.py""]"	"BUILDING ERROR:
-- wrong git url, opted for release with python file instead of source project tar.gz
+- wrong git url, opted for release with python file instead of source project tar.gz (https://github.com/9001/copyparty/releases/download/v1.8.2/copyparty-sfx.py)
 
 WORKING ERROR:
 - ""host"" and ""port"" flags in CMD command doesn't exist
@@ -549,7 +564,7 @@ WORKING ERROR:
 
 Directory traversal working as declared"	"BULDING ERROR
 exposing wrong port
-CMD command using gunicorn which is not installed"	It’s a generic python application who need a lot of work and customization to even start	"https://stackoverflow.com/questions/22147574/github-fatal-could-not-read-username-for-https-github-com-no-such-file-o
+CMD command using gunicorn which is not installed, instead running with copyparty module (CMD [""copyparty""])"	It’s a generic python application who need a lot of work and customization to even start	"https://stackoverflow.com/questions/22147574/github-fatal-could-not-read-username-for-https-github-com-no-such-file-o
 https://github.com/9001/copyparty/releases/tag/v1.8.2
 https://github.com/9001/copyparty#complete-examples"
 Path Traversal & Remote Code Execution (RCE) (https://www.exploit-db.com/exploits/50383) CVE-2021-41773	Create a dockerfile of Apache HTTP Server 2.4.49	"# Use an official Apache HTTP Server image as base
@@ -598,7 +613,8 @@ CMD [""httpd-foreground""]"	"BUILDING ERROR:
 WORKING ERROR:
 - AH01630: client denied by server configuration: /bin/sh; needed to modify line 250 of ""httpd.conf"" in ""Require all granted"""	"BUILDING ERROR:
 - Removed COPY and a2ensite command, don't have custom configuration
-- Using CMD ""apache2 restart"" without ""apache2"" getting recognized, instead of ""httpd-foreground""
+Using CMD ""apache2 restart"" without ""apache2"" getting recognized, instead of ""httpd-foreground""
+Package php7.4-fpm is called instead php-fpm
 Installing package and enabling them when the base image is enough
 
 Same working error as GPT"	"BUILDING ERROR:
@@ -661,11 +677,11 @@ Enabled lua module to handle lua files: ""LoadModule lua_module modules/mod_lua.
 
 Got AH00052: child pid 23 exit signal Segmentation fault (11)"	"BUILDING ERROR:
 -  Removed COPY command, don’t have custom configuration
-It’s apache 2.4.58 version, which isn’t vulnerable to  CVE-2021-44790
+It’s apache 2.4.58 version, which isn’t vulnerable to  CVE-2021-44790 (checked that hasn’t version 2.4.50)
 
 Can’t work more on it"	"BUILDING ERROR
 -  Removed ADD command, don’t have custom configuration
-It’s apache 2.4.56 version, which isn’t vulnerable to  CVE-2021-44790
+It’s apache 2.4.56 version, which isn’t vulnerable to  CVE-2021-44790 (checked that hasn’t version 2.4.50)
 
 Can’t work more on it"	"https://httpd.apache.org/docs/trunk/mod/mod_lua.html
 https://www.icelab.eu/blog/apache-e-web-server-3/attivare-disattivare-moduli-apache-2-34.htm
@@ -735,13 +751,22 @@ EXPOSE 80
 
 # Run Apache in the foreground
 CMD [""/usr/sbin/apache2ctl"", ""-D"", ""FOREGROUND""]"	"BULDING ERROR: - Missing ""unzip"" package to unzip phppcollab package
-Slightly different url (missing a dash in the file name)
+- Slightly different url (https://github.com/phpcollab/phpcollab/releases/download/v2.5.1/phpcollab-v2.5.1.zip)
 
 WORKING ERROR:
 - Needed base package ""apt-get update && apt-get install -y wget libz-dev libpng-dev libicu-dev unzip""
-Needed php extension for mysql: docker-php-ext-install mysqli && docker-php-ext-install gd && docker-php-ext-install gettext && docker-php-ext-install intl
+- Needed php extension for mysql: docker-php-ext-install mysqli && docker-php-ext-install gd && docker-php-ext-install gettext && docker-php-ext-install intl
 
-Setup.php has mysql function written for php5.7, not compatible with php7.4, because all the function are called mysqli_* instead, and all of them requires one more parameter which define the actual database connection ($dbc)"	Didn’t actually evaluate since previous problem with GPT version	Didn’t actually evaluate since previous problem with GPT version	"https://github.com/phpcollab/phpcollab/blob/v2.10.3/docs/install.md
+Setup.php has mysql function written for php5.7, not compatible with php7.4, because all the function are called mysqli_* instead, and all of them requires one more parameter which define the actual database connection ($dbc)"	"BUILDING ERROR
+Wrong url and wrong mysql-client package name
+Wrong extracted package name
+No need to run php install.php
+
+Didn’t actually evaluate further since previous problem with GPT version and CMD error in php"	"BUILDING ERROR
+Wrong url and wrong mysql-client package name
+Wrong extracted package name
+
+Didn’t actually evaluate further since previous problem with GPT version"	"https://github.com/phpcollab/phpcollab/blob/v2.10.3/docs/install.md
 https://github.com/rubo77/php-mysql-fix?tab=readme-ov-file
 https://phpcollab.github.io/phpcollab/installation/Installation.html
 https://w3schools.sinsixx.com/php/func_mysql_connect.asp.htm"
@@ -811,9 +836,8 @@ ENV NAME World
 # Run app.py when the container launches
 CMD [""python"", ""manage.py"", ""runserver"", ""0.0.0.0:8000""]"	"- Didn’t install Django, just required from user a requirements.txt containing the needed packages
 - postgresql-client package doesn’t exist, moreover it’s a clieint, not a server"	"BUILDING ERROR:
-""psycopg2"" package need ""gcc""
-Added ""Django-admin startproject test_project"" to create Django Project base folder and changed working directory
-Added ""ENV DJANGO_DATABASE_NAME=django_cve_2019_19844_poc"" needed for CVE exploitation
+- ""psycopg2"" package need ""gcc""
+- Added ""Django-admin startproject test_project"" to create Django Project base folder and changed working directory
 
 WORKING ERROR: - PostgreSQL installation hard ""apt install postgresql-16""
 - PSQL cluster starting (in case docker base image isnt’ psql) ""pg_lsclusters"" to list all cluster, then ""pg_ctlcluster <version> <name> <command>"", in our case ""16 main start"""	It’s a generic python application who need a lot of work and customization to even start	"https://www.postgresql.org/download/
@@ -956,7 +980,8 @@ In ""/etc/php/8.2/fpm/pool.d/www.conf"" listen.owner and listen.group must be ""
 In ""/etc/nginx/config.d/default.conf"" the root folder is set with ""root /var/www/bludit/bludit-3.9.2;"" directive and changing fastcgi_pass to unix:/run/php/php8.2-fpm.sock:
 
 
-Got some error with PHP deprecated functions, because it used PHP8.2, but worked the same as GPT version"	Same problem as before, but more problem because of base configuration error and need to install extensions, but probably easier than Gemini version	"https://stackoverflow.com/questions/37321397/no-package-libxml-2-0-found
+Got some error with PHP deprecated functions, because it used PHP8.2, but worked the same as GPT version"	"Same problem as before, but more problem because of base configuration error and need to install extensions, but probably easier than Gemini version
+Working fine after php-ext installation and base program"	"https://stackoverflow.com/questions/37321397/no-package-libxml-2-0-found
 https://www.theserverside.com/blog/Coffee-Talk-Java-News-Stories-and-Opinions/Nginx-PHP-FPM-config-example https://www.digitalocean.com/community/tutorials/php-fpm-nginx
 https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_pass
 https://bobcares.com/blog/php-fpm-sock-failed-13-permission-denied/
