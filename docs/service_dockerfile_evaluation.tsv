@@ -1,0 +1,615 @@
+Vulnerability	Query generic version	ChatGPT generic version	Query built from source version	ChatGPT source version	Evaluation, similarities and differences
+Username Enumeration (https://www.exploit-db.com/exploits/45233) CVE-2018-15473	Generate a dockerfile of OpenSSH 7.7	"# Use Debian as the base image
+FROM debian:stretch
+
+# Update packages and install OpenSSH server
+RUN apt-get update && \
+    apt-get install -y openssh-server && \
+    apt-get clean
+
+# Copy the SSHD configuration file that allows password authentication
+COPY sshd_config /etc/ssh/sshd_config
+
+# Expose SSH port
+EXPOSE 22
+
+# Start SSH service
+CMD [""/usr/sbin/sshd"", ""-D""]"	Generate a dockerfile of OpenSSH 7.7 building from source	"# Use a base image with necessary dependencies
+FROM ubuntu:latest
+
+# Install required packages
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    wget \
+    libssl-dev \
+    zlib1g-dev
+
+# Download OpenSSH source
+RUN wget https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-7.7p1.tar.gz
+
+# Extract OpenSSH source
+RUN tar -xzf openssh-7.7p1.tar.gz
+
+# Change directory to OpenSSH source
+WORKDIR /openssh-7.7p1
+
+# Configure and build OpenSSH
+RUN ./configure && \
+    make && \
+    make install
+
+# Cleanup
+RUN rm -rf /openssh-7.7p1* && \
+    apt-get purge -y build-essential wget && \
+    apt-get autoremove -y && \
+    apt-get clean
+
+# Expose SSH port
+EXPOSE 22
+
+# Start SSH service
+CMD [""/usr/local/sbin/sshd"", ""-D""]"	
+Unauthorized Access (https://www.exploit-db.com/exploits/46307) CVE-2018-10933	Generate a dockerfile of LibSSH 0.7.5	"# Use a base image with necessary tools and libraries
+FROM ubuntu:latest
+
+# Update package lists and install necessary packages
+RUN apt-get update && \
+    apt-get install -y \
+    build-essential \
+    cmake \
+    libssl-dev \
+    zlib1g-dev \
+    git
+
+# Clone LibSSH repository and checkout the desired version
+RUN git clone --branch libssh-0.7.5 https://git.libssh.org/projects/libssh.git /opt/libssh
+
+# Build and install LibSSH
+RUN cd /opt/libssh && \
+    mkdir build && \
+    cd build && \
+    cmake .. && \
+    make && \
+    make install
+
+# Cleanup
+RUN rm -rf /opt/libssh
+
+# Example: copy your application code and build it
+# COPY ./your_app /opt/your_app
+# RUN cd /opt/your_app && make
+
+# Set the entry point to start your application
+# ENTRYPOINT [""/opt/your_app/your_executable""]
+
+# Define any ports your application listens on
+# EXPOSE <port_number>
+
+# Define any volumes you may need
+# VOLUME /path/to/your/volume
+
+# Command to run your application
+# CMD [""your_executable_arguments""]"	Generate a dockerfile of LibSSH 0.7.5 building from source	"# Use a base image with necessary dependencies
+FROM ubuntu:latest
+
+# Install necessary packages to build LibSSH
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    cmake \
+    libssl-dev \
+    zlib1g-dev \
+    wget \
+    tar
+
+# Download LibSSH 0.7.5 source code
+RUN wget https://www.libssh.org/files/0.7/libssh-0.7.5.tar.gz && \
+    tar -xzvf libssh-0.7.5.tar.gz && \
+    rm libssh-0.7.5.tar.gz
+
+# Build and install LibSSH
+WORKDIR /libssh-0.7.5
+RUN mkdir build && cd build && \
+    cmake .. && \
+    make && \
+    make install
+
+# Cleanup
+RUN rm -rf /libssh-0.7.5
+
+# Expose necessary ports if applicable
+# EXPOSE <port_number>
+
+# Define entry point or default command if needed
+# ENTRYPOINT [""executable""]"	
+Information Disclosure (https://nvd.nist.gov/vuln/detail/cve-2014-0160) CVE-2014-0160	Generate a dockerfile of OpenSSL 1.0.1 before 1.0.1g	"# Use a base image with your preferred Linux distribution
+FROM ubuntu:18.04
+
+# Update package lists
+RUN apt-get update
+
+# Install essential build tools
+RUN apt-get install -y build-essential
+
+# Set the OpenSSL version
+ENV OPENSSL_VERSION 1.0.1f
+
+# Download OpenSSL source
+ADD https://www.openssl.org/source/old/1.0.1/openssl-$OPENSSL_VERSION.tar.gz /tmp/
+
+# Extract the source
+RUN tar -xzvf /tmp/openssl-$OPENSSL_VERSION.tar.gz -C /tmp/
+
+# Change directory to the OpenSSL source
+WORKDIR /tmp/openssl-$OPENSSL_VERSION
+
+# Configure, build, and install OpenSSL
+RUN ./config && \
+    make && \
+    make install
+
+# Cleanup
+RUN rm -rf /tmp/*
+
+# Optionally, you can set the path to include OpenSSL binaries
+ENV PATH=""/usr/local/ssl/bin:${PATH}""
+
+# Set the working directory
+WORKDIR /app
+
+# Example CMD to run something, replace with your command
+CMD [""bash""]"	Generate a dockerfile of OpenSSL 1.0.1 before 1.0.1g building from source	"# Use a base image with necessary build tools
+FROM ubuntu:latest
+
+# Install required dependencies
+RUN apt-get update && \
+    apt-get install -y build-essential wget perl
+
+# Set the working directory
+WORKDIR /openssl-build
+
+# Download OpenSSL 1.0.1
+RUN wget https://www.openssl.org/source/old/1.0.1/openssl-1.0.1.tar.gz && \
+    tar -xzf openssl-1.0.1.tar.gz
+
+# Build OpenSSL from source
+RUN cd openssl-1.0.1 && \
+    ./config && \
+    make && \
+    make install
+
+# Cleanup
+RUN rm -rf /openssl-build
+
+# Set the environment variables
+ENV LD_LIBRARY_PATH=/usr/local/ssl/lib"	
+Code Injection (https://nvd.nist.gov/vuln/detail/CVE-2017-7494) CVE-2017-7494	Generate a dockerfile of Samba 4.x before 4.4.14	"# Use Ubuntu 18.04 as the base image
+FROM ubuntu:18.04
+
+# Update package lists and install Samba 4.4.14
+RUN apt-get update && \
+    apt-get install -y samba=2:4.4.14+dfsg-0ubuntu2
+
+# Copy the Samba configuration file into the container
+COPY smb.conf /etc/samba/smb.conf
+
+# Expose the necessary ports for Samba
+EXPOSE 137/udp 138/udp 139/tcp 445/tcp
+
+# Start Samba service when the container launches
+CMD [""/usr/sbin/smbd"", ""--foreground"", ""--no-process-group""]"	Generate a dockerfile of Samba 4.x before 4.4.14 building from source	"# Use a base image with necessary dependencies
+FROM ubuntu:20.04
+
+# Install required packages
+RUN apt-get update && \
+    apt-get install -y build-essential wget python3-dev libgnutls28-dev libpam0g-dev libldap2-dev libbsd-dev python3 python3-pip && \
+    rm -rf /var/lib/apt/lists/*
+
+# Define version and download URL
+ENV SAMBA_VERSION 4.4.13
+ENV SAMBA_DOWNLOAD_URL https://download.samba.org/pub/samba/stable/samba-$SAMBA_VERSION.tar.gz
+
+# Download and extract Samba source
+RUN wget -O samba.tar.gz ""$SAMBA_DOWNLOAD_URL"" && \
+    mkdir -p /usr/src/samba && \
+    tar -xzvf samba.tar.gz -C /usr/src/samba --strip-components=1 && \
+    rm samba.tar.gz
+
+# Build and install Samba
+RUN cd /usr/src/samba && \
+    ./configure && \
+    make && \
+    make install
+
+# Expose Samba ports
+EXPOSE 137/udp 138/udp 139 445
+
+# Define volumes
+VOLUME [""/etc/samba"", ""/var/lib/samba""]
+
+# Define entrypoint
+ENTRYPOINT [""smbd"", ""--foreground"", ""--no-process-group""]"	
+Path Traversal (https://nvd.nist.gov/vuln/detail/CVE-2023-38633) CVE-2023-38633	Create a dockerfile of php server using librsvg before 2.56.3	"# Use a base image with PHP and Apache
+FROM php:7.4-apache
+
+# Update package lists
+RUN apt-get update
+
+# Install necessary packages
+RUN apt-get install -y \
+    librsvg2-bin \
+    librsvg2-dev \
+    pkg-config \
+    libcairo2-dev \
+    libgdk-pixbuf2.0-dev \
+    libxml2-dev \
+    libpango1.0-dev \
+    libjpeg-dev \
+    libpng-dev \
+    libgif-dev \
+    libtiff-dev \
+    libexif-dev \
+    libwebp-dev
+
+# Enable required Apache modules
+RUN a2enmod rewrite
+
+# Restart Apache to apply changes
+RUN service apache2 restart
+
+# Set up the working directory
+WORKDIR /var/www/html
+
+# Copy your PHP files into the container
+COPY . /var/www/html
+
+# Expose port 80
+EXPOSE 80
+
+# Start Apache server
+CMD [""apache2-foreground""]"	Create a dockerfile of php server using librsvg before 2.56.3 building from source	"# Use a base image with PHP and necessary build tools
+FROM php:latest
+
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    wget \
+    libglib2.0-dev \
+    libcroco3-dev \
+    libxml2-dev \
+    libpango1.0-dev \
+    libcairo2-dev
+
+# Download librsvg source before version 2.56.3
+RUN wget https://download.gnome.org/sources/librsvg/2.56/librsvg-2.56.2.tar.xz
+
+# Extract the source code
+RUN tar -xvf librsvg-2.56.2.tar.xz && cd librsvg-2.56.2
+
+# Configure, make, and install librsvg
+RUN cd librsvg-2.56.2 && \
+    ./configure && \
+    make && \
+    make install
+
+# Clean up unnecessary files
+RUN rm -rf librsvg-2.56.2.tar.xz && \
+    rm -rf librsvg-2.56.2
+
+# Set up PHP configuration
+COPY php.ini /usr/local/etc/php/php.ini
+
+# Expose port 80
+EXPOSE 80
+
+# Start PHP server
+CMD [""php"", ""-S"", ""0.0.0.0:80""]"	
+OS Command Injection (https://nvd.nist.gov/vuln/detail/cve-2017-17405) CVE-2017-17405	Generate a dockerfile of Ruby before 2.4.3	"# Use an official Ruby runtime as the base image
+FROM ruby:2.4.2
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the Gemfile and Gemfile.lock from your project directory into the container
+COPY Gemfile Gemfile.lock ./
+
+# Install dependencies
+RUN bundle install
+
+# Copy the current directory contents into the container at /app
+COPY . /app
+
+# Define environment variables for the application
+ENV RAILS_ENV=production
+
+# Expose port 3000 to the outside world
+EXPOSE 3000
+
+# Command to run the application
+CMD [""rails"", ""server"", ""-b"", ""0.0.0.0""]"	Generate a dockerfile of Ruby before 2.4.3 bulding from source	"# Use a base image with necessary dependencies
+FROM ubuntu:latest
+
+# Install build dependencies
+RUN apt-get update \
+    && apt-get install -y \
+        build-essential \
+        curl \
+        git \
+        libssl-dev \
+        libreadline-dev \
+        zlib1g-dev \
+        libsqlite3-dev \
+        sqlite3 \
+        libxml2-dev \
+        libxslt1-dev \
+        libyaml-dev \
+        libffi-dev \
+        libgdbm-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set environment variables for Ruby
+ENV RUBY_MAJOR 2.4
+ENV RUBY_VERSION 2.4.2
+ENV RUBY_DOWNLOAD_SHA256 71aadb46887a1bc73a07b8df7b9f98e835ed5b627c2f50d7b8e8671d69f96a34
+ENV RUBY_DIR /usr/src/ruby
+
+# Install Ruby from source
+RUN mkdir -p $RUBY_DIR \
+    && curl -SL ""https://cache.ruby-lang.org/pub/ruby/$RUBY_MAJOR/ruby-$RUBY_VERSION.tar.gz"" -o ruby.tar.gz \
+    && echo ""$RUBY_DOWNLOAD_SHA256 *ruby.tar.gz"" | sha256sum -c - \
+    && tar -xzf ruby.tar.gz -C $RUBY_DIR --strip-components=1 \
+    && rm ruby.tar.gz \
+    && cd $RUBY_DIR \
+    && ./configure --disable-install-doc \
+    && make -j ""$(nproc)"" \
+    && make install \
+    && rm -r $RUBY_DIR
+
+# Verify Ruby installation
+RUN ruby --version
+
+# Set gem environment variables
+ENV GEM_HOME /usr/local/bundle
+ENV PATH $GEM_HOME/bin:$PATH
+RUN gem install bundler
+
+# Create a directory for the application code
+WORKDIR /app
+
+# Copy the Gemfile and Gemfile.lock into the image
+COPY Gemfile Gemfile.lock ./
+
+# Install Ruby dependencies
+RUN bundle install
+
+# Copy the application code into the image
+COPY . .
+
+# Start the application
+CMD [""ruby"", ""app.rb""]"	
+OS Command Injection (https://nvd.nist.gov/vuln/detail/cve-2014-6271) CVE-2014-6271	Generate a dockerfile of Bash 4.3.0	"# Use Ubuntu 18.04 as the base image
+FROM ubuntu:18.04
+
+# Update package lists
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    wget \
+    && rm -rf /var/lib/apt/lists/*
+
+# Download and extract Bash 4.3.0
+RUN wget https://ftp.gnu.org/gnu/bash/bash-4.3.tar.gz && \
+    tar -xzvf bash-4.3.tar.gz
+
+# Navigate into the extracted directory
+WORKDIR /bash-4.3
+
+# Configure, make, and install Bash
+RUN ./configure && \
+    make && \
+    make install
+
+# Clean up downloaded and temporary files
+RUN rm -rf /bash-4.3 && \
+    rm -f /bash-4.3.tar.gz
+
+# Set the default command to run Bash
+CMD [""bash""]"	Generate a dockerfile of Bash 4.3.0 building from source	"# Use a base image with development tools
+FROM ubuntu:latest
+
+# Install necessary packages to build Bash from source
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    wget \
+    curl \
+    tar \
+    && rm -rf /var/lib/apt/lists/*
+
+# Download Bash source code
+WORKDIR /usr/src
+RUN wget http://ftp.gnu.org/gnu/bash/bash-4.3.tar.gz && \
+    tar -xzvf bash-4.3.tar.gz
+
+# Build and install Bash
+WORKDIR /usr/src/bash-4.3
+RUN ./configure && \
+    make && \
+    make install
+
+# Cleanup
+WORKDIR /
+RUN rm -rf /usr/src/bash-4.3 && \
+    rm -f /usr/src/bash-4.3.tar.gz
+
+# Set Bash as the default shell
+RUN ln -sf /usr/local/bin/bash /bin/bash
+
+# Run Bash shell
+CMD [""/bin/bash""]"	
+OS Command Injection (https://nvd.nist.gov/vuln/detail/CVE-2020-7247) CVE-2020-7247	Generate a dockerfile of OpenSMTPD 6.6	"# Use a Debian base image
+FROM debian:buster-slim
+
+# Install necessary packages
+RUN apt-get update && \
+    apt-get install -y opensmtpd
+
+# Copy the configuration files
+COPY opensmtpd.conf /etc/smtpd.conf
+
+# Expose SMTP port
+EXPOSE 25
+
+# Start OpenSMTPD
+CMD [""smtpd"", ""-d""]"	Generate a dockerfile of OpenSMTPD 6.6 building from source	"# Use a base image with the necessary tools and libraries
+FROM alpine:latest
+
+# Install required packages
+RUN apk add --no-cache \
+    build-base \
+    libressl-dev \
+    ca-certificates \
+    wget \
+    gnupg \
+    libasr-dev \
+    libevent-dev \
+    libtool \
+    autoconf \
+    automake \
+    gettext \
+    db-dev \
+    mariadb-dev \
+    postgresql-dev \
+    sqlite-dev \
+    libressl \
+    curl-dev \
+    cyrus-sasl-dev \
+    linux-pam-dev \
+    gmake
+
+# Download OpenSMTPD source code
+RUN wget https://github.com/OpenSMTPD/OpenSMTPD/archive/refs/tags/opensmtpd-6.6.4p1.tar.gz && \
+    tar -zxvf opensmtpd-6.6.4p1.tar.gz && \
+    rm -f opensmtpd-6.6.4p1.tar.gz
+
+WORKDIR /OpenSMTPD-opensmtpd-6.6.4p1
+
+# Configure, build and install OpenSMTPD
+RUN ./bootstrap && \
+    ./configure && \
+    make && \
+    make install
+
+# Clean up unnecessary packages and files
+RUN apk del build-base \
+    libressl-dev \
+    wget \
+    gnupg \
+    libasr-dev \
+    libevent-dev \
+    libtool \
+    autoconf \
+    automake \
+    gettext \
+    db-dev \
+    mariadb-dev \
+    postgresql-dev \
+    sqlite-dev \
+    libressl \
+    curl-dev \
+    cyrus-sasl-dev \
+    linux-pam-dev \
+    gmake && \
+    rm -rf /var/cache/apk/* && \
+    rm -rf /OpenSMTPD-opensmtpd-6.6.4p1
+
+# Expose SMTP port
+EXPOSE 25
+
+# Run OpenSMTPD
+CMD [""smtpd"", ""-dv""]"	
+Improper Authentication (https://nvd.nist.gov/vuln/detail/CVE-2012-2122) CVE-2012-2122	Generate a dockerfile of MySQL Server 5.6.5	"# Use the official MySQL 5.6.5 image from Docker Hub
+FROM mysql:5.6.5
+
+# Environment variables
+ENV MYSQL_ROOT_PASSWORD=root_password
+ENV MYSQL_DATABASE=my_database
+ENV MYSQL_USER=my_user
+ENV MYSQL_PASSWORD=my_password
+
+# Copy custom configuration file
+COPY my.cnf /etc/mysql/my.cnf"	Generate a dockerfile of MySQL Server 5.6.5 building from source	"# Use a base image with necessary build tools
+FROM ubuntu:20.04
+
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    cmake \
+    bison \
+    git \
+    libncurses5-dev \
+    libssl-dev \
+    zlib1g-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Clone MySQL source from GitHub
+RUN git clone --depth=1 --branch mysql-5.6.5 https://github.com/mysql/mysql-server.git /mysql
+
+# Build MySQL Server
+WORKDIR /mysql
+RUN cmake . && make && make install
+
+# Cleanup
+RUN rm -rf /mysql
+
+# Expose MySQL port
+EXPOSE 3306
+
+# Set default command to run MySQL Server
+CMD [""mysqld""]"	
+Path Traversal (https://nvd.nist.gov/vuln/detail/CVE-2018-3760) CVE-2018-3760	Generate a dockerfile of Sprockets 3.7.1	"# Use Ruby 2.7 as the base image
+FROM ruby:2.7
+
+# Install necessary dependencies
+RUN apt-get update -qq && apt-get install -y \
+    build-essential \
+    nodejs \
+ && rm -rf /var/lib/apt/lists/*
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the Gemfile and Gemfile.lock into the container
+COPY Gemfile Gemfile.lock ./
+
+# Install gems
+RUN gem install bundler && bundle install
+
+# Install Sprockets version 3.7.1
+RUN gem install sprockets -v '3.7.1'
+
+# Expose port 3000 to the Docker host, so we can access our Rails app
+EXPOSE 3000
+
+# Start the Rails server when the container starts
+CMD [""rails"", ""server"", ""-b"", ""0.0.0.0""]"	Generate a dockerfile of Sprockets 3.7.1 building from source	"# Use a Ruby base image
+FROM ruby:2.7
+
+# Install necessary dependencies
+RUN apt-get update && \
+    apt-get install -y \
+    build-essential \
+    git \
+    nodejs
+
+# Clone Sprockets from GitHub
+RUN git clone --branch v3.7.1 --depth 1 https://github.com/rails/sprockets.git /sprockets
+
+# Set working directory
+WORKDIR /sprockets
+
+# Install Sprockets
+RUN bundle install
+
+# Expose any ports the app is expecting
+EXPOSE 3000
+
+# Command to run the application
+CMD [""bundle"", ""exec"", ""rackup"", ""--host"", ""0.0.0.0"", ""--port"", ""3000""]"	

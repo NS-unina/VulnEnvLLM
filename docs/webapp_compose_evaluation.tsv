@@ -247,7 +247,7 @@ ENV MYSQL_PASSWORD=joomla
 EXPOSE 80
 
 # Start the Joomla! installation
-CMD [""apache2-foreground""]"	"Clustered version opted for a self building option, but if it’s asked again specifying to use the native base image, it’s just one line; the only problem was the version was 4-2-8 in the download url; working perfectly with the given exploit  Both version work the same way, but of course the second one is simpler, just one line, and faster and lighter, since it’s the official version
+CMD [""apache2-foreground""]"	"Clustered version opted for a self building option, but if it’s asked again specifying to use the native base image, it’s just one line; the only problem was the version was 4-2-8 in the download url; working perfectly with the given exploitBoth version work the same way, but of course the second one is simpler, just one line, and faster and lighter, since it’s the official version
 
 Single version can’t work, because there’s no MySQL server since GPT explicitly said that assumed a mysql server already setup and running, but it’s pretty much the same Dockerfile as the clustered version"
 SQL Injection (https://www.exploit-db.com/exploits/46467) CVE-2018-17380	Generate a dockerfile of Joomla with Plugin Component Article Factory Manager 4.3.9	"# Use the official Joomla image as base

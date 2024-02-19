@@ -117,7 +117,7 @@ https://dev.mysql.com/doc/refman/8.0/en/
 https://forum.osticket.com/d/94404-resolved-db-error-1054-help
 https://forum.osticket.com/d/77702-resolved-unable-to-connect-to-mysql-server-no-such-file-or-directory
 https://stackoverflow.com/questions/8348506/grant-remote-access-of-mysql-database-from-any-ip-address
-https://owasp.org/www-community/attacks/CSV_Injection https://stackoverflow.com/questions/34954455/mysql-daemon-lock-issue"
+https://owasp.org/www-community/attacks/CSV_Injectionhttps://stackoverflow.com/questions/34954455/mysql-daemon-lock-issue"
 File Upload Remote Code Execution (RCE) (Authenticated) (https://www.exploit-db.com/exploits/51639) CVE-2023-39147	Generate a dockerfile of Uvdesk v1.1.3	"# Use an official PHP image as base
 FROM php:7.4-apache
 
@@ -750,7 +750,7 @@ RUN docker-php-ext-install pdo_mysql
 EXPOSE 80
 
 # Run Apache in the foreground
-CMD [""/usr/sbin/apache2ctl"", ""-D"", ""FOREGROUND""]"	"BULDING ERROR: - Missing ""unzip"" package to unzip phppcollab package
+CMD [""/usr/sbin/apache2ctl"", ""-D"", ""FOREGROUND""]"	"BULDING ERROR:- Missing ""unzip"" package to unzip phppcollab package
 - Slightly different url (https://github.com/phpcollab/phpcollab/releases/download/v2.5.1/phpcollab-v2.5.1.zip)
 
 WORKING ERROR:
@@ -839,7 +839,7 @@ CMD [""python"", ""manage.py"", ""runserver"", ""0.0.0.0:8000""]"	"- Didn’t in
 - ""psycopg2"" package need ""gcc""
 - Added ""Django-admin startproject test_project"" to create Django Project base folder and changed working directory
 
-WORKING ERROR: - PostgreSQL installation hard ""apt install postgresql-16""
+WORKING ERROR:- PostgreSQL installation hard ""apt install postgresql-16""
 - PSQL cluster starting (in case docker base image isnt’ psql) ""pg_lsclusters"" to list all cluster, then ""pg_ctlcluster <version> <name> <command>"", in our case ""16 main start"""	It’s a generic python application who need a lot of work and customization to even start	"https://www.postgresql.org/download/
 https://www.postgresql.org/docs/15/server-start.html
 https://askubuntu.com/questions/898010/postgres-command-not-found-after-regular-install-of-postgres-and-configure
@@ -982,7 +982,7 @@ In ""/etc/nginx/config.d/default.conf"" the root folder is set with ""root /var/
 
 Got some error with PHP deprecated functions, because it used PHP8.2, but worked the same as GPT version"	"Same problem as before, but more problem because of base configuration error and need to install extensions, but probably easier than Gemini version
 Working fine after php-ext installation and base program"	"https://stackoverflow.com/questions/37321397/no-package-libxml-2-0-found
-https://www.theserverside.com/blog/Coffee-Talk-Java-News-Stories-and-Opinions/Nginx-PHP-FPM-config-example https://www.digitalocean.com/community/tutorials/php-fpm-nginx
+https://www.theserverside.com/blog/Coffee-Talk-Java-News-Stories-and-Opinions/Nginx-PHP-FPM-config-examplehttps://www.digitalocean.com/community/tutorials/php-fpm-nginx
 https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_pass
 https://bobcares.com/blog/php-fpm-sock-failed-13-permission-denied/
 https://stackoverflow.com/questions/19285355/nginx-403-error-directory-index-of-folder-is-forbidden"
