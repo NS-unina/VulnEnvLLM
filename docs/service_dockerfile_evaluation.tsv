@@ -48,7 +48,9 @@ RUN rm -rf /openssh-7.7p1* && \
 EXPOSE 22
 
 # Start SSH service
-CMD [""/usr/local/sbin/sshd"", ""-D""]"	
+CMD [""/usr/local/sbin/sshd"", ""-D""]"	"Generic version just added not requested copy command, it starts but the exploit doesn’t work, probably wrong version
+
+Source version needed older version (ubuntu:16.04) because libssl-dev version must be <=1.1.0, it compiled taking more time and occupying way more space, but the script worked fine"
 Unauthorized Access (https://www.exploit-db.com/exploits/46307) CVE-2018-10933	Generate a dockerfile of LibSSH 0.7.5	"# Use a base image with necessary tools and libraries
 FROM ubuntu:latest
 
@@ -120,7 +122,13 @@ RUN rm -rf /libssh-0.7.5
 # EXPOSE <port_number>
 
 # Define entry point or default command if needed
-# ENTRYPOINT [""executable""]"	
+# ENTRYPOINT [""executable""]"	"Source version tried to dowload libssh archive with wrong extension (was .tar.xz instead of .tar.gz) and used tar -xf to extract it, and again need to use ubuntu:16.04 to use correct library; 
+Didn’t expose port 22
+Too many configuration problem, linking and compiling issue
+
+Generic version need to use ubuntu:16.04 to use correct library; 
+Didn’t expose port 22
+Too many configuration problem, linking and compiling issue"
 Information Disclosure (https://nvd.nist.gov/vuln/detail/cve-2014-0160) CVE-2014-0160	Generate a dockerfile of OpenSSL 1.0.1 before 1.0.1g	"# Use a base image with your preferred Linux distribution
 FROM ubuntu:18.04
 
