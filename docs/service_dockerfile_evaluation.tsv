@@ -50,6 +50,7 @@ EXPOSE 22
 # Start SSH service
 CMD [""/usr/local/sbin/sshd"", ""-D""]"	"Generic version just added not requested copy command, it starts but the exploit doesn’t work, probably wrong version
 
+
 Source version needed older version (ubuntu:16.04) because libssl-dev version must be <=1.1.0, it compiled taking more time and occupying way more space, but the script worked fine"
 Unauthorized Access (https://www.exploit-db.com/exploits/46307) CVE-2018-10933	Generate a dockerfile of LibSSH 0.7.5	"# Use a base image with necessary tools and libraries
 FROM ubuntu:latest
@@ -126,191 +127,250 @@ RUN rm -rf /libssh-0.7.5
 Didn’t expose port 22
 Too many configuration problem, linking and compiling issue
 
+
 Generic version need to use ubuntu:16.04 to use correct library; 
 Didn’t expose port 22
 Too many configuration problem, linking and compiling issue"
-Information Disclosure (https://nvd.nist.gov/vuln/detail/cve-2014-0160) CVE-2014-0160	Generate a dockerfile of OpenSSL 1.0.1 before 1.0.1g	"# Use a base image with your preferred Linux distribution
-FROM ubuntu:18.04
+Information Disclosure (https://nvd.nist.gov/vuln/detail/cve-2014-0160) CVE-2014-0160	Generate a dockerfile of apache2 with OpenSSL 1.0.1 before 1.0.1g	"FROM ubuntu:latest
 
-# Update package lists
-RUN apt-get update
+RUN apt-get update && apt-get install -y \
+    apache2 \
+    && apt-get install -y \
+    build-essential \
+    wget \
+    zlib1g-dev \
+    && rm -rf /var/lib/apt/lists/*
 
-# Install essential build tools
-RUN apt-get install -y build-essential
+WORKDIR /usr/local/src
 
-# Set the OpenSSL version
-ENV OPENSSL_VERSION 1.0.1f
+# Downloading OpenSSL 1.0.1 before version 1.0.1g
+RUN wget https://www.openssl.org/source/old/1.0.1/openssl-1.0.1e.tar.gz \
+    && tar -xzvf openssl-1.0.1e.tar.gz \
+    && rm openssl-1.0.1e.tar.gz
 
-# Download OpenSSL source
-ADD https://www.openssl.org/source/old/1.0.1/openssl-$OPENSSL_VERSION.tar.gz /tmp/
+WORKDIR /usr/local/src/openssl-1.0.1e
 
-# Extract the source
-RUN tar -xzvf /tmp/openssl-$OPENSSL_VERSION.tar.gz -C /tmp/
+# Configure, compile, and install OpenSSL
+RUN ./config \
+    && make \
+    && make install \
+    && ldconfig
 
-# Change directory to the OpenSSL source
-WORKDIR /tmp/openssl-$OPENSSL_VERSION
+# Enable SSL module for Apache
+RUN a2enmod ssl
 
-# Configure, build, and install OpenSSL
-RUN ./config && \
-    make && \
-    make install
+EXPOSE 80
+EXPOSE 443
 
-# Cleanup
-RUN rm -rf /tmp/*
+CMD [""apachectl"", ""-D"", ""FOREGROUND""]"	Generate a dockerfile of apache2 with OpenSSL 1.0.1 before 1.0.1g building from source	"# Use a base image with necessary tools for building
+FROM ubuntu:latest
 
-# Optionally, you can set the path to include OpenSSL binaries
-ENV PATH=""/usr/local/ssl/bin:${PATH}""
+# Install dependencies
+RUN apt-get update \
+    && apt-get install -y \
+       wget \
+       build-essential \
+       apache2 \
+       libssl-dev \
+       zlib1g-dev
 
 # Set the working directory
-WORKDIR /app
+WORKDIR /usr/src
 
-# Example CMD to run something, replace with your command
-CMD [""bash""]"	Generate a dockerfile of OpenSSL 1.0.1 before 1.0.1g building from source	"# Use a base image with necessary build tools
-FROM ubuntu:latest
+# Download OpenSSL 1.0.1f source code
+RUN wget https://www.openssl.org/source/old/1.0.1/openssl-1.0.1f.tar.gz \
+    && tar -xzf openssl-1.0.1f.tar.gz
+
+# Build and install OpenSSL 1.0.1f
+WORKDIR /usr/src/openssl-1.0.1f
+RUN ./config --prefix=/usr/local/ssl --openssldir=/usr/local/ssl \
+    && make \
+    && make install
+
+# Download Apache HTTP Server source code
+WORKDIR /usr/src
+RUN wget https://archive.apache.org/dist/httpd/httpd-2.4.51.tar.gz \
+    && tar -xzf httpd-2.4.51.tar.gz
+
+# Build and install Apache HTTP Server with OpenSSL 1.0.1f
+WORKDIR /usr/src/httpd-2.4.51
+RUN ./configure --with-ssl=/usr/local/ssl --prefix=/usr/local/apache2 \
+    && make \
+    && make install
+
+# Copy Apache configuration files
+COPY ./httpd.conf /usr/local/apache2/conf/httpd.conf
+
+# Expose port 80
+EXPOSE 80
+
+# Start Apache HTTP Server
+CMD [""/usr/local/apache2/bin/httpd"", ""-D"", ""FOREGROUND""]"	"Changed in both version the base image version (now ubuntu:16.04) and ""make install"" to ""make install_sw"" which don’t install man pages, becoming faster and removing some package dependencies error.
+
+
+Generic version built openssl but apache2 was already built with default openssl (not vulnerable)
+
+
+Source version building apache2 installed it before from apt manager, so removed it
+Needed ""libapr1-dev"",""libaprutil1-dev"" and ""libpcre3-dev"" to build apache2 and openssl
+Can’t go further, too complex compiling error"
+Code Injection (https://nvd.nist.gov/vuln/detail/CVE-2017-7494) CVE-2017-7494	Generate a dockerfile of Samba 4.x before 4.4.14	"# Use a base image with a suitable Linux distribution
+FROM debian:stretch
+
+# Install necessary packages
+RUN apt-get update && \
+    apt-get install -y samba=2:4.5.3+dfsg-2+deb9u2 && \
+    rm -rf /var/lib/apt/lists/*
+
+# Copy configuration files
+COPY smb.conf /etc/samba/smb.conf
+
+# Expose Samba ports
+EXPOSE 137/udp 138/udp 139/tcp 445/tcp
+
+# Start Samba service
+CMD [""smbd"", ""--foreground"", ""--log-stdout""]"	Generate a dockerfile of Samba 4.x before 4.4.14 building from source	"# Use a base image with necessary dependencies for building
+FROM ubuntu:20.04
 
 # Install required dependencies
 RUN apt-get update && \
-    apt-get install -y build-essential wget perl
-
-# Set the working directory
-WORKDIR /openssl-build
-
-# Download OpenSSL 1.0.1
-RUN wget https://www.openssl.org/source/old/1.0.1/openssl-1.0.1.tar.gz && \
-    tar -xzf openssl-1.0.1.tar.gz
-
-# Build OpenSSL from source
-RUN cd openssl-1.0.1 && \
-    ./config && \
-    make && \
-    make install
-
-# Cleanup
-RUN rm -rf /openssl-build
-
-# Set the environment variables
-ENV LD_LIBRARY_PATH=/usr/local/ssl/lib"	
-Code Injection (https://nvd.nist.gov/vuln/detail/CVE-2017-7494) CVE-2017-7494	Generate a dockerfile of Samba 4.x before 4.4.14	"# Use Ubuntu 18.04 as the base image
-FROM ubuntu:18.04
-
-# Update package lists and install Samba 4.4.14
-RUN apt-get update && \
-    apt-get install -y samba=2:4.4.14+dfsg-0ubuntu2
-
-# Copy the Samba configuration file into the container
-COPY smb.conf /etc/samba/smb.conf
-
-# Expose the necessary ports for Samba
-EXPOSE 137/udp 138/udp 139/tcp 445/tcp
-
-# Start Samba service when the container launches
-CMD [""/usr/sbin/smbd"", ""--foreground"", ""--no-process-group""]"	Generate a dockerfile of Samba 4.x before 4.4.14 building from source	"# Use a base image with necessary dependencies
-FROM ubuntu:20.04
-
-# Install required packages
-RUN apt-get update && \
-    apt-get install -y build-essential wget python3-dev libgnutls28-dev libpam0g-dev libldap2-dev libbsd-dev python3 python3-pip && \
-    rm -rf /var/lib/apt/lists/*
-
-# Define version and download URL
-ENV SAMBA_VERSION 4.4.13
-ENV SAMBA_DOWNLOAD_URL https://download.samba.org/pub/samba/stable/samba-$SAMBA_VERSION.tar.gz
-
-# Download and extract Samba source
-RUN wget -O samba.tar.gz ""$SAMBA_DOWNLOAD_URL"" && \
-    mkdir -p /usr/src/samba && \
-    tar -xzvf samba.tar.gz -C /usr/src/samba --strip-components=1 && \
-    rm samba.tar.gz
-
-# Build and install Samba
-RUN cd /usr/src/samba && \
-    ./configure && \
-    make && \
-    make install
-
-# Expose Samba ports
-EXPOSE 137/udp 138/udp 139 445
-
-# Define volumes
-VOLUME [""/etc/samba"", ""/var/lib/samba""]
-
-# Define entrypoint
-ENTRYPOINT [""smbd"", ""--foreground"", ""--no-process-group""]"	
-Path Traversal (https://nvd.nist.gov/vuln/detail/CVE-2023-38633) CVE-2023-38633	Create a dockerfile of php server using librsvg before 2.56.3	"# Use a base image with PHP and Apache
-FROM php:7.4-apache
-
-# Update package lists
-RUN apt-get update
-
-# Install necessary packages
-RUN apt-get install -y \
-    librsvg2-bin \
-    librsvg2-dev \
-    pkg-config \
-    libcairo2-dev \
-    libgdk-pixbuf2.0-dev \
-    libxml2-dev \
-    libpango1.0-dev \
-    libjpeg-dev \
-    libpng-dev \
-    libgif-dev \
-    libtiff-dev \
-    libexif-dev \
-    libwebp-dev
-
-# Enable required Apache modules
-RUN a2enmod rewrite
-
-# Restart Apache to apply changes
-RUN service apache2 restart
-
-# Set up the working directory
-WORKDIR /var/www/html
-
-# Copy your PHP files into the container
-COPY . /var/www/html
-
-# Expose port 80
-EXPOSE 80
-
-# Start Apache server
-CMD [""apache2-foreground""]"	Create a dockerfile of php server using librsvg before 2.56.3 building from source	"# Use a base image with PHP and necessary build tools
-FROM php:latest
-
-# Install dependencies
-RUN apt-get update && apt-get install -y \
+    apt-get install -y \
     build-essential \
     wget \
-    libglib2.0-dev \
-    libcroco3-dev \
-    libxml2-dev \
-    libpango1.0-dev \
-    libcairo2-dev
+    python \
+    python-dev \
+    python3 \
+    python3-dev \
+    libacl1-dev \
+    libattr1-dev \
+    libblkid-dev \
+    libgnutls28-dev \
+    libreadline-dev \
+    python3-dbg \
+    python-dbg \
+    python3-gpg \
+    python3-ldb \
+    liblmdb-dev \
+    python3-tdb \
+    python3-urllib3 \
+    python3-crypto \
+    python3-gpg \
+    libldap2-dev \
+    libpopt-dev \
+    python3-pyasn1 \
+    python3-dnspython \
+    libbsd-dev \
+    python3-dev \
+    python3-setuptools \
+    python3-cryptography \
+    python3-talloc \
+    gdb \
+    git \
+    pkg-config \
+    python3-dnspython \
+    libarchive-dev \
+    dnsutils \
+    acl \
+    attr \
+    krb5-config \
+    krb5-user \
+    docbook-xml \
+    docbook-xsl \
+    xsltproc \
+    docbook5-xml \
+    docbook-xsl-ns \
+    libjson-perl \
+    xmlto \
+    rsync \
+    systemd
 
-# Download librsvg source before version 2.56.3
-RUN wget https://download.gnome.org/sources/librsvg/2.56/librsvg-2.56.2.tar.xz
+# Download and extract the Samba source code
+RUN wget https://download.samba.org/pub/samba/samba-4.5.3.tar.gz && \
+    tar -xzvf samba-4.5.3.tar.gz && \
+    cd samba-4.5.3
 
-# Extract the source code
-RUN tar -xvf librsvg-2.56.2.tar.xz && cd librsvg-2.56.2
-
-# Configure, make, and install librsvg
-RUN cd librsvg-2.56.2 && \
+# Configure and build Samba
+RUN cd samba-4.5.3 && \
     ./configure && \
     make && \
     make install
 
-# Clean up unnecessary files
-RUN rm -rf librsvg-2.56.2.tar.xz && \
-    rm -rf librsvg-2.56.2
+# Expose the default Samba ports
+EXPOSE 137/udp 138/udp 139/tcp 445/tcp
 
-# Set up PHP configuration
-COPY php.ini /usr/local/etc/php/php.ini
+# Start Samba service
+CMD [""/usr/local/samba/sbin/smbd"", ""--foreground"", ""--no-process-group""]"	"Generic version had a copy configuration command not needed,  can’t go further because different version don’t exist on the package manager apt, even on older and different distro (ubunut:16.04 or Debian)
 
-# Expose port 80
-EXPOSE 80
+Source version dowloaded a lot of package to build samba, so opted to use dependencies from samba site
+Added samba bin and sbin to path
+Samba doesn’t provide default configuration file, so we imported base one from GitHub (we also created a custom user)"
+Path Traversal (https://nvd.nist.gov/vuln/detail/CVE-2023-38633) CVE-2023-38633	Create a dockerfile of C program asking the user a path for an svg file using librsvg 2.56.2	"# Use the official Ubuntu base image
+FROM ubuntu:latest
 
-# Start PHP server
-CMD [""php"", ""-S"", ""0.0.0.0:80""]"	
+# Update packages and install necessary dependencies
+RUN apt-get update && apt-get install -y \
+    gcc \
+    libc6-dev \
+    librsvg2-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set the working directory in the container
+WORKDIR /usr/src/app
+
+# Copy the source code into the container
+COPY . .
+
+# Compile the C program
+RUN gcc -o svg_processor svg_processor.c -lrsvg-2
+
+# Set the entry point for the container
+CMD [""./svg_processor""]"	Create a dockerfile of C program asking the user a path for an svg file using librsvg 2.56.2 building from source	"# Use a base image with necessary development tools and libraries
+FROM ubuntu:latest
+
+# Install necessary packages for building librsvg and running the C program
+RUN apt-get update && \
+    apt-get install -y \
+    build-essential \
+    pkg-config \
+    libglib2.0-dev \
+    libcairo2-dev \
+    libxml2-dev \
+    git \
+    wget \
+    && rm -rf /var/lib/apt/lists/*
+
+# Clone librsvg from source
+RUN git clone --branch v2.56.2 --depth 1 https://gitlab.gnome.org/GNOME/librsvg.git /librsvg
+
+# Build and install librsvg
+RUN cd /librsvg && \
+    ./autogen.sh && \
+    make && \
+    make install
+
+# Create a directory for your C program
+RUN mkdir /app
+WORKDIR /app
+
+# Copy your C source code into the container
+COPY main.c /app/
+
+# Compile the C program
+RUN gcc -o program main.c $(pkg-config --cflags --libs librsvg-2.0)
+
+# Set the entry point to your program
+ENTRYPOINT [""./program""]
+
+"	"Generic version needed to add `pkg-config --cflags --libs librsvg-2.0` to link svg library
+Hard to make it work too difficult the API documentation
+
+Source git branch is ""2.56.2"" rather than ""v2.56.2""
+Missing ""aclocal"" for autogen.sh, therefore installed: dh-autoreconf gobject-introspection libgirepository1.0-dev cargo libgdk-pixbuf2.0-dev libharfbuzz-dev libpango1.0-dev
+to use ""autoreconf -f -I"" to build and compile
+Added enviroment variable PATH ""${PATH}:/usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0"" in order to have gdk-pixbuf-query-loaders in path
+Added ""ldconfig"" after make install to link shared library (.so)
+
+"
 OS Command Injection (https://nvd.nist.gov/vuln/detail/cve-2017-17405) CVE-2017-17405	Generate a dockerfile of Ruby before 2.4.3	"# Use an official Ruby runtime as the base image
 FROM ruby:2.4.2
 
