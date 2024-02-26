@@ -359,18 +359,14 @@ COPY main.c /app/
 RUN gcc -o program main.c $(pkg-config --cflags --libs librsvg-2.0)
 
 # Set the entry point to your program
-ENTRYPOINT [""./program""]
-
-"	"Generic version needed to add `pkg-config --cflags --libs librsvg-2.0` to link svg library
+ENTRYPOINT [""./program""]"	"Generic version needed to add `pkg-config --cflags --libs librsvg-2.0` to link svg library
 Hard to make it work too difficult the API documentation
 
 Source git branch is ""2.56.2"" rather than ""v2.56.2""
 Missing ""aclocal"" for autogen.sh, therefore installed: dh-autoreconf gobject-introspection libgirepository1.0-dev cargo libgdk-pixbuf2.0-dev libharfbuzz-dev libpango1.0-dev
 to use ""autoreconf -f -I"" to build and compile
 Added enviroment variable PATH ""${PATH}:/usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0"" in order to have gdk-pixbuf-query-loaders in path
-Added ""ldconfig"" after make install to link shared library (.so)
-
-"
+Added ""ldconfig"" after make install to link shared library (.so)"
 OS Command Injection (https://nvd.nist.gov/vuln/detail/cve-2017-17405) CVE-2017-17405	Generate a dockerfile of Ruby before 2.4.3	"# Use an official Ruby runtime as the base image
 FROM ruby:2.4.2
 
@@ -453,7 +449,11 @@ RUN bundle install
 COPY . .
 
 # Start the application
-CMD [""ruby"", ""app.rb""]"	
+CMD [""ruby"", ""app.rb""]"	"Generic version tried to install and copy packages and directory not needed, tried to start a rail project even if wasn’t asked to do so
+
+Source version tried to install and copy packages and directory not needed
+SHA256 was incorrect, find right one on https://www.ruby-lang.org/en/news/2017/09/14/ruby-2-4-2-released/
+Too complex debugging build"
 OS Command Injection (https://nvd.nist.gov/vuln/detail/cve-2014-6271) CVE-2014-6271	Generate a dockerfile of Bash 4.3.0	"# Use Ubuntu 18.04 as the base image
 FROM ubuntu:18.04
 
@@ -511,7 +511,9 @@ RUN rm -rf /usr/src/bash-4.3 && \
 RUN ln -sf /usr/local/bin/bash /bin/bash
 
 # Run Bash shell
-CMD [""/bin/bash""]"	
+CMD [""/bin/bash""]"	"Both version can’t use ""bash"" as entrypoint or the container shut down immediately
+
+"
 OS Command Injection (https://nvd.nist.gov/vuln/detail/CVE-2020-7247) CVE-2020-7247	Generate a dockerfile of OpenSMTPD 6.6	"# Use a Debian base image
 FROM debian:buster-slim
 
@@ -592,7 +594,13 @@ RUN apk del build-base \
 EXPOSE 25
 
 # Run OpenSMTPD
-CMD [""smtpd"", ""-dv""]"	
+CMD [""smtpd"", ""-dv""]"	"Generic version needed some configuration change to work, but apt install 6.0.3 version
+
+Source version dowloaded wrong version and wrong workdir folder
+Missing ""fts-dev"" and ""byacc"" packages installed from apk
+Missing  libasr"" package, but the latter is deprecated and dismissed, so it must be dowloaded and built from OpneSMTPD side
+Removed downloading and removing of two packages: libasr (dowloaded from source) and gmake (it’s a part of make package
+Added two user _smtpq and _smtpd"
 Improper Authentication (https://nvd.nist.gov/vuln/detail/CVE-2012-2122) CVE-2012-2122	Generate a dockerfile of MySQL Server 5.6.5	"# Use the official MySQL 5.6.5 image from Docker Hub
 FROM mysql:5.6.5
 
