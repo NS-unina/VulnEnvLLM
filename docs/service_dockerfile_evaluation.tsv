@@ -600,7 +600,8 @@ Source version dowloaded wrong version and wrong workdir folder
 Missing ""fts-dev"" and ""byacc"" packages installed from apk
 Missing  libasr"" package, but the latter is deprecated and dismissed, so it must be dowloaded and built from OpneSMTPD side
 Removed downloading and removing of two packages: libasr (dowloaded from source) and gmake (it’s a part of make package
-Added two user _smtpq and _smtpd"
+Added two user _smtpq and _smtpd
+Modifying smtpd.conf as needed and the exploit works"
 Improper Authentication (https://nvd.nist.gov/vuln/detail/CVE-2012-2122) CVE-2012-2122	Generate a dockerfile of MySQL Server 5.6.5	"# Use the official MySQL 5.6.5 image from Docker Hub
 FROM mysql:5.6.5
 
@@ -639,7 +640,11 @@ RUN rm -rf /mysql
 EXPOSE 3306
 
 # Set default command to run MySQL Server
-CMD [""mysqld""]"	
+CMD [""mysqld""]"	"Generic version can’t be used due to base docker image not built on docker hub (probably too old)
+
+Source version need following instruction on mysql installation guide: libbost package, mysql group and user, mysql file folder with right permission, inizialitation
+Old version of bison to resolve cmake deprecated error for old macro, so downloaded .deb with wget and installed with dpkg
+Need ' -DCMAKE_CXX_FLAGS=""-std=c++03"" ' flag on cmake to make it retro compatible"
 Path Traversal (https://nvd.nist.gov/vuln/detail/CVE-2018-3760) CVE-2018-3760	Generate a dockerfile of Sprockets 3.7.1	"# Use Ruby 2.7 as the base image
 FROM ruby:2.7
 
@@ -688,4 +693,188 @@ RUN bundle install
 EXPOSE 3000
 
 # Command to run the application
-CMD [""bundle"", ""exec"", ""rackup"", ""--host"", ""0.0.0.0"", ""--port"", ""3000""]"	
+CMD [""bundle"", ""exec"", ""rackup"", ""--host"", ""0.0.0.0"", ""--port"", ""3000""]"	"Generic version tried to install and copy packages and directory not needed, tried to start a rail project even if wasn’t asked to do so
+
+Source version used a non-existing branch on GitHub, opted for wget the tar.gz release package
+Too many difficult setup process, mixing bundle, gemfile, local installation, rails and rackup"
+Integer Owerflow (https://nvd.nist.gov/vuln/detail/CVE-2017-7529) CVE-2017-7529	Generate a dockerfile of Nginx 1.13.2	"# Use the official Nginx image as the base image
+FROM nginx:1.13.2
+
+# Optionally, you can include additional configuration or customization here
+# For instance, copying custom nginx.conf
+# COPY nginx.conf /etc/nginx/nginx.conf
+
+# Expose ports
+EXPOSE 80
+EXPOSE 443
+
+# Command to run Nginx when the container starts
+CMD [""nginx"", ""-g"", ""daemon off;""]"	Generate a dockerfile of nginx 1.13.2 building from source	"# Use a base image with necessary tools for building nginx
+FROM ubuntu:latest
+
+# Install necessary dependencies
+RUN apt-get update && \
+    apt-get install -y \
+    wget \
+    build-essential \
+    libpcre3 \
+    libpcre3-dev \
+    zlib1g-dev \
+    openssl \
+    libssl-dev
+
+# Download nginx source
+RUN wget http://nginx.org/download/nginx-1.13.2.tar.gz && \
+    tar -xzvf nginx-1.13.2.tar.gz && \
+    rm nginx-1.13.2.tar.gz
+
+# Change directory to nginx source
+WORKDIR /nginx-1.13.2
+
+# Configure nginx
+RUN ./configure --prefix=/usr/local/nginx --with-http_ssl_module
+
+# Build nginx
+RUN make
+
+# Install nginx
+RUN make install
+
+# Expose port 80
+EXPOSE 80
+
+# Start nginx when container starts
+CMD [""/usr/local/nginx/sbin/nginx"", ""-g"", ""daemon off;""]"	"Generic version worked without any fix or configuration
+
+Source version used old function deprecated and non-existing, so used env cflags to ignore deprecated declarations and replaced every occurence of the parameter ""current_salt"" with the newer and correct version ""output"" using find and sed commands"
+Path Traversal (https://nvd.nist.gov/vuln/detail/CVE-2017-14849) CVE-2017-14849	Generate a dockerfile of Node 8.5.0 using package and package-lock	"# Use official Node.js 8.5.0 image as base
+FROM node:8.5.0
+
+# Set the working directory in the container
+WORKDIR /usr/src/app
+
+# Copy package.json and package-lock.json to the working directory
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy the rest of the application code
+COPY . .
+
+# Expose the port the app runs on
+EXPOSE 3000
+
+# Command to run the application
+CMD [""npm"", ""start""]"		"# Use the official node image with version 8.5.0 as the base image
+FROM node:8.5.0
+
+# Set a working directory inside the container
+WORKDIR /app
+
+# Copy the package.json and package-lock.json files into the container
+COPY package.json .
+COPY package-lock.json .
+
+# Install dependencies
+RUN npm install
+
+# Copy the rest of the application code into the container
+COPY . .
+
+# Expose the port the app runs on
+EXPOSE 3000
+
+# Command to run the application
+CMD [""npm"", ""start""]"	"Although source and generic version prompt were different as always, response was almost the same so it will evaluated only one
+No further configuration required, it works as generated, need just some package and javascript setup, but it depends on the project"
+Code Injection (https://nvd.nist.gov/vuln/detail/CVE-2017-16082) Code Injection	Generate a dockerfile of Node 9.0.0 with a postegreSQL database	"# Use official Node.js 9.0.0 image as base
+FROM node:9.0.0
+
+# Set working directory within the container
+WORKDIR /app
+
+# Copy package.json and package-lock.json to the working directory
+COPY package.json package-lock.json ./
+
+# Install dependencies
+RUN npm install
+
+# Install PostgreSQL
+RUN apt-get update && apt-get install -y postgresql postgresql-contrib
+
+# Expose PostgreSQL port
+EXPOSE 5432
+
+# Copy the rest of the application code
+COPY . .
+
+# Command to start the application
+CMD [""npm"", ""start""]"	Generate a dockerfile of Node 9.0.0 with a postegreSQL database building from source	"# Use Ubuntu 18.04 as the base image
+FROM ubuntu:18.04
+
+# Install necessary dependencies
+RUN apt-get update && apt-get install -y \
+    wget \
+    build-essential \
+    ca-certificates \
+    libreadline-dev \
+    zlib1g-dev \
+    libssl-dev \
+    libxml2-dev \
+    libxml2-utils \
+    libxml2-dev \
+    libxslt-dev \
+    libperl-dev \
+    python3 \
+    python3-pip \
+    llvm \
+    libllvm-ocaml-dev \
+    libxml2-dev \
+    libssl-dev \
+    zlib1g-dev \
+    libpam0g-dev \
+    libedit-dev \
+    libbsd-dev \
+    build-essential \
+    bison \
+    flex \
+    git \
+    cmake \
+    ninja-build \
+    libtool \
+    pkg-config \
+    sudo \
+    vim \
+    curl \
+    lsb-release \
+    gnupg \
+    postgresql-client \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Node.js 9.0.0
+RUN curl -sL https://deb.nodesource.com/setup_9.x | bash -
+RUN apt-get install -y nodejs
+
+# Download PostgreSQL source
+RUN wget https://ftp.postgresql.org/pub/source/v13.2/postgresql-13.2.tar.gz
+
+# Unpack the source code
+RUN tar xfz postgresql-13.2.tar.gz
+
+# Change directory to the postgresql source
+WORKDIR /postgresql-13.2
+
+# Configure, make, and install PostgreSQL
+RUN ./configure && make && make install
+
+# Add PostgreSQL bin directory to PATH
+ENV PATH=""/usr/local/pgsql/bin:${PATH}""
+
+# Expose PostgreSQL default port
+EXPOSE 5432
+
+# Set the default command to run when starting the container
+CMD [""postgres""]"	"Generic version needed some tweaks like update sources.list of archived Debian repository
+Added initialization of database and table of postegreSQL
+Dowloaded and used as CMD wait-for-it script to wait for postegresql process and only then start the npm process"
