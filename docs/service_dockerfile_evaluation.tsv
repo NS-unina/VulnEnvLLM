@@ -877,4 +877,144 @@ EXPOSE 5432
 # Set the default command to run when starting the container
 CMD [""postgres""]"	"Generic version needed some tweaks like update sources.list of archived Debian repository
 Added initialization of database and table of postegreSQL
-Dowloaded and used as CMD wait-for-it script to wait for postegresql process and only then start the npm process"
+Dowloaded and used as CMD wait-for-it script to wait for postegresql process and only then start the npm process
+
+Source version had just one package in apt install which didn’t exist, therefore it compiled and runned without any problem, same step as generic version"
+OS Command Injection (https://nvd.nist.gov/vuln/detail/CVE-2019-9193) CVE-2019-9193	Generate a dockerfile of PostgreSQL before 11.2	"# Use the official PostgreSQL 11.1 image
+FROM postgres:11.1
+
+# Optionally, set environment variables
+ENV POSTGRES_USER postgres
+ENV POSTGRES_PASSWORD password
+ENV POSTGRES_DB mydatabase
+
+# Optionally, copy a custom configuration file from the current directory
+# COPY postgresql.conf /etc/postgresql/postgresql.conf
+
+# Expose the PostgreSQL port
+EXPOSE 5432
+
+# Run PostgreSQL when the container starts
+CMD [""postgres""]"	Generate a dockerfile of PostgreSQL before 11.2 building from source	"# Use a base image with necessary dependencies
+FROM ubuntu:20.04
+
+# Update package list and install necessary tools
+RUN apt-get update && \
+    apt-get install -y wget build-essential git
+
+# Create a directory for PostgreSQL source code
+WORKDIR /opt
+
+# Clone PostgreSQL source code from the official repository
+RUN git clone --branch REL_11_2 --depth 1 https://github.com/postgres/postgres.git
+
+# Change to PostgreSQL source code directory
+WORKDIR /opt/postgres
+
+# Configure, build and install PostgreSQL
+RUN ./configure && \
+    make && \
+    make install
+
+# Expose PostgreSQL port
+EXPOSE 5432
+
+# Initialize a directory for data storage
+RUN mkdir -p /var/lib/postgresql/data
+
+# Set permissions for data directory
+RUN chown -R postgres:postgres /var/lib/postgresql/data
+
+# Switch to postgres user
+USER postgres
+
+# Initialize the database cluster
+RUN /usr/local/pgsql/bin/initdb -D /var/lib/postgresql/data
+
+# Start PostgreSQL server
+CMD [""/usr/local/pgsql/bin/postgres"", ""-D"", ""/var/lib/postgresql/data"", ""-c"", ""config_file=/usr/local/pgsql/postgresql.conf""]"	"Generic version work as required without problem
+
+Source version used branch 11.2 instead of 11.1 (or at least ""before 11.2"" as required)
+Required to install these package: libreadline-dev, zlib1g-dev, bison; to build postgreSQL Required Postgres user and group
+Required to change default user password of the database, therefore start the service, execute the query and stop the service again
+Require to change pg_hba.conf to enable connection from outside local enviroment
+"
+Improper Access Control (https://www.exploit-db.com/exploits/49908) CVE-2015-3306	Generate a dockerfile of ProFTPd 1.3.5 with mod_copy enabled	"# Use a base image with ProFTPD dependencies
+FROM debian:bullseye
+
+LABEL maintainer=""Your Name <your.email@example.com>""
+
+# Install required packages
+RUN apt-get update && \
+    apt-get install -y proftpd-basic proftpd-mod-copy && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Copy ProFTPD configuration file with mod_copy module enabled
+COPY proftpd.conf /etc/proftpd/
+
+# Expose ports (you may want to adjust these based on your ProFTPD configuration)
+EXPOSE 20 21
+
+# Start ProFTPD in foreground
+CMD [""proftpd"", ""--nodaemon""]"	Generate a dockerfile of ProFTPd 1.3.5 with mod_copy enabled building from source	"# Use a base image with the necessary dependencies to build ProFTPd from source
+FROM debian:buster AS builder
+
+# Install build dependencies
+RUN apt-get update && \
+    apt-get install -y \
+    build-essential \
+    wget \
+    libncurses-dev \
+    libssl-dev \
+    libpam0g-dev \
+    zlib1g-dev \
+    libwrap0-dev \
+    libcap-dev \
+    libmysqlclient-dev \
+    libldap2-dev \
+    libpq-dev \
+    libsqlite3-dev
+
+# Download and extract ProFTPd source
+WORKDIR /tmp
+RUN wget ftp://ftp.proftpd.org/distrib/source/proftpd-1.3.5.tar.gz && \
+    tar -zxvf proftpd-1.3.5.tar.gz
+
+# Build ProFTPd with mod_copy
+WORKDIR /tmp/proftpd-1.3.5
+RUN ./configure --with-modules=mod_copy && \
+    make && \
+    make install
+
+# Start a new image
+FROM debian:buster
+
+# Install runtime dependencies
+RUN apt-get update && \
+    apt-get install -y \
+    libssl1.1 \
+    libpam0g \
+    libwrap0 \
+    libcap2 \
+    libmysqlclient21 \
+    libldap-2.4-2 \
+    libpq5 \
+    libsqlite3-0
+
+# Copy ProFTPd binaries and configuration files from builder image
+COPY --from=builder /usr/local/sbin/proftpd /usr/local/sbin/
+COPY --from=builder /usr/local/libexec/proftpd /usr/local/libexec/
+COPY --from=builder /usr/local/etc/proftpd.conf /usr/local/etc/
+
+# Expose FTP ports
+EXPOSE 20 21
+
+# Run ProFTPd
+CMD [""/usr/local/sbin/proftpd"", ""--nodaemon""]"	"Generic version tried to install mod_copy from apt sources, but it has to be built with proFTPD or with prxs tool and mod_copy source code
+Wrong version on apt, 1.3.5 version doesn’t exist
+
+Source version building dependencies have some problem: libmysqlclient-dev is replaced by libmariadb-dev, libmysqlclient21 doens’t exist in this Debian version
+Disabled mod_delay giving error
+Created user and group in both image (builder and final one)
+Strange error : error opening scoreboard: Operation not permitted"
