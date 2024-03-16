@@ -1,7 +1,4 @@
-# MacOS Exclusion
-.DS_Store 
-
-*.bundle.*
+ *.bundle.*
 lib/
 node_modules/
 *.egg-info/
@@ -138,3 +135,7 @@ ui-tests/playwright-report
 .pnp.*
 ui-tests/.yarn/*
 ui-tests/.pnp.*
+
+# Custom
+
+results/
