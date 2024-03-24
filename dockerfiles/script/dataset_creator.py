@@ -1,6 +1,6 @@
 import csv
 import json
-from os import remove, path
+from os import remove, path, walk
 
 def tsv_to_jsonl(tsv_filepath, jsonl_filepath):
     with open(tsv_filepath, 'r') as tsv_file, open(jsonl_filepath, 'a') as jsonl_file:
@@ -11,9 +11,9 @@ def tsv_to_jsonl(tsv_filepath, jsonl_filepath):
                 jsonl_file.write(json.dumps({"input": row[2], "output": row[3]}) + '\n')
                 
 def remove_trailing_newlines(directory):
-    for root, dirs, files in os.walk(directory):
+    for root, dirs, files in walk(directory):
         for file in files:
-            file_path = os.path.join(root, file)
+            file_path = path.join(root, file)
             if(file_path.endswith(".DS_Store")):
                 continue
             with open(file_path, 'r') as f:
