@@ -1,0 +1,671 @@
+Generate a dockerfile of OpenSSH	"# Use a base image with a Linux distribution
+FROM ubuntu:18.04
+
+# Install OpenSSH server
+RUN apt-get update && \
+    apt-get install -y openssh-server && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Create a directory for SSH keys
+RUN mkdir /var/run/sshd
+
+# Expose the SSH port
+EXPOSE 22
+
+# Start the SSH service
+CMD [""/usr/sbin/sshd"", ""-D""]"	Generate a dockerfile of OpenSSH 7.7 building from source	"# Use a base image with necessary dependencies
+FROM ubuntu:16.04
+
+# Install required packages
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    wget \
+    libssl-dev \
+    zlib1g-dev
+
+# Download OpenSSH source
+RUN wget https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-7.7p1.tar.gz
+
+# Extract OpenSSH source
+RUN tar -xzf openssh-7.7p1.tar.gz
+
+# Change directory to OpenSSH source
+WORKDIR /openssh-7.7p1
+
+# Configure and build OpenSSH
+RUN ./configure && \
+    make && \
+    make install
+
+# Cleanup
+RUN rm -rf /openssh-7.7p1* && \
+    apt-get purge -y build-essential wget && \
+    apt-get autoremove -y && \
+    apt-get clean
+
+# Expose SSH port
+RUN groupadd sshd && useradd -g 33 -c sshd -d / sshd
+EXPOSE 22
+
+# Start SSH service
+CMD [""/usr/local/sbin/sshd"", ""-D""]"
+Generate a dockerfile of apache2 with OpenSSL 1.0.1	"FROM ubuntu:16.04
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y \
+    apache2 \
+    && apt-get install -y \
+    build-essential \
+    wget \
+    zlib1g-dev
+
+WORKDIR /usr/local/src
+
+# Downloading OpenSSL 1.0.1 before version 1.0.1g
+RUN wget https://www.openssl.org/source/old/1.0.1/openssl-1.0.1e.tar.gz \
+    && tar -xzvf openssl-1.0.1e.tar.gz \
+    && rm openssl-1.0.1e.tar.gz
+
+WORKDIR /usr/local/src/openssl-1.0.1e
+
+# Configure, compile, and install OpenSSL
+RUN ./config \
+    && make \
+    && make install_sw \
+    && ldconfig
+
+# Enable SSL module for Apache
+RUN a2enmod ssl
+
+EXPOSE 80
+EXPOSE 443
+
+CMD [""apachectl"", ""-D"", ""FOREGROUND""]"		
+Generate a dockerfile of Samba	"# Use a base image with a suitable Linux distribution
+FROM ubuntu:16.04
+
+# Install necessary packages
+RUN apt-get update && \
+    apt-get install -y samba && \
+    rm -rf /var/lib/apt/lists/*
+
+# Expose Samba ports
+EXPOSE 137/udp 138/udp 139/tcp 445/tcp
+
+# Start Samba service
+CMD [""smbd"", ""--foreground"", ""--log-stdout""]"	Generate a dockerfile of Samba 4.x before 4.4.14 building from source	"# Use a base image with necessary dependencies for building
+FROM ubuntu:20.04
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install required dependencies
+RUN apt-get update && \
+    apt-get install -y acl attr autoconf bind9utils bison build-essential \
+    debhelper dnsutils docbook-xml docbook-xsl flex gdb libjansson-dev krb5-user \
+    libacl1-dev libaio-dev libarchive-dev libattr1-dev libblkid-dev libbsd-dev \
+    libcap-dev libcups2-dev libgnutls28-dev libgpgme-dev libjson-perl \
+    libldap2-dev libncurses5-dev libpam0g-dev libparse-yapp-perl \
+    libpopt-dev libreadline-dev nettle-dev perl perl-modules pkg-config \
+    python-all-dev python-crypto python2-dbg python-dev python-dnspython \
+    python3-dnspython python3-gpg python-markdown python3-markdown \
+    python3-dev xsltproc zlib1g-dev liblmdb-dev lmdb-utils wget
+
+# Download and extract the Samba source code
+RUN wget https://download.samba.org/pub/samba/samba-4.4.16.tar.gz && \
+    tar -xzvf samba-4.4.16.tar.gz && \
+    cd samba-4.4.16
+
+# Configure and build Samba
+RUN cd samba-4.4.16 && \
+    ./configure && \
+    make && \
+    make install
+
+ENV PATH=""/usr/local/samba/bin:/usr/local/samba/sbin:${PATH}""
+COPY smb.conf /usr/local/samba/etc/smb.conf
+
+# Expose the default Samba ports
+EXPOSE 137/udp 138/udp 139/tcp 445/tcp
+
+RUN (echo test; echo test) | smbpasswd -s -a root
+
+# Set the entry point
+ENTRYPOINT [""smbd"", ""--foreground"", ""--no-process-group""]"
+Create a dockerfile of C program using librsvg 2.56.2	"# Use the official Ubuntu base image
+FROM ubuntu:latest
+
+# Update packages and install necessary dependencies
+RUN apt-get update && apt-get install -y \
+    gcc \
+    libc6-dev \
+    librsvg2-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set the working directory in the container
+WORKDIR /
+
+# Copy the source code into the container
+COPY svg_processor.c .
+
+# Compile the C program
+RUN gcc -o svg_processor svg_processor.c `pkg-config --cflags --libs librsvg-2.0`
+
+# Set the entry point for the container
+CMD [""tail"", ""-f"", ""/dev/null""]"	Create a dockerfile of C program using librsvg 2.56.2 building from source	"# Use a base image with necessary development tools and libraries
+FROM ubuntu:latest
+ENV PATH ""${PATH}:/usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0""
+
+# Install necessary packages for building librsvg and running the C program
+RUN apt-get update && \
+    apt-get install -y \
+    build-essential \
+    pkg-config \
+    libglib2.0-dev \
+    libcairo2-dev \
+    libxml2-dev \
+    git \
+    wget \
+    dh-autoreconf \
+    gobject-introspection \
+    libgirepository1.0-dev \
+    cargo \
+    libgdk-pixbuf2.0-dev \
+    libharfbuzz-dev \
+    libpango1.0-dev
+    
+# Clone librsvg from source
+RUN git clone --branch 2.56.2 --depth 1 https://gitlab.gnome.org/GNOME/librsvg.git /librsvg
+
+# Build and install librsvg
+RUN cd /librsvg && \
+    autoreconf -f -i && \
+    ./autogen.sh && \
+    make && \
+    make install && \
+    ldconfig
+
+# Create a directory for your C program
+RUN mkdir /app
+WORKDIR /app
+
+# Copy your C source code into the container
+COPY main.c /app/
+
+# Compile the C program
+RUN gcc -o program main.c `pkg-config --cflags --libs librsvg-2.0`
+
+# Set the entry point to your program
+ENTRYPOINT [""./program""]"
+Generate a dockerfile of Ruby before 2.4.3	"# Use an official Ruby runtime as the base image
+FROM ruby:2.4.2
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the application code into the container
+COPY ftpserver.rb /app/ftpserver.rb
+
+# Expose port 3000 to the outside world
+EXPOSE 2121 23461 23421
+
+# Command to run the application
+CMD [""ruby"", ""ftpserver.rb""]"		
+Generate a dockerfile of OpenSMTPD	"# Use a Debian base image
+FROM debian:buster-slim
+
+# Install necessary packages
+RUN apt-get update && \
+    apt-get install -y opensmtpd
+
+RUN sed -i 's/localhost/127.0.0.1/g' /etc/smtpd.conf # replaces all instances in a line 
+RUN echo 'localhost' > /etc/mailname
+
+# Expose SMTP port
+EXPOSE 25
+
+# Start OpenSMTPD
+CMD [""smtpd"", ""-d""]"	Generate a dockerfile of OpenSMTPD 6.6 building from source	"# Use a base image with the necessary tools and libraries
+FROM alpine:latest
+
+# Install required packages
+RUN apk update && apk add --no-cache \
+    build-base \
+    ca-certificates \
+    wget \
+    gnupg \
+    libevent-dev \
+    libtool \
+    autoconf \
+    automake \
+    gettext \
+    db-dev \
+    mariadb-dev \
+    postgresql-dev \
+    sqlite-dev \
+    libressl \
+    curl-dev \
+    cyrus-sasl-dev \
+    linux-pam-dev \
+    make
+RUN apk add fts-dev byacc
+
+RUN wget https://www.opensmtpd.org/archives/libasr-1.0.4.tar.gz && \
+    tar -zxvf libasr-1.0.4.tar.gz && \
+    rm -f libasr-1.0.4.tar.gz
+
+RUN cd libasr-1.0.4 && \
+    ./bootstrap && \
+    ./configure && \
+    make && \
+    make install
+# Download OpenSMTPD source code
+RUN wget https://github.com/OpenSMTPD/OpenSMTPD/releases/download/6.6.1p1/opensmtpd-6.6.1p1.tar.gz && \
+    tar -zxvf opensmtpd-6.6.1p1.tar.gz && \
+    rm -f opensmtpd-6.6.1p1.tar.gz
+
+WORKDIR /opensmtpd-6.6.1p1
+
+RUN ./bootstrap && \
+    ./configure && \
+    make && \
+    make install
+
+# Clean up unnecessary packages and files
+RUN apk del build-base \
+    libressl-dev \
+    wget \
+    gnupg \
+    libtool \
+    autoconf \
+    automake \
+    gettext \
+    db-dev \
+    mariadb-dev \
+    postgresql-dev \
+    sqlite-dev \
+    libressl \
+    curl-dev \
+    cyrus-sasl-dev \
+    linux-pam-dev && \
+    rm -rf /var/cache/apk/* && \
+    rm -rf /OpenSMTPD-opensmtpd-6.6.1p1
+
+COPY smtpd.conf /usr/local/etc/smtpd.conf
+# Expose SMTP port
+EXPOSE 25
+
+# Create a system user for OpenSMTPD
+RUN adduser -D -h /var/mail _smtpq
+RUN adduser -D -h /var/mail _smtpd
+
+# Run OpenSMTPD
+CMD [""smtpd"", ""-dv""]"
+Generate a dockerfile of MySQL Server 5.6.5 building from source	"# Use a base image with necessary build tools
+FROM ubuntu:20.04
+ENV DEBIAN_FRONTEND=noninteractive
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    cmake \
+    git \
+    libncurses5-dev \
+    libssl-dev \
+    zlib1g-dev \
+    libboost-all-dev \
+    wget \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN wget http://launchpadlibrarian.net/140087283/libbison-dev_2.7.1.dfsg-1_amd64.deb && wget http://launchpadlibrarian.net/140087282/bison_2.7.1.dfsg-1_amd64.deb
+RUN dpkg -i libbison-dev_2.7.1.dfsg-1_amd64.deb && dpkg -i bison_2.7.1.dfsg-1_amd64.deb && rm libbison-dev_2.7.1.dfsg-1_amd64.deb bison_2.7.1.dfsg-1_amd64.deb
+
+RUN groupadd mysql && useradd -r -g mysql -s /bin/false mysql
+# Clone MySQL source from GitHub
+RUN git clone --depth=1 --branch mysql-5.6.5 https://github.com/mysql/mysql-server.git /mysql
+
+# Build MySQL Server
+WORKDIR /mysql
+RUN mkdir bld && cd bld && cmake .. -DCMAKE_CXX_FLAGS=""-std=c++03"" && make && make install
+
+# Cleanup
+RUN rm -rf /mysql
+RUN cd /usr/local/mysql && \
+    mkdir mysql-files && \
+    chown mysql:mysql mysql-files && chmod 750 mysql-files
+RUN bin/mysqld --initialize --user=mysql && bin/mysql_ssl_rsa_setup
+
+# Expose MySQL port
+EXPOSE 3306
+
+# Set default command to run MySQL Server
+CMD [""mysqld""]"		
+Generate a dockerfile of Sprockets 3.7.1	"# Use Ruby 2.7 as the base image
+FROM ruby:2.7
+
+# Install necessary dependencies
+RUN apt-get update -qq && apt-get install -y \
+    build-essential \
+    nodejs \
+ && rm -rf /var/lib/apt/lists/*
+
+# Set the working directory in the container
+WORKDIR /app
+
+# RUN gem install bundler && bundle install
+COPY app /app
+
+# Install Sprockets version 3.7.1
+RUN gem install 'sprockets:3.7.1' 'sinatra:2.1.0' 'sass:3.7.4' 'tilt:2.0.10'
+
+# Expose port 3000 to the Docker host, so we can access our Rails app
+EXPOSE 4567
+
+# Start the Rails server when the container starts
+CMD [""ruby"", ""app.rb""]"		
+Generate a dockerfile of Nginx 1.13.2	"# Use the official Nginx image as the base image
+FROM nginx:1.13.2
+
+# Expose ports
+EXPOSE 80
+EXPOSE 443
+
+# Command to run Nginx when the container starts
+CMD [""nginx"", ""-g"", ""daemon off;""]"	Generate a dockerfile of nginx 1.13.2 building from source	"# Use a base image with necessary tools for building nginx
+FROM ubuntu:latest
+
+# Install necessary dependencies
+RUN apt-get update && \
+    apt-get install -y \
+    wget \
+    build-essential \
+    libpcre3 \
+    libpcre3-dev \
+    zlib1g-dev \
+    openssl \
+    libssl-dev \
+    glibc-source
+
+# Download nginx source
+RUN wget http://nginx.org/download/nginx-1.13.2.tar.gz && \
+    tar -xzvf nginx-1.13.2.tar.gz && \
+    rm nginx-1.13.2.tar.gz
+
+# Change directory to nginx source
+WORKDIR /nginx-1.13.2
+
+RUN find src/ -type f -exec sed -i 's/current_salt/output/g' {} \;
+# Configure nginx
+RUN ./configure --prefix=/usr/local/nginx --with-http_ssl_module
+# Build nginx
+RUN make CFLAGS=""-Wno-unused-parameter -g""
+
+# Install nginx
+RUN make install
+
+# Expose port 80
+EXPOSE 80
+
+# Start nginx when container starts
+CMD [""/usr/local/nginx/sbin/nginx"", ""-g"", ""daemon off;""]"
+Generate a dockerfile of Node 8.5.0 using package and package-lock	"# Use official Node.js 8.5.0 image as base
+FROM node:8.5.0
+
+# Set the working directory in the container
+WORKDIR /usr/src/app
+
+# Copy package.json and package-lock.json to the working directory
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy the rest of the application code
+COPY . .
+
+# Expose the port the app runs on
+EXPOSE 3000
+
+# Command to run the application
+CMD [""npm"", ""start""]"		
+Generate a dockerfile of Node 9.0.0 with a postegreSQL database	"# Use official Node.js 9.0.0 image as base
+FROM node:9.0.0
+
+RUN echo ""deb http://archive.debian.org/debian/ stretch main contrib non-free"" > /etc/apt/sources.list && \
+    echo ""deb http://archive.debian.org/debian/ stretch-proposed-updates main contrib non-free"" >> /etc/apt/sources.list && \
+    echo ""deb http://archive.debian.org/debian-security stretch/updates main contrib non-free"" >> /etc/apt/sources.list
+# Set working directory within the container
+WORKDIR /app
+
+# Copy package.json and package-lock.json to the working directory
+COPY package.json package-lock.json ./
+
+# Install dependencies
+RUN npm install
+
+# Install PostgreSQL
+RUN apt-get update && apt-get install -y postgresql postgresql-contrib
+
+# Copy the rest of the application code
+COPY . .
+
+# Switch to the postgres user
+USER postgres
+
+# Initialize the database
+RUN /etc/init.d/postgresql start &&\
+    createdb -O postgres example &&\
+    psql example < db.sql &&\
+    psql -c ""ALTER USER postgres WITH PASSWORD 'postgres';""
+    
+
+# Expose node port
+EXPOSE 3000
+
+# Start PostgreSQL service
+CMD service postgresql start && sleep 10 && npm start"	Generate a dockerfile of Node 9.0.0 with a postegreSQL database building from source	"# Use Ubuntu 18.04 as the base image
+FROM ubuntu:18.04
+
+# Install necessary dependencies
+RUN apt-get update && apt-get install -y \
+    wget \
+    build-essential \
+    ca-certificates \
+    libreadline-dev \
+    zlib1g-dev \
+    libssl-dev \
+    libxml2-dev \
+    libxml2-utils \
+    libxml2-dev \
+    libxslt-dev \
+    libperl-dev \
+    python3 \
+    python3-pip \
+    llvm \
+    libxml2-dev \
+    libssl-dev \
+    zlib1g-dev \
+    libpam0g-dev \
+    libedit-dev \
+    libbsd-dev \
+    build-essential \
+    bison \
+    flex \
+    git \
+    cmake \
+    ninja-build \
+    libtool \
+    pkg-config \
+    sudo \
+    vim \
+    curl \
+    lsb-release \
+    gnupg \
+    postgresql-client
+
+# Install Node.js 9.0.0
+RUN curl -sL https://deb.nodesource.com/setup_9.x | bash -
+RUN apt-get install -y nodejs
+
+# Download PostgreSQL source
+RUN wget https://ftp.postgresql.org/pub/source/v13.2/postgresql-13.2.tar.gz
+
+# Unpack the source code
+RUN tar xfz postgresql-13.2.tar.gz
+
+# Change directory to the postgresql source
+WORKDIR /postgresql-13.2
+
+# Configure, make, and install PostgreSQL
+RUN ./configure && make && make install
+
+# Add PostgreSQL bin directory to PATH
+ENV PATH=""/usr/local/pgsql/bin:${PATH}""
+
+# Expose PostgreSQL default port
+EXPOSE 5432
+
+# Set the default command to run when starting the container
+CMD [""postgres""]"
+Generate a dockerfile of PostgreSQL before 11.2	"# Use the official PostgreSQL 11.1 image
+FROM postgres:11.1
+
+# Optionally, set environment variables
+ENV POSTGRES_USER postgres
+ENV POSTGRES_PASSWORD password
+ENV POSTGRES_DB mydatabase
+
+# Expose the PostgreSQL port
+EXPOSE 5432
+
+# Run PostgreSQL when the container starts
+CMD [""postgres""]"	Generate a dockerfile of PostgreSQL before 11.2 building from source	"# Use a base image with necessary dependencies
+FROM ubuntu:20.04
+
+# Update package list and install necessary tools
+RUN apt-get update && \
+    apt-get install -y wget build-essential git 
+
+# Create a directory for PostgreSQL source code
+WORKDIR /opt
+
+# Clone PostgreSQL source code from the official repository
+RUN git clone --branch REL_11_1 --depth 1 https://github.com/postgres/postgres.git
+
+RUN apt-get install -y libreadline-dev zlib1g-dev bison flex
+
+# Change to PostgreSQL source code directory
+WORKDIR /opt/postgres
+
+# Configure, build and install PostgreSQL
+RUN ./configure && \
+    make && \
+    make install
+
+# Expose PostgreSQL port
+EXPOSE 5432
+
+# Initialize a directory for data storage
+RUN mkdir -p /var/lib/postgresql/data
+
+# Create a postgres user and group
+RUN groupadd -r postgres && useradd -r -g postgres postgres
+
+# Set permissions for data directory
+RUN chown -R postgres:postgres /var/lib/postgresql/data
+
+# Switch to postgres user
+USER postgres
+
+# Initialize the database cluster
+RUN /usr/local/pgsql/bin/initdb -D /var/lib/postgresql/data
+
+# Set the password for the postgres user
+RUN /usr/local/pgsql/bin/pg_ctl -D /var/lib/postgresql/data start && \
+    /usr/local/pgsql/bin/psql -c ""ALTER USER postgres PASSWORD 'postgres';"" && \
+    /usr/local/pgsql/bin/pg_ctl -D /var/lib/postgresql/data stop
+
+COPY postgresql.conf /usr/local/pgsql/postgresql.conf
+COPY pg_hba.conf /var/lib/postgresql/data/pg_hba.conf
+
+# Start PostgreSQL server
+CMD [""/usr/local/pgsql/bin/postgres"", ""-D"", ""/var/lib/postgresql/data"", ""-c"", ""config_file=/usr/local/pgsql/postgresql.conf""]"
+Generate a dockerfile of ProFTPd with mod_copy enabled	"# Use a base image with ProFTPD dependencies
+FROM debian:bullseye
+
+# Install required packages
+RUN apt-get update && \
+    apt-get install -y proftpd-basic proftpd-dev && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+ADD https://raw.githubusercontent.com/proftpd/proftpd/master/contrib/mod_copy.c /tmp/mod_copy.c
+# Compile mod_copy module
+RUN prxs -c -i -d /tmp/mod_copy.c
+# Copy ProFTPD configuration file with mod_copy module enabled
+COPY proftpd.conf /etc/proftpd/
+
+# Expose ports (you may want to adjust these based on your ProFTPD configuration)
+EXPOSE 20 21
+
+# Start ProFTPD in foreground
+CMD [""proftpd"", ""--nodaemon""]"	Generate a dockerfile of ProFTPd 1.3.5 with mod_copy enabled building from source	"# Use a base image with the necessary dependencies to build ProFTPd from source
+FROM debian:buster AS builder
+
+# Install build dependencies
+RUN apt-get update && \
+    apt-get install -y \
+    build-essential \
+    wget \
+    libncurses-dev \
+    libssl-dev \
+    libpam0g-dev \
+    zlib1g-dev \
+    libwrap0-dev \
+    libcap-dev \
+    libmariadb-dev \
+    libldap2-dev \
+    libpq-dev \
+    libsqlite3-dev
+
+# Download and extract ProFTPd source
+WORKDIR /tmp
+RUN wget ftp://ftp.proftpd.org/distrib/source/proftpd-1.3.5.tar.gz && \
+    tar -zxvf proftpd-1.3.5.tar.gz
+
+RUN groupadd proftpd && \
+    useradd -ms /bin/bash -g proftpd proftpd 
+# Build ProFTPd with mod_copy
+WORKDIR /tmp/proftpd-1.3.5
+RUN install_user=proftpd install_group=proftpd ./configure --with-modules=mod_copy && \
+    make && \
+    make install
+
+# Start a new image
+FROM debian:buster
+
+RUN groupadd proftpd && \
+    useradd -ms /bin/bash -g proftpd proftpd 
+# Install runtime dependencies
+RUN apt-get update && \
+    apt-get install -y \
+    libssl1.1 \
+    libpam0g \
+    libwrap0 \
+    libcap2 \
+    libldap-2.4-2 \
+    libpq5 \
+    libsqlite3-0
+
+# Copy ProFTPd binaries and configuration files from builder image
+COPY --from=builder /usr/local/sbin/proftpd /usr/local/sbin/
+COPY --from=builder /usr/local/etc/proftpd.conf /usr/local/etc/
+
+RUN echo ""\n<IfModule mod_delay.c>\n  DelayEngine off\n</IfModule>"" >> /usr/local/etc/proftpd.conf
+RUN touch /usr/local/proftpd.scoreboard
+RUN chown -R proftpd:proftpd /usr/local/sbin/proftpd && \
+    chown -R proftpd:proftpd /usr/local/etc/proftpd.conf && \
+    chown -R proftpd:proftpd /usr/local/proftpd.scoreboard
+# Expose FTP ports
+EXPOSE 80 21
+
+# Run ProFTPd
+CMD [""/usr/local/sbin/proftpd"", ""--nodaemon""]"

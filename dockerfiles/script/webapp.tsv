@@ -1,0 +1,186 @@
+Generate a dockerfile of Wordpress with Plugin AN_Gradebook <= 5.0.1	"# Use an official WordPress image as the base image
+FROM wordpress:latest
+
+# Set the working directory to the WordPress plugins directory
+WORKDIR /var/www/html/wp-content/plugins
+
+RUN apt update -y && apt install -y unzip
+# Download and install the AN_Gradebook plugin version 5.0.1
+RUN curl -o an-gradebook.zip -SL https://downloads.wordpress.org/plugin/an-gradebook.5.0.1.zip \
+    && unzip an-gradebook.zip \
+    && rm an-gradebook.zip
+
+# Set the working directory back to the WordPress root directory
+WORKDIR /var/www/html"		
+Generate a dockerfile of Wordpress with WP-UserOnline 2.88.0 enabled	"# Use an official WordPress image as the base image
+FROM wordpress:latest
+
+# Set the working directory to the WordPress plugins directory
+WORKDIR /var/www/html/wp-content/plugins
+RUN apt update -y && apt install -y curl unzip
+# Download and install the WP-UserOnline plugin version 2.88.0
+RUN curl -o wp-useronline.zip -SL https://downloads.wordpress.org/plugin/wp-useronline.2.88.0.zip \
+    && unzip wp-useronline.zip \
+    && rm wp-useronline.zip
+
+# Set the working directory back to the WordPress root directory
+WORKDIR /var/www/html"		
+Generate a dockerfile of Wordpress with Plugin Form Maker 1.12.20	"# Use the official WordPress image as the base image
+FROM wordpress:latest
+
+# Set the working directory to the WordPress plugins directory
+WORKDIR /var/www/html/wp-content/plugins/
+RUN apt-get update -y && apt-get install -y unzip
+# Download and install Form Maker plugin version 1.12.20
+RUN curl -O https://downloads.wordpress.org/plugin/form-maker.1.12.20.zip \
+    && unzip form-maker.1.12.20.zip \
+    && rm form-maker.1.12.20.zip
+
+# Set the working directory back to the WordPress root directory
+WORKDIR /var/www/html/
+
+# Expose port 80 for HTTP
+EXPOSE 80
+
+# Start the WordPress service
+CMD [""apache2-foreground""]"		
+Generate a dockerfile of Joomla! v4.2.7	"# Use the official WordPress image
+FROM wordpress:latest
+
+# Set environment variables
+ENV WORDPRESS_DB_HOST=db \
+    WORDPRESS_DB_USER=wordpress \
+    WORDPRESS_DB_PASSWORD=wordpress \
+    WORDPRESS_DB_NAME=wordpress
+
+# Install necessary tools and dependencies
+RUN apt-get update && \
+    apt-get install -y unzip && \
+    rm -rf /var/lib/apt/lists/*
+
+# Download and install the Site Editor Plugin version 1.1.1
+RUN curl -o /usr/src/wordpress/wp-content/plugins/site-editor.zip -SL https://downloads.wordpress.org/plugin/site-editor.1.1.1.zip && \
+    unzip /usr/src/wordpress/wp-content/plugins/site-editor.zip -d /usr/src/wordpress/wp-content/plugins/ && \
+    rm /usr/src/wordpress/wp-content/plugins/site-editor.zip
+
+# Set ownership and permissions
+RUN chown -R www-data:www-data /usr/src/wordpress/wp-content/plugins/site-editor
+
+# Expose port 80 for web server
+EXPOSE 80
+
+# Start WordPress
+CMD [""apache2-foreground""]"	Generate a dockerfile of Joomla! v4.2.7 using its base image	"# Use the official Joomla v4.2.7 image as the base image
+FROM joomla:4.2.7
+
+# Optionally, you can add additional configurations or dependencies here"
+Generate a dockerfile of Drupal 8.5.0	"# Use official Drupal image as the base image
+FROM drupal:8.5.0
+
+# Set the working directory in the container
+WORKDIR /var/www/html/themes
+
+# Expose port 80
+EXPOSE 80"		
+Generate a dockerfile of Wordpress with Plugin Smart Google Code Inserter 3.4	"# Use the official WordPress image as base
+FROM wordpress:latest
+
+# Set up environment variables for MySQL
+ENV WORDPRESS_DB_HOST=db \
+    WORDPRESS_DB_USER=wordpress \
+    WORDPRESS_DB_PASSWORD=password \
+    WORDPRESS_DB_NAME=wordpress
+
+# Install wget and unzip
+RUN apt-get update && apt-get install -y wget unzip
+
+# Download Smart Google Code Inserter plugin
+RUN wget -O /tmp/smart-google-code-inserter.zip https://downloads.wordpress.org/plugin/smart-google-code-inserter.3.4.zip
+
+# Install the plugin
+RUN unzip /tmp/smart-google-code-inserter.zip -d /usr/src/wordpress/wp-content/plugins/ \
+    && rm /tmp/smart-google-code-inserter.zip
+
+# Set permissions
+RUN chown -R www-data:www-data /usr/src/wordpress/wp-content/plugins/smart-google-code-inserter
+
+# Expose port 80
+EXPOSE 80
+
+# Start the WordPress server
+CMD [""apache2-foreground""]"		
+Generate a dockerfile of Wordpress with Plugin HDW Player 2.4.2	"# Use the official WordPress image
+FROM wordpress:latest
+
+# Set environment variables
+ENV WORDPRESS_DB_HOST=localhost \
+    WORDPRESS_DB_USER=wordpress \
+    WORDPRESS_DB_PASSWORD=wordpress \
+    WORDPRESS_DB_NAME=wordpress \
+    HDW_PLAYER_VERSION=2.4.2
+
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    wget \
+    unzip
+
+# Download and install HDW Player plugin
+RUN wget -P /tmp https://downloads.wordpress.org/plugin/hdw-player-video-player-video-gallery.${HDW_PLAYER_VERSION}.zip \
+    && unzip /tmp/hdw-player-video-player-video-gallery.${HDW_PLAYER_VERSION}.zip -d /usr/src/wordpress/wp-content/plugins/ \
+    && rm /tmp/hdw-player-video-player-video-gallery.${HDW_PLAYER_VERSION}.zip
+
+# Set permissions
+RUN chown -R www-data:www-data /usr/src/wordpress/wp-content/plugins/hdw-player-video-player-video-gallery
+
+# Cleanup
+RUN apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Expose port
+EXPOSE 80
+
+# Start WordPress
+CMD [""apache2-foreground""]"		
+Generate a dockerfile of Apache Tomcat 8.5.0	"# Use the official Tomcat 9 image from Docker Hub
+FROM tomcat:8.5.0
+
+# Expose the default Tomcat port
+EXPOSE 8080"		
+Generate a dockerfile of Drupal 8.6.9	"# Use the official Drupal image as base
+FROM drupal:8.6.9
+
+# Set environment variables
+ENV DRUPAL_HOME=/var/www/html \
+    DRUPAL_CORE_VERSION=8.6.9
+
+# Expose ports
+EXPOSE 80
+
+# Start Apache server
+CMD [""apache2-foreground""]"	Generate a dockerfile of Drupal 8.6.9 using its native image, then install in the same image a mariadb server, finally run in background both the mariadb and drupal service	"# Use the official Drupal image
+FROM drupal:8.6.9
+
+RUN echo ""deb http://archive.debian.org/debian/ stretch main contrib non-free"" > /etc/apt/sources.list && \
+    echo ""deb http://archive.debian.org/debian/ stretch-proposed-updates main contrib non-free"" >> /etc/apt/sources.list && \
+    echo ""deb http://archive.debian.org/debian-security stretch/updates main contrib non-free"" >> /etc/apt/sources.list
+# Install dependencies
+RUN apt-get --allow-unauthenticated update && \
+    apt-get install -y --allow-unauthenticated mariadb-server && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Expose ports for Drupal and MariaDB
+EXPOSE 80
+EXPOSE 3306
+
+# Define environment variables
+ENV MYSQL_ROOT_PASSWORD=root
+ENV MYSQL_DATABASE=drupal
+ENV MYSQL_USER=drupal
+ENV MYSQL_PASSWORD=drupal
+
+# Start MariaDB service
+RUN service mysql start
+
+# Start Drupal service
+CMD [""apache2-foreground""]"

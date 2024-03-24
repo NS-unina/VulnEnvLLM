@@ -1,0 +1,204 @@
+Generate a dockerfile of osTicket-v1.12	"# Use an official PHP image as base
+FROM php:7.4-apache
+
+RUN apt-get update && apt-get install -y wget zlib1g-dev libpng-dev libicu-dev unzip default-mysql-client
+# Install required PHP extensions
+RUN docker-php-ext-install mysqli && docker-php-ext-install gd && docker-php-ext-install gettext && docker-php-ext-install intl
+
+# Set recommended PHP.ini settings
+RUN echo 'date.timezone = ""UTC""' > /usr/local/etc/php/php.ini
+RUN echo 'memory_limit = 256M' >> /usr/local/etc/php/php.ini
+RUN echo 'upload_max_filesize = 100M' >> /usr/local/etc/php/php.ini
+RUN echo 'post_max_size = 100M' >> /usr/local/etc/php/php.ini
+RUN echo 'max_execution_time = 600' >> /usr/local/etc/php/php.ini
+
+# Download and install osTicket v1.12
+WORKDIR /var/www/html
+RUN apt-get update && apt-get install -y wget
+RUN wget https://github.com/osTicket/osTicket/releases/download/v1.12/osTicket-v1.12.zip
+RUN unzip osTicket-v1.12.zip
+RUN rm osTicket-v1.12.zip
+RUN chown -R www-data:www-data upload
+RUN a2enmod rewrite
+
+# Expose ports
+EXPOSE 80
+
+# Start Apache
+CMD [""apache2-foreground""]"
+Generate a dockerfile of Uvdesk v1.1.3	"# Use an official PHP image as base
+FROM php:7.4-apache
+
+# Install required dependencies
+RUN apt-get update && apt-get install -y unzip libc-client-dev libkrb5-dev
+
+# Install required PHP extensions
+RUN docker-php-ext-configure imap --with-kerberos --with-imap-ssl
+RUN docker-php-ext-install pdo_mysql imap mysqli
+RUN pecl install mailparse && docker-php-ext-enable mailparse
+# Set recommended PHP.ini settings
+RUN echo 'date.timezone = ""UTC""' > /usr/local/etc/php/php.ini
+RUN echo 'memory_limit = 512M' >> /usr/local/etc/php/php.ini
+RUN echo 'upload_max_filesize = 100M' >> /usr/local/etc/php/php.ini
+RUN echo 'post_max_size = 100M' >> /usr/local/etc/php/php.ini
+RUN echo 'max_execution_time = 600' >> /usr/local/etc/php/php.ini
+
+# Enable Apache modules
+RUN a2enmod rewrite
+
+# Download and install Uvdesk v1.1.3
+WORKDIR /var/www/html
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && composer create-project uvdesk/community-skeleton helpdesk-project v1.1.3 && chown -R www-data:www-data /var/www/html/helpdesk-project
+# Expose ports
+EXPOSE 80
+
+# Start Apache
+CMD [""apache2-foreground""]"
+Generate a dockerfile of nostromo 1.9.6	"# Use an official Ubuntu base image
+FROM ubuntu:18.04
+
+# Install necessary dependencies
+RUN apt-get update && apt-get install -y build-essential libssl-dev groff-base && rm -rf /var/lib/apt/lists/*
+
+# Download and compile nostromo 1.9.6
+WORKDIR /tmp
+RUN apt-get update && apt-get install -y wget && wget http://www.nazgul.ch/dev/nostromo-1.9.6.tar.gz && tar -zxvf nostromo-1.9.6.tar.gz && rm nostromo-1.9.6.tar.gz && cd nostromo-1.9.6 && make && make install
+COPY nhttpd.conf /var/nostromo/conf/nhttpd.conf
+# Expose the default port used by nostromo (8080)
+EXPOSE 8080
+
+# Run nostromo as a foreground process
+CMD [""nhttpd""]"
+Create a dockerfile of SPIP 3.1.1	"# Use an official PHP with Apache image as base
+FROM php:7.4-apache
+
+# Set the working directory inside the container
+WORKDIR /var/www/html
+
+# Download and extract SPIP 3.1.1
+RUN apt-get update && apt-get install -y wget unzip && wget https://files.spip.net/spip/archives/SPIP-v3.1.1.zip -O spip.zip && unzip spip.zip && rm spip.zip && chown -R www-data:www-data .
+
+# Create a .htaccess file with recommended settings
+RUN echo ""php_flag magic_quotes_gpc off"" > /var/www/html/.htaccess && echo ""php_flag register_globals off"" >> /var/www/html/.htaccess && echo ""php_flag display_errors off"" >> /var/www/html/.htaccess && echo ""Options -Indexes"" >> /var/www/html/.htaccess
+
+# Expose port 80 for Apache
+EXPOSE 80
+
+# Set recommended PHP.ini settings
+RUN echo 'date.timezone = ""UTC""' > /usr/local/etc/php/php.ini
+RUN echo 'memory_limit = 256M' >> /usr/local/etc/php/php.ini
+RUN echo 'upload_max_filesize = 100M' >> /usr/local/etc/php/php.ini
+RUN echo 'post_max_size = 100M' >> /usr/local/etc/php/php.ini
+RUN echo 'max_execution_time = 600' >> /usr/local/etc/php/php.ini
+
+# Start Apache
+CMD [""apache2-foreground""]"
+Create a dockerfile of copyparty 1.8.1	"# Use an official Python image as base
+FROM python:3.9-slim
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Clone copyparty from GitHub
+RUN apt-get update && apt-get install -y wget
+RUN wget https://github.com/9001/copyparty/releases/download/v1.8.2/copyparty-sfx.py -O cp.py
+
+# Expose the default port used by copyparty (replace 8000 with the actual port)
+EXPOSE 80 3923
+
+
+# Specify the command to run copyparty
+CMD [""python"", ""cp.py""]"
+Create a dockerfile of Apache HTTP Server 2.4.49	"# Use an official Apache HTTP Server image as base
+FROM httpd:2.4.49-alpine
+
+# Expose port 80 for Apache
+EXPOSE 80
+
+# Start Apache
+CMD [""httpd-foreground""]"
+Create a dockerfile of Apache 2.4.50	"# Use an official Apache HTTP Server image as the base image
+FROM httpd:2.4.50
+
+# Expose the port that Apache will run on (default is 80)
+EXPOSE 80
+
+# Command to run Apache in the foreground
+CMD [""httpd-foreground""]"
+Generate a dockerfile of PhpCollab 2.5.1	"# Use an official PHP and Apache image as the base image
+FROM php:7.4-apache
+
+# Set the working directory inside the container
+WORKDIR /var/www/html
+
+RUN apt-get update && apt-get install -y wget libz-dev libpng-dev libicu-dev unzip
+# Download and extract PhpCollab 2.5.1
+RUN curl -o phpCollab.zip -SL https://github.com/phpcollab/phpcollab/releases/download/v2.5.1/phpcollab-v2.5.1.zip \
+    && unzip phpCollab.zip \
+    && rm phpCollab.zip
+
+# Set permissions (adjust as needed)
+RUN chown -R www-data:www-data .
+
+RUN docker-php-ext-install mysqli && docker-php-ext-install gd && docker-php-ext-install gettext && docker-php-ext-install intl
+
+# Expose the port that Apache will run on (default is 80)
+EXPOSE 80
+
+# Command to run Apache in the foreground
+CMD [""apache2-foreground""]"
+Generate a dockerfile of Python 3.7.x, with Django, and with PostgreSQL 9.5	"# Use an official Python runtime as a parent image
+FROM python:3.7
+
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# Set the working directory in the container
+WORKDIR /app
+
+RUN pip install --upgrade pip && pip install django
+RUN django-admin startproject testproject
+WORKDIR /app/testproject
+# Expose the port that Django will run on
+EXPOSE 8000
+
+# Run the command to start Django development server
+CMD [""python"", ""manage.py"", ""runserver"", ""0.0.0.0:8000""]"
+Create a dockerfile of Grafana 6.2.4	"# Use an official Grafana base image
+FROM grafana/grafana:6.2.4
+
+# Expose the port Grafana runs on
+EXPOSE 3000
+
+# Start Grafana
+CMD [""grafana-server"", ""--config=/etc/grafana/grafana.ini""]"
+Generate a dockerfile of Bludit 3.9.2	"# Use the official PHP and Apache image
+FROM php:7.4-apache
+
+# Set the working directory to /var/www/html
+WORKDIR /var/www/html
+
+# Download and install dependencies
+RUN apt-get update && \
+    apt-get install -y unzip libpng-dev zlib1g-dev libxml2-dev && \
+    rm -rf /var/lib/apt/lists/*
+
+# Install required PHP extensions
+RUN docker-php-ext-install gd json dom
+# Download and install Bludit
+RUN curl -o bludit.zip -SL https://github.com/bludit/bludit/archive/3.9.2.zip && \
+    unzip bludit.zip && \
+    rm bludit.zip && \
+    mv bludit-3.9.2/* . && \
+    rm -r bludit-3.9.2
+
+# Set up permissions
+RUN chown -R www-data:www-data /var/www/html && \
+    chmod -R 755 /var/www/html
+
+# Expose port 80
+EXPOSE 80
+
+# Start Apache
+CMD [""apache2-foreground""]"
