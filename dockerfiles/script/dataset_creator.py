@@ -2,13 +2,17 @@ import csv
 import json
 from os import remove, path, walk
 
-def tsv_to_jsonl(tsv_filepath, jsonl_filepath):
-    with open(tsv_filepath, 'r') as tsv_file, open(jsonl_filepath, 'a') as jsonl_file:
-        tsv_reader = csv.reader(tsv_file, delimiter='\t')
-        for row in tsv_reader:
-            jsonl_file.write(json.dumps({"input": row[0], "output": row[1]}) + '\n')
-            if(len(row) > 2 and row[2] != ''):
-                jsonl_file.write(json.dumps({"input": row[2], "output": row[3]}) + '\n')
+def tsv_to_jsonl(tsv_folder, jsonl_filepath):
+    for root, dirs, files in walk(tsv_folder):
+        for file in files:
+            if file.endswith(".tsv"):
+                tsv_filepath = path.join(root, file)
+                with open(tsv_filepath, 'r') as tsv_file, open(jsonl_filepath, 'a') as jsonl_file:
+                    tsv_reader = csv.reader(tsv_file, delimiter='\t')
+                    for row in tsv_reader:
+                        jsonl_file.write(json.dumps({"input": row[0], "output": row[1]}) + '\n')
+                        if(len(row) > 2 and row[2] != ''):
+                            jsonl_file.write(json.dumps({"input": row[2], "output": row[3]}) + '\n')
                 
 def remove_trailing_newlines(directory):
     for root, dirs, files in walk(directory):
@@ -30,10 +34,8 @@ def remove_trailing_newlines(directory):
 if(path.exists('dataset.jsonl')):
     remove('dataset.jsonl')
 
-tsv_to_jsonl('webapp.tsv', 'dataset.jsonl')
-tsv_to_jsonl('service.tsv', 'dataset.jsonl')
-tsv_to_jsonl('llms.tsv', 'dataset.jsonl')
+tsv_to_jsonl('TSVs', 'dataset.jsonl')
 
-remove_trailing_newlines("../with-llms")
-remove_trailing_newlines("../fixed")
-remove_trailing_newlines(".")
+# remove_trailing_newlines("../with-llms")
+# remove_trailing_newlines("../fixed")
+# remove_trailing_newlines(".")

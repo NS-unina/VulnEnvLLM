@@ -1,0 +1,205 @@
+Generate a dockerfile of ffmpeg 3.2.4	"FROM debian:9
+
+RUN apt-get update && apt-get install -y \
+        autoconf \
+        automake \
+        build-essential \
+        cmake \
+        git-core \
+        libass-dev \
+        libfreetype6-dev \
+        libsdl2-dev \
+        libtool \
+        libva-dev \
+        libvdpau-dev \
+        libvorbis-dev \
+        libxcb1-dev \
+        libxcb-shm0-dev \
+        libxcb-xfixes0-dev \
+        pkg-config \
+        texinfo \
+        wget \
+        zlib1g-dev \
+    && wget -qO- https://www.ffmpeg.org/releases/ffmpeg-3.2.4.tar.gz | tar --strip-components 1 -xz -C /usr/src \
+    && cd /usr/src \
+    && ./configure --pkg-config-flags=""--static"" --disable-yasm \
+    && make && make install \
+    && rm -rf /usr/src/*
+
+CMD [""ffmpeg""]"
+Generate a dockerfile elfinder 2.1.58	"FROM php:7.4-apache
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends unzip zip
+
+RUN cd /var/www/html/ \
+    && curl -sSL https://github.com/Studio-42/elFinder/archive/2.1.58.tar.gz | tar --strip-components 1 -xz
+
+RUN cd /var/www/html/ \
+    && mv ./php/connector.minimal.php-dist ./php/connector.minimal.php \
+    && cp elfinder.html index.html \
+    && chown www-data:www-data -R ./"
+Generate a dockerfile of magento 2.2.7	"FROM php:7.1-apache
+
+RUN apt-get update && apt-get install -y \
+        libfreetype6-dev \
+        libjpeg62-turbo-dev \
+        libpng-dev \
+        libmcrypt-dev \
+        libicu-dev \
+        libxml2-dev \
+        libxslt1-dev \
+    && docker-php-ext-install -j$(nproc) iconv mcrypt bcmath intl zip pdo_mysql soap xsl \
+    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-install -j$(nproc) gd \
+    && rm -rf /usr/src/* /var/lib/apt/lists/*
+
+RUN cd /var/www/html \
+    && curl -sSL https://github.com/magento/magento2/archive/2.2.7.tar.gz | tar xvz --strip-components=1 \
+    && curl -sSL https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename composer \
+    && composer install \
+    && chown www-data:www-data -R . \
+    && a2enmod rewrite"
+Generate a dockerfile of phpmyadmin 4.8.1	"FROM php:7.2-apache
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends unzip \
+    && rm -r /var/lib/apt/lists/*
+
+ARG SOURCE_URL=https://files.phpmyadmin.net/phpMyAdmin/4.8.1/phpMyAdmin-4.8.1-all-languages.zip
+
+RUN cd /tmp \
+    && curl -#SL ${SOURCE_URL} -o /tmp/phpmyadmin.zip \
+    && unzip -q /tmp/phpmyadmin.zip \
+    && cp -r phpMyAdmin-*/* /var/www/html/ \
+    && docker-php-ext-install mbstring mysqli \
+    && rm -rf /tmp/*"
+Generate a dockerfile of Postgres 10.7	FROM postgres:10.7
+Generate a dockerfile of tomcat 8.5	FROM tomcat:8.5
+Generate a dockerfile of tikiwiki 21.1	"FROM php:7.2-apache
+
+RUN apt-get update \
+    && apt-get install --no-install-recommends -y libfreetype6-dev libjpeg62-turbo-dev libpng-dev libicu-dev wait-for-it \
+    && curl --retry 3 -#SL https://sourceforge.net/projects/tikiwiki/files/Tiki_21.x_UY_Scuti/21.1/tiki-21.1.tar.xz/download | tar xJ -C /var/www/html --strip-components=1 \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN docker-php-ext-configure gd --with-freetype-dir=/usr --with-jpeg-dir=/usr --with-png-dir=/usr \
+    && docker-php-ext-install -j$(nproc) gd intl calendar zip mysqli pdo_mysql \
+    && cd /var/www/html \
+    && chown www-data:www-data -R ."
+Generate a dockerfile of php 5.6.12 apache	"FROM php:5.6.12-apache
+
+RUN printf ""deb http://archive.debian.org/debian/ jessie main\ndeb-src http://archive.debian.org/debian/ jessie main\ndeb http://security.debian.org jessie/updates main\ndeb-src http://security.debian.org jessie/updates main"" > /etc/apt/sources.list"
+Generate a dockerfile of php 5 fpm	FROM php:5-fpm
+Generate a dockerfile of laravel 8.4.2	"FROM php:7.4-apache
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends unzip \
+    && curl -#L -o /usr/local/bin/composer https://github.com/composer/composer/releases/download/1.10.19/composer.phar \
+    && chmod +x /usr/local/bin/composer
+
+RUN cd /var/www \
+    && rm -rf html \
+    && composer create-project laravel/laravel . ""v8.4.2"" \
+    && sed -i -E 's|""facade/ignition"": "".+?""|""facade/ignition"": ""2.5.1""|g' composer.json \
+    && composer update \
+    && mv public html
+
+RUN chown www-data:www-data -R /var/www \
+    && a2enmod rewrite"
+Generate a dockerfile of activemq 5.17.3	"FROM openjdk:11.0.16-jre
+
+ENV ACTIVEMQ_VERSION 5.17.3
+ENV ACTIVEMQ apache-activemq-$ACTIVEMQ_VERSION
+ENV ACTIVEMQ_TCP=61616 ACTIVEMQ_AMQP=5672 ACTIVEMQ_STOMP=61613 ACTIVEMQ_MQTT=1883 ACTIVEMQ_WS=61614 ACTIVEMQ_UI=8161
+
+ENV ACTIVEMQ_HOME /opt/activemq
+
+RUN mkdir -p $ACTIVEMQ_HOME \
+    && curl -s -S https://archive.apache.org/dist/activemq/$ACTIVEMQ_VERSION/$ACTIVEMQ-bin.tar.gz | \
+        tar xvz --strip-components=1 -C ""$ACTIVEMQ_HOME""
+
+RUN sed -i 's/127\.0\.0\.1/0.0.0.0/' ""${ACTIVEMQ_HOME}/conf/jetty.xml"" \
+    && echo 'ACTIVEMQ_DEBUG_OPTS=""-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=*:5005""' >> ""$ACTIVEMQ_HOME/bin/env""
+
+WORKDIR $ACTIVEMQ_HOME
+EXPOSE $ACTIVEMQ_TCP $ACTIVEMQ_AMQP $ACTIVEMQ_STOMP $ACTIVEMQ_MQTT $ACTIVEMQ_WS $ACTIVEMQ_UI
+
+CMD [""/opt/activemq/bin/activemq"", ""console""]"
+Generate a dockerfile of adminer 4.7.8	"FROM php:7.4.33-apache
+
+ADD https://github.com/vrana/adminer/releases/download/v4.7.8/adminer-4.7.8.php /var/www/html/index.php
+RUN chown www-data:www-data -R /var/www/html \
+    && docker-php-ext-install -j$(nproc) pdo_mysql mysqli"
+Generate a dockerfile of apache-druid 0.20.0	"FROM openjdk:8-jre
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends python3 libfindbin-libs-perl
+
+RUN mkdir -p /opt/druid \
+    && wget -qO- https://archive.apache.org/dist/druid/0.20.0/apache-druid-0.20.0-bin.tar.gz | tar xz --strip-components 1 -C /opt/druid
+
+EXPOSE 8888
+WORKDIR /opt/druid
+CMD [""/opt/druid/bin/start-nano-quickstart""]"
+Generate a dockerfile of apisix-dashboard 2.9.0	FROM apache/apisix-dashboard:2.9.0
+Generate a dockerfile of cmsms 2.2.9.1	"FROM php:7.2-apache
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends unzip libfreetype6-dev libjpeg62-turbo-dev libpng-dev libzip-dev \
+    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-install -j$(nproc) gd mysqli zip \
+    && echo ""output_buffering=4096\ndisplay_errors=Off\nerror_reporting=0"" >> /usr/local/etc/php/conf.d/cmsms.ini \
+    && curl -L -o /tmp/cmsms-2.2.9.1-install.zip http://s3.amazonaws.com/cmsms/downloads/14316/cmsms-2.2.9.1-install.zip \
+    && unzip -d /var/www/html /tmp/cmsms-2.2.9.1-install.zip \
+    && mv /var/www/html/cmsms-2.2.9.1-install.php /var/www/html/install.php \
+    && chown www-data:www-data -R /var/www/html \
+    && a2enmod rewrite \
+    && rm -rf /tmp/cmsms-2.2.9.1-install.zip
+
+EXPOSE 80"
+Generate a dockerfile of ecshop 4.0.6	"FROM php:5.6-apache
+
+ARG DOWNLOAD_PATH=/usr/local/src
+
+RUN docker-php-ext-install mysqli \
+    && curl -#SL https://file.vulhub.org/download/ecshop/ecshop-4.0.6.tar.gz \
+        | tar zx -C ${DOWNLOAD_PATH} \
+    && cp -r ${DOWNLOAD_PATH}/ecshop/* /var/www/html/ \
+    && cp -r ${DOWNLOAD_PATH}/appserver /var/www/ \
+    && chown www-data:www-data -R /var/www \
+    && echo ""date.timezone = Asia/Shanghai"" > /usr/local/etc/php/conf.d/date.ini \
+    && rm -rf ${DOWNLOAD_PATH}/*"
+Generate a dockerfile of geoserver 2.22.1	"FROM openjdk:17.0.2-slim
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends curl unzip ca-certificates \
+    && curl -#SL https://sourceforge.net/projects/geoserver/files/GeoServer/2.22.1/geoserver-2.22.1-bin.zip/download -o /tmp/geoserver.zip \
+    && mkdir /mnt/geoserver \
+    && unzip /tmp/geoserver.zip -d /mnt/geoserver
+
+EXPOSE 8080
+WORKDIR /mnt/geoserver
+
+CMD [""/mnt/geoserver/bin/startup.sh""]"
+Generate a dockerfile of jetty 9.4.40	"FROM openjdk:8-jdk
+
+ARG JETTY_BASE=/opt/jetty
+RUN wget -O/tmp/jetty.zip https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.4.40.v20210413/jetty-distribution-9.4.40.v20210413.zip \
+    && unzip -d /opt /tmp/jetty.zip \
+    && mv /opt/jetty-* ${JETTY_BASE} \
+    && rm -rf /tmp/jetty*
+
+WORKDIR ${JETTY_BASE}
+CMD [""/opt/jetty/bin/jetty.sh"", ""run""]"
+Generate a dockerfile of Jira 8.1.0	FROM dchevell/jira-software:8.1.0-ubuntu
+Generate a dockerfile of phpunit 5.6.2	"FROM php:7.2-apache
+
+RUN apt-get update; \
+    apt-get install -y --no-install-recommends unzip; \
+    curl -#sL https://getcomposer.org/download/1.10.15/composer.phar -o /usr/local/bin/composer; \
+    chmod +x /usr/local/bin/composer; \
+    cd /var/www/html; \
+    composer require phpunit/phpunit:5.6.2; \
+    apt-get purge --auto-remove -y unzip; \
+    rm -rf /var/lib/apt/lists/*"
