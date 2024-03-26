@@ -34,7 +34,7 @@ def remove_trailing_newlines(directory):
 if(path.exists('dataset.jsonl')):
     remove('dataset.jsonl')
 
-tsv_to_jsonl('TSVs', 'dataset.jsonl')
+tsv_to_jsonl('TSVs', '../../LLM/dataset.jsonl')
 
 # remove_trailing_newlines("../with-llms")
 # remove_trailing_newlines("../fixed")
