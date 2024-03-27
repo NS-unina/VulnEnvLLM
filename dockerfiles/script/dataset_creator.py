@@ -1,6 +1,6 @@
 import csv
 import json
-from os import remove, path, walk
+from os import remove, path, walk, chdir
 
 def tsv_to_jsonl(tsv_folder, jsonl_filepath):
     for root, dirs, files in walk(tsv_folder):
@@ -30,12 +30,14 @@ def remove_trailing_newlines(directory):
                         f.write(lines[i].rstrip('\r\n'))
 
 # Specifica la directory da cui iniziare la ricerca
+chdir(path.dirname(path.realpath(__file__)))
+dataset_folder = '../../LLM'
+dataset_file = path.join(dataset_folder, 'dataset.jsonl')
 
-if(path.exists('dataset.jsonl')):
-    remove('dataset.jsonl')
+if(path.exists(dataset_file)):
+    remove(path.join(dataset_file))
 
-tsv_to_jsonl('TSVs', '../../LLM/dataset.jsonl')
+tsv_to_jsonl('TSVs', path.join(dataset_folder, 'dataset.jsonl'))
 
-# remove_trailing_newlines("../with-llms")
-# remove_trailing_newlines("../fixed")
-# remove_trailing_newlines(".")
+remove_trailing_newlines("../with-llms")
+remove_trailing_newlines("../fixed")
