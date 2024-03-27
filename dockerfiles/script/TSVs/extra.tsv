@@ -182,3 +182,184 @@ WORKDIR /usr/src/app
 
 # Define the entry point
 ENTRYPOINT [""exiftool""]"
+Generate a dockerfile of curl 7.8.1	"FROM debian:latest
+
+RUN apt update && apt install -y --fix-missing \
+    git \
+    build-essential \
+    wget \
+    python3 \
+	netcat-openbsd \
+    libssl-dev
+
+WORKDIR /build
+
+RUN wget https://github.com/curl/curl/releases/download/curl-7_81_0/curl-7.81.0.tar.gz
+
+RUN tar -xzvf curl-7.81.0.tar.gz
+
+WORKDIR /build/curl-7.81.0
+
+RUN ./configure --with-openssl
+
+RUN make -j$(nproc)
+
+RUN make install
+
+RUN cp -r /usr/local/lib /usr/lib
+
+RUN ldconfig
+
+WORKDIR /
+
+ENTRYPOINT [ ""/bin/bash""]"
+Generate a dockerfile of pdfkit 0.8.6	"FROM ubuntu
+
+RUN apt update
+RUN apt install -y python3 ruby
+RUN gem install pdfkit -v 0.8.6
+
+ENTRYPOINT [""/bin/bash""]"
+Generate a dockerfile of Spring Cloud Function 3.1.6	"FROM ubuntu:18.04
+
+RUN apt update
+RUN apt install wget unzip -y
+RUN apt install openjdk-8-jdk maven -y
+
+RUN useradd -m rce
+
+WORKDIR /home/rce
+
+RUN wget https://github.com/spring-cloud/spring-cloud-function/archive/refs/tags/v3.1.6.zip && unzip v3.1.6.zip
+
+WORKDIR /home/rce/spring-cloud-function-3.1.6/spring-cloud-function-samples/function-sample-pojo
+
+RUN mvn package
+
+EXPOSE 8080
+
+ENTRYPOINT java -jar ./target/function-sample-pojo-2.0.0.RELEASE.jar"
+Generate a dockerfile of Sudo 1.8.13	"FROM debian:jessie
+
+# install debian stuff
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    wget vim build-essential \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# configure vuln application
+RUN wget https://www.sudo.ws/dist/sudo-1.8.13.tar.gz -O /tmp/sudo.tar.gz && \
+    tar xfz /tmp/sudo.tar.gz -C /tmp/ && \
+    cd /tmp/sudo-1.8.13 && \
+    ./configure && \
+    make && make install
+RUN rm -rf /tmp/sudo*
+
+# create default user
+RUN useradd -d /home/user \
+    -s /bin/bash \
+    -ms /bin/bash user
+
+# add sudoers entry
+RUN echo 'user ALL=NOPASSWD: sudoedit /home/*/*/esc.txt' >> /etc/sudoers
+
+CMD [""su"", ""-"", ""user""]"
+Generate a dockerfile of Blueimp jQuery-File-Upload 9.22.0	"FROM ubuntu:latest
+
+ENV DEBIAN_FRONTEND=noninteractive
+# Install apache, PHP
+RUN apt-get update && apt-get -y upgrade && \ 
+    apt-get -y install apache2 php libapache2-mod-php wget tar unzip
+
+# Enable apache mods.
+RUN a2enmod rewrite
+RUN a2enmod headers
+
+# Manually set up the apache environment variables
+ENV APACHE_RUN_USER www-data
+ENV APACHE_RUN_GROUP www-data
+ENV APACHE_LOG_DIR /var/log/apache2
+ENV APACHE_LOCK_DIR /var/lock/apache2
+ENV APACHE_PID_FILE /var/run/apache2.pid
+
+# Expose apache.
+EXPOSE 80
+
+# Install releases
+RUN cd /var/www/html && wget https://github.com/blueimp/jQuery-File-Upload/archive/v9.22.0.tar.gz && tar -zxvf v9.22.0.tar.gz
+    
+RUN chown -R www-data:www-data /var/www/html
+
+# By default start up apache in the foreground, override with /bin/bash for interative.
+CMD /usr/sbin/apache2ctl -D FOREGROUND"
+Generate a dockerfile of squid 3.5.27	"FROM centos:7
+
+RUN yum install -y \
+ perl \
+ gcc \
+ autoconf \
+ automake \
+ make \
+ sudo \
+ wget \
+ libxml2-devel \
+ libcap-devel \
+ libtool-ltdl-devel \
+ openssl-devel \
+ gcc-c++
+RUN curl -s http://www.squid-cache.org/Versions/v3/3.5/squid-3.5.27.tar.gz > squid.tar.gz
+RUN tar -xvzf squid.tar.gz
+WORKDIR /squid-3.5.27
+
+RUN ./configure \
+ --prefix=/usr \
+ --includedir=/usr/include \
+ --datadir=/usr/share \
+ --bindir=/usr/bin \
+ --libexecdir=/usr/lib/squid \
+ --localstatedir=/usr/lib/squid \
+ --localstatedir=/var \
+ --sysconfdir=/etc/squid \
+ --with-openssl \
+ --enable-ssl \
+ --enable-ssl-crtd \
+ --disable-icap-client \
+ --disable-wccp \
+ --disable-wccpv2 \
+ --disable-snmp \
+ --disable-eui \
+ --disable-htcp \
+ --disable-ident-lookups \
+ --disable-ipv6 \
+ --without-mit-krb5 \
+ --without-heimdal-krb5 \
+ --without-libcap
+RUN make
+RUN make install
+
+RUN touch /var/logs/access.log
+RUN touch /var/logs/cache.log
+# Squid runs as 'nobody', per http://www.squid-cache.org/Doc/config/cache_effective_user/
+RUN chown nobody:nobody /var/logs/access.log
+RUN chown nobody:nobody /var/logs/cache.log
+
+RUN /usr/lib/squid/ssl_crtd -c -s /var/lib/ssl_db
+EXPOSE 3128
+ENTRYPOINT [ ""/usr/sbin/squid"", ""-f"", ""/etc/squid/squid.conf"", ""-NYCd"", ""1"" ]"
+Generate a dockerfile of Elasticsearch 1.3.4	"FROM openjdk:8
+
+# Download and Extract elasticsearch
+RUN wget -c -O elasticsearch-1.3.4.tar.gz https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-1.3.4.tar.gz
+RUN tar xvf elasticsearch-1.3.4.tar.gz && rm -rf elasticsearch-1.3.4.tar.gz
+
+CMD [""/elasticsearch-1.3.4/bin/elasticsearch""]"
+Generate a dockerfile of Wordpress with Ultimate Member Plugin 2.8.2	"FROM wordpress:latest
+
+# Installs the necessary tools
+RUN apt-get update && apt-get install -y wget unzip
+
+# Download and install the Ultimate Member plugin
+RUN wget -O /tmp/ultimate-member.zip https://downloads.wordpress.org/plugin/ultimate-member.2.8.2.zip \
+    && unzip /tmp/ultimate-member.zip -d /usr/src/wordpress/wp-content/plugins/ \
+    && rm /tmp/ultimate-member.zip"

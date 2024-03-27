@@ -203,13 +203,13 @@ FROM ruby:2.4.2
 WORKDIR /app
 
 # Copy the application code into the container
-COPY ftpserver.rb /app/ftpserver.rb
+COPY app.rb /app/app.rb
 
 # Expose port 3000 to the outside world
 EXPOSE 2121 23461 23421
 
 # Command to run the application
-CMD [""ruby"", ""ftpserver.rb""]"		
+CMD [""ruby"", ""app.rb""]"		
 Generate a dockerfile of OpenSMTPD	"# Use a Debian base image
 FROM debian:buster-slim
 
