@@ -31,7 +31,7 @@ def remove_trailing_newlines(directory):
 
 # Specifica la directory da cui iniziare la ricerca
 chdir(path.dirname(path.realpath(__file__)))
-dataset_folder = '../../LLM'
+dataset_folder = '../../LLM/test_GPU'
 dataset_file = path.join(dataset_folder, 'dataset.jsonl')
 
 if(path.exists(dataset_file)):
