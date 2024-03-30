@@ -138,5 +138,5 @@ ui-tests/.pnp.*
 
 # Custom
 
-results/
-deduplicated-sources/
+*results*/
+*deduplicated-sources/
