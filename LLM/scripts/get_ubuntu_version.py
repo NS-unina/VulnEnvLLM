@@ -1,25 +1,39 @@
 import requests
 import sys
 
+
 def get_ubuntu_version(package_name, package_version) -> str:
-    url = f"https://api.launchpad.net/1.0/ubuntu/+archive/primary?ws.op=getPublishedSources&source_name={package_name}&exact_match=false"    
-    response = requests.get(url)
+    url = f"https://api.launchpad.net/1.0/ubuntu/+archive/primary?ws.op=getPublishedSources&source_name={package_name}&exact_match=false"
+    try:
+        response = requests.get(url)
+    except:
+        print("Errore di connessione")
+        return "ubuntu:20.04"
     if response.status_code == 200:
         data = response.json()
         versions = []
-        for entry in data['entries']:
-            if package_version is not None: # If specific version is provided
-                if entry['source_package_version'] == package_version: # Check if the version is the same
-                    versions.append(entry['distro_series_link'].rsplit("/")[-1])
-            else: # If no specific version is provided
-                versions.append(entry['distro_series_link'].rsplit("/")[-1]) # Add all versions
+        for entry in data["entries"]:
+            if package_version is not None:  # If specific version is provided
+                if (
+                    entry["source_package_version"] == package_version
+                ):  # Check if the version is the same
+                    versions.append(entry["distro_series_link"].rsplit("/")[-1])
+            else:  # If no specific version is provided
+                versions.append(
+                    entry["distro_series_link"].rsplit("/")[-1]
+                )  # Add all versions
         if len(versions) == 0:
-            return 'ubuntu:20.04'
-        versions = [version_dict.get(version) for version in versions if version_dict.get(version) is not None] # Convert the versions list to the value corresponding to version_dict
+            return "ubuntu:20.04"
+        versions = [
+            version_dict.get(version)
+            for version in versions
+            if version_dict.get(version) is not None
+        ]  # Convert the versions list to the value corresponding to version_dict
         return "ubuntu:" + str(max(versions, key=float))
     else:
         print("Errore durante la richiesta delle informazioni.")
-        return 'ubuntu:20.04'
+        return "ubuntu:20.04"
+
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
@@ -32,9 +46,15 @@ if __name__ == "__main__":
     ubuntu_version = get_ubuntu_version(package_name, package_version)
 
     if ubuntu_version:
-        print("Latest Ubuntu version compatible with {} {}: {}".format(package_name, package_version, ubuntu_version))
+        print(
+            "Latest Ubuntu version compatible with {} {}: {}".format(
+                package_name, package_version, ubuntu_version
+            )
+        )
     else:
-        print("No Ubuntu versions found for {} {}".format(package_name, package_version))
+        print(
+            "No Ubuntu versions found for {} {}".format(package_name, package_version)
+        )
 
 
 version_dict = {
@@ -58,5 +78,5 @@ version_dict = {
     "groovy": "20.10",
     "hirsute": "21.04",
     "impish": "21.10",
-    "jammy": "22.04"
+    "jammy": "22.04",
 }
