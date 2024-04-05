@@ -12,7 +12,20 @@ def download_csv_from_url(url, save_path):
     else:
         print("Failed to download the file.")
 
-def csv_to_dict():
+import csv
+from os import path
+
+def port_csv_to_list():
+    """
+    Retrieves a list of port data from a CSV file.
+    
+    This function downloads a CSV file from a given URL if it doesn't exist locally.
+    It then reads the CSV file and returns a list of dictionaries, where each dictionary
+    represents a row in the CSV file with only the first 4 columns.
+    
+    Returns:
+        A list of dictionaries representing port data.
+    """
     save_path = "service-names-port-numbers.csv"
     url = "https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.csv"
     if not path.exists(save_path):
@@ -21,11 +34,12 @@ def csv_to_dict():
     with open("service-names-port-numbers.csv", 'r', newline='') as file:
         reader = csv.DictReader(file)
         for row in reader:
-            trimmed_row = {key: row[key] for key in list(row.keys())[:4]}
-            data_list.append(trimmed_row)
+            if(row['Service Name'] != '' and row['Transport Protocol'] != '' and row['Port Number'] != ''): # Skip rows with empty values
+                trimmed_row = {key: row[key] for key in list(row.keys())[:4]} # Return only the first 4 columns
+                data_list.append(trimmed_row)
     return data_list
 
 if __name__ == "__main__":
-    data = csv_to_dict()
+    data = port_csv_to_list()
     for e in data:
         print(e)
