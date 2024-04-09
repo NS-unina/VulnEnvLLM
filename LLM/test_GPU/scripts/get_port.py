@@ -1,7 +1,6 @@
 import csv
-import sys
 from requests import get
-from os import path
+from os import path, chdir
 
 
 def download_csv_from_url(url, save_path):
@@ -12,10 +11,6 @@ def download_csv_from_url(url, save_path):
         print("File downloaded successfully.")
     else:
         print("Failed to download the file.")
-
-
-import csv
-from os import path
 
 
 def port_csv_to_list():
@@ -29,12 +24,14 @@ def port_csv_to_list():
     Returns:
         A list of dictionaries representing port data.
     """
+    # Change the current directory to the script's directory
+    chdir(path.dirname(path.realpath(__file__)))
     save_path = "service-names-port-numbers.csv"
     url = "https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.csv"
     if not path.exists(save_path):
         download_csv_from_url(url, save_path)
     data_list = []
-    with open("service-names-port-numbers.csv", "r", newline="") as file:
+    with open(save_path, "r", newline="") as file:
         reader = csv.DictReader(file)
         for row in reader:
             if (
@@ -48,9 +45,10 @@ def port_csv_to_list():
                 data_list.append(trimmed_row)
     return data_list
 
+
 def get_ports(package_name: str) -> str:
     return " ".join(common_programs.get(package_name, get_ports_csv(package_name)))
-    
+
 
 def get_ports_csv(package_name: str) -> str:
     csv_list: list = port_csv_to_list()
@@ -65,12 +63,6 @@ def get_ports_csv(package_name: str) -> str:
             port_numbers += f"{e['Port Number']}/{e['Transport Protocol']} "
     return port_numbers
 
-
-
-if __name__ == "__main__":
-    data = port_csv_to_list()
-    for e in data:
-        print(e)
 
 common_programs = {
     "nginx": ["80/tcp", "443/tcp"],
