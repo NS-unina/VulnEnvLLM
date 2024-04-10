@@ -13,12 +13,11 @@ def improve_result(prompt: str, output: str) -> str:
     Returns:
         str: The improved dockerfile.
     """
-    splitted = prompt.split(" ")
-    package_name = splitted[4].lower()
-    package_version: str | None = (
-        splitted[5] if len(splitted) > 5 and not splitted[5].isalpha else None
-    )
-
+    # Extract package name and version from the prompt
+    package_info = prompt.split("Generate a dockerfile of ")[1].split()
+    package_name = package_info[0]
+    package_version = package_info[1]
+    
     ubuntu_version: str = get_ubuntu_version(package_name, package_version)
     port_numbers: str = get_ports(package_name)
 
