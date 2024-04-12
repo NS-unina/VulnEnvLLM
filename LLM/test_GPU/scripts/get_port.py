@@ -47,7 +47,7 @@ def port_csv_to_list():
 
 
 def get_ports(package_name: str) -> str:
-    return " ".join(common_programs.get(package_name, get_ports_csv(package_name)))
+    return " ".join(common_programs.get(package_name.lower(), get_ports_csv(package_name)))
 
 
 def get_ports_csv(package_name: str) -> str:
@@ -99,7 +99,6 @@ common_programs = {
     "wildfly": ["8080/tcp", "8443/tcp"],
     "glassfish": ["8080/tcp", "8181/tcp"],
     "node": ["3000/tcp"],
-    "rabbitmq": ["5672/tcp", "15672/tcp"],
     "kubernetes": ["6443/tcp"],
     "grafana": ["3000/tcp"],
     "smb": ["445/tcp"],
@@ -107,7 +106,6 @@ common_programs = {
     "git": ["22/tcp", "80/tcp", "443/tcp", "9418/tcp"],
     "jenkins": ["8080", "8443"],
     "nagios": ["80", "443"],
-    "ntp": ["123/udp"],
     "radius": ["1812/udp", "1813/udp"],
     "rails": ["3001/tcp"],
     "graphql": ["8080/tcp"],
@@ -146,7 +144,6 @@ common_programs = {
     "jira": ["8080/tcp"],
     "confluence": ["8090/tcp"],
     "gitlab": ["80/tcp", "443/tcp"],
-    "jenkins": ["8080/tcp"],
     "sonarqube": ["9000/tcp"],
     "nexus": ["8081/tcp"],
     "artifactory": ["8081/tcp"],
