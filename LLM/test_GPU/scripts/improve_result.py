@@ -1,6 +1,6 @@
 from get_port import get_ports
 from get_ubuntu_version import get_ubuntu_version
-from replace_directive import remove_useless_directive, replace_from, replace_expose
+from replace_directive import remove_useless_directive, replace_from, replace_expose, clean_output
 
 
 
@@ -14,17 +14,24 @@ def improve_result(prompt: str, output: str) -> str:
         str: The improved dockerfile.
     """
     # Extract package name and version from the prompt
-    package_info = prompt.split("Generate a dockerfile of ")[1].split()
-    package_name = package_info[0]
-    package_version = package_info[1]
+    try:
+        package_info = prompt.split("Generate a dockerfile of ")[1].split()
+        package_name = package_info[0]
+        package_version = package_info[1]     
+
+    except IndexError:
+        package_name = ""
+        package_version = ""
+        
+    finally:
+        ubuntu_version: str = get_ubuntu_version(package_name, package_version)
+        port_numbers: str = get_ports(package_name)
+
+        output = replace_expose(output, port_numbers)
+        output = replace_from(output, ubuntu_version)
+        output = remove_useless_directive(output)
+        output = clean_output(output)
     
-    ubuntu_version: str = get_ubuntu_version(package_name, package_version)
-    port_numbers: str = get_ports(package_name)
-
-    output = replace_expose(output, port_numbers)
-    output = replace_from(output, ubuntu_version)
-    output = remove_useless_directive(output)
-
     return output
 
 
