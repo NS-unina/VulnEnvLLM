@@ -7,7 +7,7 @@ def get_ubuntu_version(package_name, package_version) -> str:
     try:
         response = requests.get(url)
     except:
-        print("Errore di connessione")
+        print("Connection Error")
         return "ubuntu:20.04"
     if response.status_code == 200:
         data = response.json()
@@ -31,7 +31,6 @@ def get_ubuntu_version(package_name, package_version) -> str:
         ]  # Convert the versions list to the value corresponding to version_dict
         return "ubuntu:" + str(max(versions, key=float))
     else:
-        print("Errore durante la richiesta delle informazioni.")
         return "ubuntu:20.04"
 
 
