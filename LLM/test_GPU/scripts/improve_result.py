@@ -1,19 +1,15 @@
 from get_port import get_ports
-from get_ubuntu_version import get_ubuntu_version
-from replace_directive import remove_useless_directive, replace_from, replace_expose, clean_output
+from get_from_docker import get_ubuntu_version, get_official_image
+from replace_directive import remove_useless_directive, clean_output
 
-
-
-def improve_result(prompt: str, output: str) -> str:
+def generate_constraints(prompt: str) -> list:
     """
-    Improve the result by adjusting the right Ubuntu versions and the right exposed port number.
+    Generate the constraint list from the input string.
     Args:
-        prompt (str): The original prompt formatted as "Generate a dockerfile of <package_name> <package_version> ...".
-        output (str): The original output which is actually a dockerfile.
+        input (str): The LLM request string.
     Returns:
-        str: The improved dockerfile.
+        list: The constraint list containing in order the image name and version.
     """
-    # Extract package name and version from the prompt
     try:
         package_info = prompt.split("Generate a dockerfile of ")[1].split()
         package_name = package_info[0]
@@ -24,13 +20,23 @@ def improve_result(prompt: str, output: str) -> str:
         package_version = ""
         
     finally:
-        ubuntu_version: str = get_ubuntu_version(package_name, package_version)
+        image = get_official_image(package_name)
+        if image == "":
+            image: str = get_ubuntu_version(package_name, package_version)
         port_numbers: str = get_ports(package_name)
+        return [image, port_numbers]
 
-        output = replace_expose(output, port_numbers)
-        output = replace_from(output, ubuntu_version)
-        output = remove_useless_directive(output)
-        output = clean_output(output)
+def improve_result(output: str) -> str:
+    """
+    Improve the result by adjusting the right Ubuntu versions and the right exposed port number.
+    Args:
+        prompt (str): The original prompt formatted as "Generate a dockerfile of <package_name> <package_version> ...".
+        output (str): The original output which is actually a dockerfile.
+    Returns:
+        str: The improved dockerfile.
+    """
+    output = remove_useless_directive(output)
+    output = clean_output(output)
     
     return output
 
