@@ -1,0 +1,15 @@
+accelerate==0.29.3
+bitsandbytes==0.43.1
+dill==0.3.7
+docstring-parser==0.16
+fsspec==2023.6.0
+huggingface_hub==0.22.2
+peft==0.10.0
+shtab==1.7.1
+trl==0.8.5
+typing-extensions==4.11.0
+tyro==0.8.3
+transformers==4.38.2
+flash-attn==2.5.7
+typer==0.12.3
+rich==13.3.5
