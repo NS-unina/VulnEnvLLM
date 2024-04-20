@@ -1,32 +1,35 @@
 from get_port import get_ports
 from get_from_docker import get_ubuntu_version, get_official_image
-from replace_directive import remove_useless_directive, clean_output
+from replace_directive import replace_expose, remove_useless_directive, clean_output
 
-def generate_constraints(prompt: str) -> list:
+
+def generate_constraints(prompt: str) -> str:
     """
     Generate the constraint list from the input string.
     Args:
-        input (str): The LLM request string.
+        prompt (str): The original prompt formatted as "Generate a dockerfile of <package_name> <package_version> ...".
     Returns:
-        list: The constraint list containing in order the image name and version.
+        str: The constraint string defined as base_image_name:version.
     """
     try:
         package_info = prompt.split("Generate a dockerfile of ")[1].split()
-        package_name = package_info[0]
-        package_version = package_info[1]     
+        package_name: str = package_info[0]
+        package_version: str = package_info[1]
 
     except IndexError:
         package_name = ""
         package_version = ""
-        
+
     finally:
         image = get_official_image(package_name)
         if image == "":
-            image: str = get_ubuntu_version(package_name, package_version)
-        port_numbers: str = get_ports(package_name)
-        return [image, port_numbers]
+            return get_ubuntu_version(package_name, package_version)   
+        if package_version != "":
+            image += f":{package_version}"
+        return image
 
-def improve_result(output: str) -> str:
+
+def improve_result(prompt: str, output: str) -> str:
     """
     Improve the result by adjusting the right Ubuntu versions and the right exposed port number.
     Args:
@@ -35,10 +38,20 @@ def improve_result(output: str) -> str:
     Returns:
         str: The improved dockerfile.
     """
-    output = remove_useless_directive(output)
-    output = clean_output(output)
-    
-    return output
+    try:
+        package_info = prompt.split("Generate a dockerfile of ")[1].split()
+        package_name: str = package_info[0]
+        package_version: str = package_info[1]
+
+    except IndexError:
+        package_name = ""
+        package_version = ""
+    finally:
+        port_numbers: str = get_ports(package_name)
+        output = replace_expose(output, port_numbers)
+        output = remove_useless_directive(output)
+        output = clean_output(output)
+        return output
 
 
 if __name__ == "__main__":
