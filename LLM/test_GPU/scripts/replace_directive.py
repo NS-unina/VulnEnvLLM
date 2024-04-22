@@ -20,7 +20,18 @@ def replace_expose(output: str, port_numbers: str) -> str:
             output += f"\nEXPOSE {port_numbers}"
     return output
 
+import re
+
 def remove_useless_directive(input_string: str) -> str:
+    """
+    Removes and comment useless directives from the input string.
+
+    Args:
+        input_string (str): The input string containing directives.
+
+    Returns:
+        str: The modified string with useless directives removed or commented.
+    """
     lines = input_string.split("\n")
     output_lines = []
 

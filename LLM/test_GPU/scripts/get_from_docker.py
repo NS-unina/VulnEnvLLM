@@ -2,6 +2,16 @@ import requests
 
 
 def get_ubuntu_version(package_name, package_version) -> str:
+    """
+    Retrieves the latest and compatible Ubuntu version for a given package.
+
+    Args:
+        package_name (str): The name of the package.
+        package_version (str): The specific version of the package (optional).
+
+    Returns:
+        str: The latest and compatible Ubuntu version in the format 'ubuntu:<version>', if not found, returns 'ubuntu:20.04'.
+    """
     url = f"https://api.launchpad.net/1.0/ubuntu/+archive/primary?ws.op=getPublishedSources&source_name={package_name}&exact_match=false"
     try:
         response = requests.get(url)
@@ -34,6 +44,15 @@ def get_ubuntu_version(package_name, package_version) -> str:
 
 
 def get_official_image(target_image: str) -> str:
+    """
+    Retrieves the official Docker image from the Docker Hub API.
+
+    Args:
+        target_image (str): The name of the target image to search for.
+
+    Returns:
+        str: The lowercase name of the target image if found, otherwise an empty string.
+    """
     # Start at first page
     i = 1
     # List to store official images

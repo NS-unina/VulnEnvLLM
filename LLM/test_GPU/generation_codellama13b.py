@@ -9,6 +9,16 @@ import typer
 
 
 def return_forced_words_ids(prompt: str, tokenizer) -> list:
+    """
+    Returns a list of forced word IDs based on the given prompt and tokenizer.
+
+    Args:
+        prompt (str): The prompt string.
+        tokenizer: The tokenizer object.
+
+    Returns:
+        list: A list of forced word IDs.
+    """
     image_name = generate_constraints(prompt)
     forced_words_ids = []
 
@@ -23,6 +33,18 @@ def return_forced_words_ids(prompt: str, tokenizer) -> list:
 
 
 def generate_text(tokenizer, model, prompt: str) -> str:
+    """
+    Generate text based on a given prompt using a tokenizer and a model.
+
+    Args:
+        tokenizer (Tokenizer): The tokenizer used to tokenize the input text.
+        model (Model): The model used for text generation.
+        prompt (str): The prompt to generate text from.
+
+    Returns:
+        str: The generated text.
+
+    """
     bad_words = ["apk", "\begin(code)", "\\end(code)", "EOF", "exit", "ONBUILD", "alpine", "# FROM", "#FROM"]
     bad_words_ids = tokenizer(bad_words, add_special_tokens=False).input_ids
     prompt = "<s>[INST] Generate a dockerfile of " + prompt + " [/INST]"
